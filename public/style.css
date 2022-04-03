@@ -1,3 +1,22 @@
 * {
     font-family: monospace;
 }
+
+a {
+    margin-right: 10px;
+}
+
+img {
+    width: 100px;
+}
+
+.products-container {
+   display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.products-container div {
+    width: 150px;
+    margin: 20px
+}
