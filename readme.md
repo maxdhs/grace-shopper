@@ -4,4 +4,21 @@ DB_PASSWORD=postgres
 DB_USER=postgres
 DB_NAME=grace-shopper
 
-2. Create a local database called "grace-shopper"
+2.  Create a local database called "grace-shopper"
+    -DATABASE ADAPTERS FUNCTIONS
+    USER TABLE: - createUser - getUserById - getUserByUsername
+
+    PRODUCT TABLE: - getAllProdcuts - getProductById - getProductsByBrand - saveProductsInCart
+
+    CATEGORIES: - createCategory - getAllCategories -
+
+    PRODUCT CATEGORIES: -
+
+    CART: - addProductToCart - removeProductFromCart - updateQuantity
+
+        NOT A TABLE:
+        ADMIN ADAPTERS:
+            - createProduct
+            - deleteProduct
+            - updateProduct
+            - getUsers
