@@ -4,6 +4,11 @@ DB_PASSWORD=postgres
 DB_USER=postgres
 DB_NAME=grace-shopper
 
+<<<<<<< HEAD
+2. Create a local database called "grace-shopper"t
+
+caden branch test
+=======
 2.  Create a local database called "grace-shopper"
     -DATABASE ADAPTERS FUNCTIONS
     USER TABLE: - createUser - getUserById - getUserByUsername
@@ -22,3 +27,4 @@ DB_NAME=grace-shopper
             - deleteProduct
             - updateProduct
             - getUsers
+>>>>>>> cc63dcb54eca591d051a901fbc5675de422265cc
