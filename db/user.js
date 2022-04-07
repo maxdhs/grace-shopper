@@ -7,4 +7,4 @@ const { client } = require("./client");
 
 // getUserById function
 
-// getUserByUsername function
+// getUserByEmail function
