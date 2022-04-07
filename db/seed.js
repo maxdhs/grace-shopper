@@ -36,7 +36,7 @@ const seedDB = async () => {
       ('Thrived Bootie', 'Steve Madden', 'A V-cut topline and pointy toe distinguish a supple suede bootie grounded by a stacked block heel', 129.95, 'Boots', 5);
 
       CREATE TABLE users (id SERIAL PRIMARY KEY, 
-        username VARCHAR(255) UNIQUE NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL; 
         )
 

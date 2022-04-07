@@ -1,14 +1,14 @@
 const bcrypt = require("bcrypt");
-const { client } = require("./client");
+const client = require("./index");
 
-const createUser = async ({ username, password }) => {
+const createUser = async ({ email, password }) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const {
       rows: [user],
     } = await client.query(
-      `INSERT INTO users(username, password) VALUES ($1, $2) RETURNING *;`,
-      [username, hashedPassword]
+      `INSERT INTO users(email, password) VALUES ($1, $2) RETURNING *;`,
+      [email, hashedPassword]
     );
     delete user.password;
     return user;
@@ -17,12 +17,10 @@ const createUser = async ({ username, password }) => {
   }
 };
 
-const getUser = async ({ username, password }) => {
+const getUser = async ({ email, password }) => {
   const {
     rows: [user],
-  } = await client.query(`SELECT * FROM users WHERE username = $1;`, [
-    username,
-  ]);
+  } = await client.query(`SELECT * FROM users WHERE email = $1;`, [email]);
   const hashedPassword = user.password;
 
   const passwordCompared = await bcrypt.compare(password, hashedPassword);
@@ -33,10 +31,9 @@ const getUser = async ({ username, password }) => {
     } else {
       const {
         rows: [user],
-      } = await client.query(
-        `SELECT id, username FROM users WHERE username=$1;`,
-        [username]
-      );
+      } = await client.query(`SELECT id, email FROM users WHERE email=$1;`, [
+        email,
+      ]);
       return user;
     }
   } catch (error) {
@@ -56,18 +53,17 @@ const getUserById = async (id) => {
   }
 };
 
-const getUserByUsername = async (username) => {
+const getUserByEmail = async (email) => {
   try {
     const {
       rows: [user],
-    } = await client.query(
-      `SELECT id, username FROM users WHERE username=$1;`,
-      [username]
-    );
+    } = await client.query(`SELECT id, email FROM users WHERE email=$1;`, [
+      email,
+    ]);
     return user;
   } catch (error) {
     throw error;
   }
 };
 
-module.exports = { createUser, getUser, getUserById, getUserByUsername };
+module.exports = { createUser, getUser, getUserById, getUserByEmail };
