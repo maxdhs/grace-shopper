@@ -37,9 +37,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lexim515/grace-shopper.git"
-  },
-  "bugs": {
-    "url": "https://github.com/lexim515/grace-shopper/issues"
-  },
-  "homepage": "https://github.com/lexim515/grace-shopper#readme"
+  }
+ 
 }
