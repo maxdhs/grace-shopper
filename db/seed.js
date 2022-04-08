@@ -4,9 +4,9 @@ const client = require('./');
 const seedDB = async () => {
   
   await client.query(`
-    DROP TABLE IF EXISTS carts_products;
+    DROP TABLE IF EXISTS orders_products;
     DROP TABLE IF EXISTS products;
-    DROP TABLE IF EXISTS carts;
+    DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS users;
 
