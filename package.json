@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "nodemon": "nodemon index.js",
     "react": "react-scripts start",
     "build": "react-scripts build",
     "seed": "node db/seed"
@@ -16,6 +17,8 @@
   "dependencies": {
     "dot-env": "^0.0.1",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.15",
     "pg": "^8.7.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

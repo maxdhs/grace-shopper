@@ -1,4 +1,4 @@
-const { Client } = require("pg");
+const { Client } = require('pg');
 
 let client;
 
@@ -15,6 +15,4 @@ if (process.env.DATABASE_URL) {
   });
 }
 
-client.connect();
-
-module.exports = client;
+module.exports = { client };

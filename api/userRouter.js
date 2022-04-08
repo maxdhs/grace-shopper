@@ -1,4 +1,7 @@
 const express = require('express');
+const client = require('../db');
+const jwt = require('jsonwebtoken');
+const { userCheck, createUser } = require('../db/users.js');
 
 const userRouter = express.Router();
 
@@ -8,6 +11,25 @@ userRouter.get('/', async (req, res) => {
 
 userRouter.get('/register', async (req, res) => {
   res.send('Register Page');
+});
+
+userRouter.post('/register', async (req, res) => {
+  try {
+    const { email, username, password } = req.body;
+    const userTest = await userCheck(email, username);
+    if (!email || !username || !password || userTest) {
+      res.send('Error creating user');
+      return;
+    } else {
+      const hashedPassword = jwt.sign(password, process.env.SECRET_KEY);
+      const user = await createUser(email, username, hashedPassword);
+      res.send('User Created  ' + user);
+      return;
+    }
+  } catch (err) {
+    res.send(err);
+    console.log(err);
+  }
 });
 
 userRouter.get('/login', async (req, res) => {
