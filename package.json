@@ -1,7 +1,7 @@
 {
   "name": "grace-shopper",
   "version": "1.0.0",
-  "description": "",
+  "description": "1. Create a .env file in the root directory with the below info replacing any values that have changed:",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -35,5 +35,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexim515/grace-shopper.git"
   }
 }
