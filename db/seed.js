@@ -13,11 +13,11 @@ const dropTables = async () => {
 };
 
 const createTables = async () => {
-  console.log("hi");
   await client.query(`
     CREATE TABLE users(id SERIAL PRIMARY KEY,
       email VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL);
+      password VARCHAR(255) NOT NULL, "isAdmin" BOOLEAN DEFAULT false)
+      ;
 
 
     CREATE TABLE products(id SERIAL PRIMARY KEY,
@@ -37,37 +37,10 @@ const createTables = async () => {
   console.log("done making tables");
 };
 
-// const createTables = async () => {
-//   await client.query(`
-
-//     CREATE TABLE products (
-//       id SERIAL PRIMARY KEY,
-//       title VARCHAR(255) UNIQUE NOT NULL,
-//       designer VARCHAR(255) NOT NULL,
-//       description TEXT NOT NULL,
-//       price INTEGER NOT NULL,
-//       category VARCHAR(255) NOT NULL,
-//       "inventoryQuantity" INTEGER NOT NULL,
-//     );
-
-//       CREATE TABLE users (id SERIAL PRIMARY KEY,
-//         email VARCHAR(255) UNIQUE NOT NULL,
-//         password VARCHAR(255) NOT NULL;
-//         );
-
-//       CREATE TABLE orders (id SERIAL PRIMARY KEY,
-//         "userId" INTEGER REFERENCES users(id),
-//         "productId" INTEGER REFERENCES products(id),
-//         );
-//     `);
-
-//   console.log("DB SEEDED.");
-// };
-
 async function createInitialUsers() {
   try {
     const usersToCreate = [
-      { email: "email1@gmail.com", password: "12345678" },
+      { email: "admin@gmail.com", password: "12345678", isAdmin: true },
       { email: "email2@gmail.com", password: "12345678" },
       { email: "email3@gmail.com", password: "12345678" },
     ];
