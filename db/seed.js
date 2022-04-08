@@ -15,6 +15,7 @@ const seedDB = async () => {
       price INTEGER NOT NULL,
       category VARCHAR(255) NOT NULL, 
       "inventoryQuantity" INTEGER NOT NULL,
+      image IMAGE,
     );
 
     INSERT INTO products (title, designer, description, price, category, "inventoryQuantity")
@@ -43,6 +44,7 @@ const seedDB = async () => {
       CREATE TABLE orders (id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "productId" INTEGER REFERENCES products(id),
+        "isPurchased" BOOLEAN DEFAULT false,
         )
     `);
 
