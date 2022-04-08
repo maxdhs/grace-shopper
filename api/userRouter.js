@@ -35,4 +35,23 @@ userRouter.post('/register', async (req, res) => {
 userRouter.get('/login', async (req, res) => {
   res.send('Login Page');
 });
+
+userRouter.post('/login', async (req, res, next) => {
+  const { username, password } = req.body;
+
+    try {
+        const user = await getUser( username, password );
+
+        if (!user) {
+            res.send({ error: "No user found" });
+        }
+        const token = jwt.sign(
+            { username: user.username, id: user.id },
+            process.env.SECRET_KEY
+        );
+        res.send({ token });
+    } catch (error) {
+        next(error);
+    }
+})
 module.exports = userRouter;
