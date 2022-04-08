@@ -1,7 +1,8 @@
 require('dotenv').config();
-const client = require('./');
+const { client } = require('.');
 
 const seedDB = async () => {
+  client.connect();
   await client.query(`
     DROP TABLE IF EXISTS orders_products;
     DROP TABLE IF EXISTS products;

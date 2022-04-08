@@ -5,7 +5,8 @@ const { getProducts } = require('../db/products');
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
-  res.send('Products Page');
+  const products = getProducts();
+  res.send(products);
 });
 
 productRouter.get('/:id', async (req, res) => {
