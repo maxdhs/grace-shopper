@@ -1,21 +1,27 @@
 const express = require('express');
-const { useParams } = require('react-router');
-const { getProducts } = require('../db/products');
+const {
+  getProducts,
+  getProductsInCatagory,
+  getSingleProduct,
+} = require('../db/products');
 
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
-  const products = getProducts();
-  res.send(products);
+  const products = await getProducts();
+  res.send('products page' + products);
 });
 
 productRouter.get('/:id', async (req, res) => {
-  res.send('Single Product Page');
+  const { id } = req.params;
+  const product = await getSingleProduct(id);
+  res.send('Single Product Page ' + product);
 });
 
 productRouter.get('/catagories/:catagoryName', async (req, res) => {
-  const { catagoryName } = useParams();
-  res.send(catagoryName + ' page');
+  const { catagoryName } = req.params;
+  const products = await getProductsInCatagory(catagoryName);
+  res.send(catagoryName + ' page ' + products);
 });
 
 module.exports = productRouter;
