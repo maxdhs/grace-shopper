@@ -5,7 +5,7 @@ const apiRouter = require("./api");
 let PORT = process.env.PORT || 3001;
 
 const app = express();
-
+app.use(express.json());
 app.use("/api", apiRouter);
 
 app.use(express.static("build"));

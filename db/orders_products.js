@@ -28,13 +28,13 @@ async function addProductToOrder({ orderId, productId, count }) {
 }
 
 //updateOrderProduct - updates count of product
-async function updateOrderProduct({ id, count }) {
+async function updateOrderProduct({ id, count, price }) {
   try {
     const {
       rows: [order],
     } = await client.query(
-      `UPDATE routine_activities SET count = $1 WHERE id = $2 RETURNING *;`,
-      [count, id]
+      `UPDATE routine_activities SET count = $1, price = $2 WHERE id = $3 RETURNING *;`,
+      [count, price, id]
     );
     return order;
   } catch (error) {

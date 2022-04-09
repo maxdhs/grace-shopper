@@ -32,8 +32,8 @@ ordersRouter.delete("/:ordersId", async (req, res, next) => {
         throw "Error deleting order";
       }
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
