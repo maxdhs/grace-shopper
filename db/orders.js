@@ -16,8 +16,6 @@ async function createOrder({ userId, isPurchased }) {
   }
 }
 
-// getOrdersByUser not done yet, needs tweaking
-
 async function getOrdersByUser({ email }) {
   try {
     const { rows } = await client.query(
@@ -31,10 +29,10 @@ async function getOrdersByUser({ email }) {
     for (const order of rows) {
       const { rows: products } = await client.query(
         `
-        SELECT products.*, order_products.id AS order_productId
+        SELECT products.*, orders_products.id AS order_productId
         FROM products
-        JOIN order_products ON order_products."productId" = product.id
-        WHERE order_products."orderId" = $1`,
+        JOIN orders_products ON orders_products."productId" = product.id
+        WHERE orders_products."orderId" = $1`,
         [order.id]
       );
       order.products = products;
@@ -62,3 +60,54 @@ async function getOrderById(id) {
     throw error;
   }
 }
+
+//getUserIdbyOrderId
+// const getUser
+
+async function updateOrder({ id, count }) {
+  try {
+    if (count) {
+      await client.query(
+        `UPDATE orders_products SET count = $1 WHERE id = $2 RETURNING *;`,
+        [count, id]
+      );
+    }
+    const order = getOrderById(id);
+    return order;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function destroyOrder(id) {
+  try {
+    await client.query(
+      `
+          DELETE FROM orders_products 
+          WHERE "orderId" = $1;
+      `,
+      [id]
+    );
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+          DELETE FROM orders 
+          WHERE id = $1
+          RETURNING *
+      `,
+      [id]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = {
+  createOrder,
+  getOrdersByUser,
+  getOrderById,
+  updateOrder,
+  destroyOrder,
+};
