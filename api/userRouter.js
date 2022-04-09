@@ -1,7 +1,13 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const { createUser, getUserByUsername, getUser } = require('../db/users.js');
+const {
+  createUser,
+  getUserByUsername,
+  getUser,
+  getAllUsers,
+  getUserByEmail,
+} = require('../db/users.js');
 
 const userRouter = express.Router();
 
@@ -9,11 +15,46 @@ userRouter.get('/', async (req, res) => {
   res.send('User Page');
 });
 
+userRouter.get('/view', async (req, res) => {
+  try {
+    if (req.user) {
+      if (req.user.isAdmin === true) {
+        const users = await getAllUsers();
+        res.send({ users });
+      } else {
+        res.send('Only admins may view all users');
+      }
+    } else {
+      res.send('Error: No user logged in');
+    }
+  } catch (error) {
+    throw error;
+  }
+});
+
+userRouter.get('/view/:username', async (req, res) => {
+  try {
+    if (req.user) {
+      if (req.user.isAdmin === true) {
+        const { username } = req.params;
+        const user = await getUserByUsername(username);
+        res.send({ user });
+      } else {
+        res.send('Only admins may view a user');
+      }
+    } else {
+      res.send('Error: No user logged in');
+    }
+  } catch (error) {
+    throw error;
+  }
+});
+
 userRouter.get('/register', async (req, res) => {
   res.send('Register Page');
 });
 
-userRouter.post('/register', async (req, res) => {
+userRouter.post('/register', async (req, res, next) => {
   const { email, username, password } = req.body;
 
   try {
@@ -22,7 +63,17 @@ userRouter.post('/register', async (req, res) => {
     if (user) {
       next({
         name: 'UserExistsError',
-        error: 'Username already exists',
+        message: 'Username already exists',
+      });
+      return;
+    }
+
+    const userEmail = await getUserByEmail(email);
+
+    if (userEmail) {
+      next({
+        name: 'UserEmailExistsError',
+        message: 'User with that email already exists',
       });
       return;
     }
