@@ -1,20 +1,17 @@
 const { client } = require('.');
+const { createProducts, getProducts } = require('./products');
 const { createUser, getAllUsers, getUserByUsername, getUser } = require('./users');
 require('dotenv').config();
 
 async function dropTables() {
   try {
-
     await client.query(`
       DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS products;
     `);
-
     console.log("Finished dropping tables!");
-
   } catch (error) {
-
     throw error;
-
   }
 }
 
@@ -30,7 +27,15 @@ async function createTables() {
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL
       );
-    `)
+      CREATE TABLE products (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        price INTEGER,
+        category VARCHAR(255) NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        inventory INTEGER 
+      );
+      `)
 
     console.log("Finished building tables!");
 
@@ -42,38 +47,61 @@ async function createTables() {
 }
 
 async function createInitialUsers() {
-
   try {
-
     console.log("Starting to create users...");
-
     await createUser({
       email: "albert@gmail.com",
       username: "albert",
       password: "bertie99",
     });
-
     await createUser({
       email: "sandra@gmail.com",
       username: "sandra",
       password: "2sandy4me",
     });
-
     await createUser({
       email: "glamgal@gmail.com",
       username: "glamgal",
       password: "soglam",
     });
-
     console.log("Finished creating users!");
-
   } catch (error) {
-
     console.error("Error creating users!");
     throw error;
-
   }
 }
+
+async function createInitialProducts() {
+  try {
+    console.log("Starting to create products...");
+    await createProducts({
+      title: "test product1",
+      price: 10,
+      category: "Womens",
+      description: "test product1",
+      inventory: 400
+    });
+    await createProducts({
+      title: "test product2",
+      price: 11,
+      category: "Kids",
+      description: "test product2",
+      inventory: 200
+    });
+    await createProducts({
+      title: "test product3",
+      price: 12,
+      category: "Mens",
+      description: "test product3",
+      inventory: 100
+    });
+    console.log("Finished creating products!");
+  } catch (error) {
+    console.error("Error creating products!");
+    throw error;
+  }
+}
+
 
 
 async function testDB() {
@@ -89,6 +117,9 @@ async function testDB() {
 
     const user = await getUser({username: "albert", password:"bertie99"});
     console.log("here are users", user);
+
+    const products = await getProducts();
+    console.log("here are the products", products)
 
     console.log("Finished testing database!")
 
@@ -107,6 +138,7 @@ async function rebuildDB() {
     await dropTables();
     await createTables();
     await createInitialUsers();
+    await createInitialProducts();
 
   } catch (error) {
 
