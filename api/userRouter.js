@@ -1,7 +1,7 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const { userCheck, createUser } = require('../db/users.js');
+const { userCheck, createUser, getUser } = require('../db/users.js');
 
 const userRouter = express.Router();
 
@@ -39,19 +39,19 @@ userRouter.get('/login', async (req, res) => {
 userRouter.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
 
-    try {
-        const user = await getUser( username, password );
+  try {
+    const user = await getUser(username, password);
 
-        if (!user) {
-            res.send({ error: "No user found" });
-        }
-        const token = jwt.sign(
-            { username: user.username, id: user.id },
-            process.env.SECRET_KEY
-        );
-        res.send({ token });
-    } catch (error) {
-        next(error);
+    if (!user) {
+      res.send({ error: 'No user found' });
     }
-})
+    const token = jwt.sign(
+      { username: user.username, id: user.id },
+      process.env.SECRET_KEY
+    );
+    res.send({ token });
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = userRouter;
