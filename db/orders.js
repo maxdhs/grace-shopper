@@ -20,7 +20,7 @@ async function getOrdersByUser({ email }) {
   try {
     const { rows } = await client.query(
       `
-      SELECT orders.*, users.email AS "creatorName" 
+      SELECT orders.*, users.email AS "userId" 
       FROM orders
       JOIN users ON users.id = orders."creatorId"
       WHERE email = $1`,
