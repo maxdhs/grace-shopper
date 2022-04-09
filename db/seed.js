@@ -5,6 +5,7 @@ const { createUser } = require("./users");
 
 const dropTables = async () => {
   await client.query(`
+  DROP TABLE IF EXISTS orders_products;
   DROP TABLE IF EXISTS orders;
   DROP TABLE IF EXISTS users;
   DROP TABLE IF EXISTS products;
@@ -27,15 +28,20 @@ const createTables = async () => {
             description TEXT NOT NULL,
             price INTEGER NOT NULL,
            category VARCHAR(255) NOT NULL,
-           image VARCHAR(255) NOT NULL,
-           "inventoryQuantity" INTEGER NOT NULL);
+           image VARCHAR(255) NOT NULL);
 
 
-    CREATE TABLE orders(id SERIAL PRIMARY KEY,
-              "userId" INTEGER REFERENCES users(id),
-             "productId" INTEGER REFERENCES products(id),
-             "isPurchased" BOOLEAN DEFAULT false,
-    );
+           CREATE TABLE orders(id SERIAL PRIMARY KEY,
+            "userId" INTEGER REFERENCES users(id),
+            "isPurchased" BOOLEAN DEFAULT false
+            );
+
+
+            CREATE TABLE orders_products (id SERIAL PRIMARY KEY,
+              count INTEGER NOT NULL, 
+              "orderId" INTEGER REFERENCES orders(id),
+              "productId" INTEGER REFERENCES products(id)
+              );
   `);
   console.log("done making tables");
 };
@@ -94,7 +100,6 @@ const createInitialProducts = async () => {
         category: "Heels",
         image:
           "https://n.nordstrommedia.com/id/sr3/b8dcf687-9d1a-4560-9d8c-7d4d069bc9ad.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Enella Ankle Strap Sandal",
@@ -105,7 +110,6 @@ const createInitialProducts = async () => {
         category: "Heels",
         image:
           "https://n.nordstrommedia.com/id/sr3/df1403c9-fa6b-4e70-b3ab-30fd987a7a1d.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Khari Ankle Tie Sandal",
@@ -116,7 +120,6 @@ const createInitialProducts = async () => {
         category: "Heels",
         image:
           "https://n.nordstrommedia.com/id/sr3/edbf0b08-2155-4e42-b249-29b3f4d87db5.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Celine Embellished Sandal",
@@ -127,7 +130,6 @@ const createInitialProducts = async () => {
         category: "Heels",
         image:
           "https://n.nordstrommedia.com/id/sr3/d40a662d-016e-42a2-88ee-dae74493749d.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Miller Leather Sandal",
@@ -138,7 +140,6 @@ const createInitialProducts = async () => {
         category: "sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/798678c1-7ee0-4be8-aff1-7df8e47c0fda.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Jaklyn Espadrille Platform Sandal",
@@ -149,7 +150,6 @@ const createInitialProducts = async () => {
         category: "sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/b13e3bf8-2b34-4d63-857d-1e1f9fcf36aa.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Arizona Soft Slide Sandal",
@@ -159,7 +159,6 @@ const createInitialProducts = async () => {
         category: "sneakers",
         image:
           "https://n.nordstrommedia.com/id/sr3/e693ede9-4162-4a12-9789-3d9dcd74f843.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Starie Embellished Sandal",
@@ -170,7 +169,6 @@ const createInitialProducts = async () => {
         category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/2df4dda3-ef1a-4ae5-9caf-ab493ff0ddd1.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Air Force 1 Sneaker",
@@ -181,7 +179,6 @@ const createInitialProducts = async () => {
         category: "Sneakers",
         image:
           "https://n.nordstrommedia.com/id/sr3/ce75ef4f-c326-4b72-92be-c32b996b46bc.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Cloud X Training Shoe",
@@ -192,7 +189,6 @@ const createInitialProducts = async () => {
         category: "Sneakers",
         image:
           "https://n.nordstrommedia.com/id/sr3/1f8f7ad5-a28e-40c8-913c-a0d0f55a3790.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "NMD R1 Primeblue Sneaker",
@@ -203,7 +199,6 @@ const createInitialProducts = async () => {
         category: "Sneakers",
         image:
           "https://n.nordstrommedia.com/id/sr3/255739d2-a1f2-462e-9816-0eb49464c384.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Old Skool Sneaker",
@@ -214,7 +209,6 @@ const createInitialProducts = async () => {
         category: "Sneakers",
         image:
           "https://n.nordstrommedia.com/id/sr3/fd510928-904b-4e25-a05e-bab0ebfef156.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Ultra Mini Classic Boot",
@@ -225,7 +219,6 @@ const createInitialProducts = async () => {
         category: "Boots",
         image:
           "https://n.nordstrommedia.com/id/sr3/14fc68f8-e46f-4b27-8466-af29652b031a.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Miller Water Resistant Chelsea Boot",
@@ -234,9 +227,8 @@ const createInitialProducts = async () => {
           "A lug sole amplifies the utilitarian appeal of this upgraded, water-resistant version of a classic Chelsea boot",
         price: 99,
         category: "Boots",
-        price:
+        image:
           "https://n.nordstrommedia.com/id/sr3/746d10d2-e04f-4243-ac21-4a8cd27df11b.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Jadon Boot",
@@ -247,7 +239,6 @@ const createInitialProducts = async () => {
         category: "Boots",
         image:
           "https://n.nordstrommedia.com/id/sr3/62b53dab-136a-4e94-a354-7601c14269a3.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
       {
         title: "Thrived Bootie",
@@ -258,7 +249,6 @@ const createInitialProducts = async () => {
         category: "Boots",
         image:
           "https://n.nordstrommedia.com/id/sr3/f5ac7fc0-27fb-44c6-9100-d347ea2f83f8.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
-        inventoryQuantity: 5,
       },
     ];
     const products = await Promise.all(productsToCreate.map(createProduct));
