@@ -38,3 +38,7 @@ async function updateOrder({ id, isPurchased }) {
 }
 
 //destroyOrder
+
+module.exports = {
+  updateOrder,
+};

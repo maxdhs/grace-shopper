@@ -23,25 +23,24 @@ const createTables = async () => {
 
 
     CREATE TABLE products(id SERIAL PRIMARY KEY,
-            title VARCHAR(255) UNIQUE NOT NULL,
-            designer VARCHAR(255) NOT NULL,
-            description TEXT NOT NULL,
-            price INTEGER NOT NULL,
-           category VARCHAR(255) NOT NULL,
-           image VARCHAR(255) NOT NULL);
+      title VARCHAR(255) UNIQUE NOT NULL,
+      designer VARCHAR(255) NOT NULL,
+      description TEXT NOT NULL,
+      price INTEGER NOT NULL,
+      category VARCHAR(255) NOT NULL,
+      image VARCHAR(255) NOT NULL);
 
 
-           CREATE TABLE orders(id SERIAL PRIMARY KEY,
-            "userId" INTEGER REFERENCES users(id),
-            "isPurchased" BOOLEAN DEFAULT false
-            );
+    CREATE TABLE orders(id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "isPurchased" BOOLEAN DEFAULT false);
 
 
-            CREATE TABLE orders_products (id SERIAL PRIMARY KEY,
-              count INTEGER NOT NULL, 
-              "orderId" INTEGER REFERENCES orders(id),
-              "productId" INTEGER REFERENCES products(id)
-              );
+    CREATE TABLE orders_products (id SERIAL PRIMARY KEY,
+      count INTEGER NOT NULL, 
+      "orderId" INTEGER REFERENCES orders(id),
+      "productId" INTEGER REFERENCES products(id)
+      );
   `);
   console.log("done making tables");
 };

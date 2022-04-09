@@ -79,6 +79,7 @@ async function destroyProduct(id) {
   );
 }
 
+//add an update product function if youre admin?
 module.exports = {
   getAllProducts,
   getProductById,

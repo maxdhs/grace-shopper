@@ -111,4 +111,4 @@ usersRouter.get("/:email/orders", async (req, res, next) => {
   }
 });
 
-module.exports = { usersRouter };
+module.exports = usersRouter;

@@ -2,55 +2,82 @@ const express = require("express");
 
 const ordersRouter = express.Router();
 
-// const getOrderyById
+const { updateOrder } = require("../db/orders");
+const { requireUser } = require("./utils");
 
-ordersRouter.delete("/:ordersId", requireUser, async (req, res, next) => {
+ordersRouter.delete("/:ordersId", async (req, res, next) => {
+  const { orderId } = req.params;
   try {
-    const { ordersId } = req.params;
-    const userId = await getUserIdByOrderId(
-        ordersId
-    );
-    if (req.user.id !== userId.id) {
-        res.status(400).send({
-            name: "UsersDontMatch",
-            message: "users don't match",
-        });
+    if (!req.user) {
+      throw "Must be logged in";
     } else {
-        const destroyed = await destroyOrder(
-            ordersId
-        );
-        res.send(destroyed);
+      usersId = req.user.id;
+
+      const {
+        rows: [order],
+      } = await client.query(
+        `
+    SELECT * FROM orders
+    WHERE id = $1
+    `,
+        [orderId]
+      );
+
+      if (order.userId === usersId) {
+        destroyOrder(orderId);
+
+        res.send(order);
+        return;
+      } else {
+        throw "Error deleting order";
+      }
     }
-} catch (error) {
-    next(error);
-}
-}
+  } catch (err) {
+    next(err);
+  }
 });
 
-ordersRouter.patch(
-  "/:ordersId",
-  requireUser,
-  async (req, res, next) => {
-      try {
-          const { id: userId } = await getUserIdByOrderId(
-              req.params.ordersId
-          );
-          if (req.user.id !== userId) {
-              res.status(400).send({
-                  name: "UsersDontMatch",
-                  message: "users don't match",
-              });
-          } else {
-              // const { count, duration } = req.body;
-              const orders = await updateOrder({
-                  id: +req.params.ordersId,
-                  // count,
-                  // duration,
-              });
-              res.send(orders);
-          }
-      } catch (error) {
-          next(error);
+//updated purchased status of order
+ordersRouter.patch("/:ordersId", requireUser, async (req, res, next) => {
+  const { isPurchased } = req.body;
+  const { orderId } = req.params;
+  const id = Number(orderId);
+  const toUpdate = { id, isPurchased };
+
+  try {
+    if (!req.user) {
+      throw "Must be logged in to post";
+    } else {
+      userId = req.user.id;
+      const {
+        rows: [order],
+      } = await client.query(
+        `
+    SELECT * FROM orders
+    WHERE id = $1
+    `,
+        [orderId]
+      );
+      if (order.creatorId === userId) {
+        await updateOrder(toUpdate);
+        const {
+          rows: [Updatedorder],
+        } = await client.query(
+          `
+        SELECT * FROM orders
+        WHERE id = $1
+        `,
+          [orderId]
+        );
+        console.log(Updatedorder);
+        res.send(Updatedorder);
+        return;
       }
+      throw "error updating order";
+    }
+  } catch (err) {
+    next(err);
   }
-);
+});
+
+module.exports = ordersRouter;
