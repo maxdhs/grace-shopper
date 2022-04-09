@@ -8,11 +8,7 @@ if (process.env.DATABASE_URL) {
     ssl: { rejectUnauthorized: false },
   });
 } else {
-  client = new Client({
-    password: process.env.DB_PASSWORD,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
-  });
+  client = new Client(`postgres://localhost:5432/grace-shopper`);
 }
 
 module.exports = { client };

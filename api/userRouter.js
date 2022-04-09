@@ -1,7 +1,7 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const { userCheck, createUser, getUser } = require('../db/users.js');
+const { createUser, getUserByUsername, getUser } = require('../db/users.js');
 
 const userRouter = express.Router();
 
@@ -14,21 +14,38 @@ userRouter.get('/register', async (req, res) => {
 });
 
 userRouter.post('/register', async (req, res) => {
+  const { email, username, password } = req.body;
+
   try {
-    const { email, username, password } = req.body;
-    const userTest = await userCheck(email, username);
-    if (!email || !username || !password || userTest) {
-      res.send('Error creating user');
-      return;
-    } else {
-      const hashedPassword = jwt.sign(password, process.env.SECRET_KEY);
-      const user = await createUser(email, username, hashedPassword);
-      res.send('User Created  ' + user);
+    const user = await getUserByUsername(username);
+
+    if (user) {
+      next({
+        name: 'UserExistsError',
+        error: 'Username already exists',
+      });
       return;
     }
-  } catch (err) {
-    res.send(err);
-    console.log(err);
+
+    const newUser = await createUser({ email, username, password });
+
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        username: newUser.username,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: '1w',
+      }
+    );
+
+    res.send({
+      user: newUser,
+      token,
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
   }
 });
 
@@ -39,19 +56,33 @@ userRouter.get('/login', async (req, res) => {
 userRouter.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
 
+  if (!username || !password) {
+    next({
+      name: 'MissingCredentialsError',
+      message: 'Please supply both a username and password',
+    });
+  }
+
   try {
-    const user = await getUser(username, password);
+    const user = await getUser({ username, password });
 
     if (!user) {
       res.send({ error: 'No user found' });
     }
+
     const token = jwt.sign(
-      { username: user.username, id: user.id },
+      {
+        id: user.id,
+        username: user.username,
+      },
       process.env.SECRET_KEY
     );
-    res.send({ token });
+
+    user.token = token;
+
+    res.send({ message: "you're logged in!!!", token });
   } catch (error) {
-    next(error);
+    throw error;
   }
 });
 module.exports = userRouter;

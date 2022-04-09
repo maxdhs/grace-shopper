@@ -5,9 +5,9 @@ const userRouter = require('./userRouter');
 
 const apiRouter = express.Router();
 
-apiRouter.use('/products', productRouter);
+// apiRouter.use('/products', productRouter);
 apiRouter.use('/user', userRouter);
-apiRouter.use('/cart', cartsRouter);
+// apiRouter.use('/cart', cartsRouter);
 
 apiRouter.get('/', (req, res) => {
   res.send('api router working');
