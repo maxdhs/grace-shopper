@@ -1,31 +1,79 @@
 const { client } = require('.');
+const bcrypt = require("bcrypt");
 
-const createUser = async (email, username, password) => {
+const createUser = async ({
+  email, 
+  username, 
+  password
+}) => {
+
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
   try {
-    const resp = await client.query(
+
+    const {rows: user} = await client.query(
       `
         INSERT INTO users (email,username,password)
         VALUES ($1, $2, $3)
-        RETURNING *;
-        `,
-      [email, username, hashedPassword]
+        RETURNING id, email, username;
+
+        `,[email, username, hashedPassword]
     );
-    const user = resp.rows;
+
     return user;
-  } catch (err) {
-    throw err;
+
+  } catch (error) {
+
+    throw error;
+
   }
 };
 
-const getUser = async (username, password) => {
+const getAllUsers = async() => {
+
   try {
 
-    const user = await client.query(`
+    const {rows: user} = await client.query(`
+      SELECT id, email, username FROM users;
+    `)
+
+    return user;
+
+  } catch (error) {
+
+    throw error;
+
+  }
+}
+
+const getUserByUsername = async(username) => {
+
+  try {
+
+    const {rows: [user]} = await client.query(`
+
       SELECT * FROM users
       WHERE username = $1;
-    `[username]);
+
+    `,[username]
+    );
+
+    return user;
+    
+  } catch (error) {
+
+    throw error;
+
+  }
+
+}
+
+const getUser = async ({username, password}) => {
+
+  try {
+
+    const user = await getUserByUsername(username);
 
     const hashedPassword = user.password;
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
@@ -36,30 +84,16 @@ const getUser = async (username, password) => {
     }
 
   } catch (error) {
+
     throw error;
+
   }
+
 }
-
-const userCheck = async (email, username) => {
-  try {
-    const resp = await client.query(
-      `
-      SELECT * FROM users
-      WHERE email = $1 OR username = $2;
-      `,
-      [email, username]
-    );
-    const user = resp.rows[0];
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-
 
 module.exports = {
   createUser,
-  userCheck,
+  getAllUsers,
+  getUserByUsername,
   getUser
 };
