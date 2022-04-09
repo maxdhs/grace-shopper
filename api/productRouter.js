@@ -71,7 +71,7 @@ const { title,
     SELECT * FROM products WHERE id = $1`,
     [productId]
   );
-  const updateProduct = await updateProduct()
+  const updateProduct = await updateProduct();
   } catch (err) {
     next(err);
   }
