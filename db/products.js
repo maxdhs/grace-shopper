@@ -41,19 +41,19 @@ const createProduct = async ({
   description,
   price,
   category,
-  inventoryQuantity,
+  image,
 }) => {
   try {
     const {
       rows: [product],
     } = await client.query(
       `
-        INSERT INTO products(title, designer, description, price, category, "inventoryQuantity")
+        INSERT INTO products(title, designer, description, price, category, image)
         VALUES ($1, $2, $3, $4, $5, $6)
         ON CONFLICT (title) DO NOTHING
         RETURNING *;
         `,
-      [title, designer, description, price, category, inventoryQuantity]
+      [title, designer, description, price, category, image]
     );
 
     return product;

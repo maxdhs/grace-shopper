@@ -18,6 +18,7 @@ productRouter.use(express.json());
 //get all
 productRouter.get("/", async (req, res) => {
   const products = await getAllProducts();
+  console.log(products);
   res.send({ products });
 });
 
@@ -55,6 +56,7 @@ productRouter.post('/', async (req, res, next) => {
   }
 });
 
+//update
 productRouter.patch('/productId', async (req, res, next) => {
 const { title,
   designer,
