@@ -33,7 +33,8 @@ const createTables = async () => {
 
     CREATE TABLE orders(id SERIAL PRIMARY KEY,
               "userId" INTEGER REFERENCES users(id),
-             "productId" INTEGER REFERENCES products(id)
+             "productId" INTEGER REFERENCES products(id),
+             "isPurchased" BOOLEAN DEFAULT false,
     );
   `);
   console.log("done making tables");
