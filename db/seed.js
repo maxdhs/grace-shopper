@@ -32,7 +32,7 @@ const createTables = async () => {
     CREATE TABLE orders(id SERIAL PRIMARY KEY,
               "userId" INTEGER REFERENCES users(id),
              "productId" INTEGER REFERENCES products(id),
-             "isPurchased" BOOLEAN DEFAULT false,
+              "isPurchased" BOOLEAN DEFAULT false
     );
   `);
   console.log("done making tables");
@@ -215,6 +215,7 @@ const rebuildDB = async () => {
     await createTables();
     await createInitialProducts();
     await createInitialUsers();
+    console.log("RebuildDB success");
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
