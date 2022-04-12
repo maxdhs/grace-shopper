@@ -11,6 +11,7 @@ const createUser = async ({ email, password }) => {
       [email, hashedPassword]
     );
     delete user.password;
+    console.log(user);
     return user;
   } catch (error) {
     throw error;

@@ -10,9 +10,10 @@ const {
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { requireUser } = require("./utils");
+const requireUser = require("./utils").default;
 
 usersRouter.post("/register", async (req, res, next) => {
+  console.log(req.body);
   const { email, password } = req.body;
 
   try {
@@ -73,11 +74,13 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", requireUser, async (req, res, next) => {
+// Will show users past orders and current cart
+usersRouter.get("/me", async (req, res, next) => {
   try {
     const id = req.user.id;
     if (id) {
       const user = await getUserById(id);
+      console.log(user);
       res.send(user);
     }
   } catch (error) {
@@ -98,17 +101,8 @@ usersRouter.get("/:email/orders", async (req, res, next) => {
       res.send(orders);
     }
   } catch (error) {
-    // try {
-    //   if (id) {
-    //     const user = await getUserByUsername(username);
-    //     console.log(user);
-    //     const userId = user.id;
-    //     const activities = await getPublicRoutinesByUser({ userId });
-    //     res.send(activities);
-    //   }
-    // }
     res.send(error);
   }
 });
 
-module.exports = { usersRouter };
+module.exports = usersRouter;

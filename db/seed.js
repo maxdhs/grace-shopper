@@ -1,5 +1,6 @@
 require("dotenv").config();
 const client = require("./index");
+const { createOrder } = require("./orders");
 const { createProduct } = require("./products");
 const { createUser } = require("./users");
 
@@ -53,6 +54,21 @@ async function createInitialUsers() {
     console.log("done making users");
   } catch (error) {
     console.error("Error creating users!");
+    throw error;
+  }
+}
+
+async function createInitialOrders() {
+  try {
+    const ordersToCreate = [
+      { userId: 1, productId: 2, isPurchased: true },
+      { userId: 1, productId: 3, isPurchased: false },
+      { userId: 2, productId: 2, isPurchased: true },
+    ];
+    const users = await Promise.all(ordersToCreate.map(createOrder));
+    console.log("done making orders");
+  } catch (error) {
+    console.error("Error creating orders!");
     throw error;
   }
 }
@@ -235,6 +251,7 @@ const rebuildDB = async () => {
     await createTables();
     await createInitialProducts();
     await createInitialUsers();
+    await createInitialOrders();
     console.log("RebuildDB success");
   } catch (error) {
     console.log("Error during rebuildDB");
@@ -245,3 +262,5 @@ const rebuildDB = async () => {
 rebuildDB()
   .catch(console.error)
   .finally(() => client.end());
+
+module.exports = rebuildDB;

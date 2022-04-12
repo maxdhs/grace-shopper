@@ -9,11 +9,7 @@ if (process.env.DATABASE_URL) {
     ssl: { rejectUnauthorized: false },
   });
 } else {
-  client = new Client({
-    password: "bones101",
-    database: "grace-shopper",
-    user: "postgres",
-  });
+  client = new Client("postgres://localhost:5432/grace-shopper");
 }
 
 client.connect();
