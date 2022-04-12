@@ -32,6 +32,7 @@ app.use(async (req, res, next) => {
   const user = await getUserByUsername(_user.username);
   req.user = user;
 
+
   next();
 });
 

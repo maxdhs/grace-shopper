@@ -1,35 +1,22 @@
 const { client } = require('.');
-const {
-  createUser,
-  getAllUsers,
-  getUserByUsername,
-  getUser,
-} = require('./users');
-const {
-  createProduct,
-  getProducts,
-  destroyProduct,
-  editProduct,
-} = require('./products');
-const {
-  createCart,
-  getCartByUserID,
-  addProductToCart,
-  getCartById,
-  getCartProducts,
-} = require('./cart');
+const { createProduct, getProducts, getProductById, getProductByCategory, editProduct, destroyProduct } = require('./products');
+const { createReview, getAllReviews, editReview, getProductReviews, getProductReviewsByProductId } = require('./reviews');
+const { createUser, getAllUsers, getUserByUsername, getUser, getUserByEmail } = require('./users');
 require('dotenv').config();
 
 async function dropTables() {
   try {
     await client.query(`
+
       DROP TABLE IF EXISTS carts_products;
       DROP TABLE IF EXISTS carts;
+      DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS users;
       DROP TABLE IF EXISTS products;
     `);
 
     console.log('Finished dropping tables!');
+
   } catch (error) {
     throw error;
   }
@@ -45,20 +32,26 @@ async function createTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
-        "isAdmin" BOOLEAN DEFAULT FALSE
-      );
-    `);
 
-    await client.query(`
-      CREATE TABLE products(
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255) UNIQUE NOT NULL,
-        description VARCHAR(255) NOT NULL,
-        price INTEGER NOT NULL,
-        category VARCHAR(255) NOT NULL,
-        inventory INTEGER NOT NULL
+        "isAdmin" BOOLEAN DEFAULT false
       );
-    `);
+      CREATE TABLE products (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        price INTEGER,
+        category VARCHAR(255) NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        inventory INTEGER
+      );
+      CREATE TABLE reviews (
+        id SERIAL PRIMARY KEY,
+        "creatorId" INTEGER REFERENCES users(id),
+        "productId" INTEGER REFERENCES products(id),
+        message TEXT NOT NULL
+      );
+      `)
+    console.log("Finished building tables!");
+
 
     await client.query(`
     CREATE TABLE carts(
@@ -87,35 +80,107 @@ async function createTables() {
 
 async function createInitialUsers() {
   try {
-    console.log('Starting to create users...');
-
+    console.log("Starting to create users...");
     await createUser({
-      email: 'albert@gmail.com',
-      username: 'albert',
-      password: 'bertie99',
+      email: "albert@gmail.com",
+      username: "albert",
+      password: "bertie99",
+      isAdmin: false
     });
-
     await createUser({
-      email: 'sandra@gmail.com',
-      username: 'sandra',
-      password: '2sandy4me',
-    });
 
+      email: "sandra@gmail.com",
+      username: "sandra",
+      password: "2sandy4me",
+      isAdmin: false
+    });
     await createUser({
-      email: 'glamgal@gmail.com',
-      username: 'glamgal',
-      password: 'soglam',
+      email: "glamgal@gmail.com",
+      username: "glamgal",
+      password: "soglam",
+      isAdmin: false
     });
-
     await createUser({
-      email: 'admin1@gmail.com',
-      username: 'admin',
-      password: 'admin',
+      email: "jacob.admin@gmail.com",
+      username: "jacob.admin",
+      password: "jacob.admin",
+      isAdmin: true
     });
-
-    console.log('Finished creating users!');
+    await createUser({
+      email: "emma.admin@gmail.com",
+      username: "emma.admin",
+      password: "emma.admin",
+      isAdmin: true
+    });
+    await createUser({
+      email: "carmen.admin@gmail.com",
+      username: "carmen.admin",
+      password: "carmen.admin",
+      isAdmin: true
+    });
+    console.log("Finished creating users!");
   } catch (error) {
-    console.error('Error creating users!');
+    console.error("Error creating users!");
+    throw error;
+  }
+}
+
+async function createInitialProducts() {
+  try {
+    console.log("Starting to create products...");
+    await createProduct({
+      title: "test product1",
+      price: 10,
+      category: "Womens",
+      description: "test product1",
+      inventory: 400
+    });
+    await createProduct({
+      title: "test product2",
+      price: 11,
+      category: "Kids",
+      description: "test product2",
+      inventory: 200
+    });
+    await createProduct({
+      title: "test product3",
+      price: 12,
+      category: "Mens",
+      description: "test product3",
+      inventory: 100
+    });
+    await createProduct({
+      title: 'Hiking Boots',
+      price: 50,
+      category: "Men's Clothing",
+      description: 'Perfect for walking around after some rain',
+      inventory: 25,
+    });
+    await createProduct({
+      title: 'Faux Fur Coat',
+      price: 80,
+      category: "Women Clothing",
+      description:
+        'A coat created out of faux fur to keep you warm during the winter',
+      inventory: 17,
+    });
+    await createProduct({
+      title: 'Silver Engraved Ring',
+      price: 90,
+      category: 'Accessories',
+      description: 'A silver ring with an engraved pattern on it',
+      inventory: 8,
+    });
+    await createProduct({
+      title: 'product to be destroyed',
+      price: 0,
+      description: 'if you see this in the DB then it didnt work!',
+      category: 'none',
+      inventory: 0,
+    });
+    console.log("Finished creating products!");
+  } catch (error) {
+    console.error("Error creating products!");
     throw error;
   }
 }
@@ -131,14 +196,36 @@ async function createInitialProducts() {
       inventory: 25,
     });
 
-    await createProduct({
-      name: 'Faux Fur Coat',
-      description:
-        'A coat created out of faux fur to keep you warm during the winter',
-      price: 80,
-      category: "Woman's Clothing",
-      inventory: 17,
+
+async function createInitialReviews() {
+  try {
+    console.log("Starting to create reviews");
+    await createReview({
+      creatorId: 1,
+      productId: 3,
+      message: "This is nice but the size is not accurate"
     });
+    await createReview({
+      creatorId: 2,
+      productId: 1,
+      message: "I love the fabric of this clothing!"
+    });
+    await createReview({
+      creatorId: 3,
+      productId: 2,
+      message: "Bought this for my kid looks good!!"
+    });
+    await createReview({
+      creatorId: 3,
+      productId: 2,
+      message: "Just so I could populate the reviews"
+    });
+    console.log("Finished creating reviews!")
+  } catch (error) {
+    console.error("Error creating reviews");
+    throw error;
+  }
+}
 
     await createProduct({
       name: 'Silver Engraved Ring',
@@ -155,6 +242,7 @@ async function createInitialProducts() {
       category: 'none',
       inventory: 0,
     });
+
 
     console.log('Finished creating products!');
   } catch (error) {
@@ -179,6 +267,7 @@ async function createInitialCartProducts() {
   await addProductToCart(1, 5, 2);
   await addProductToCart(1, 13, 3);
 }
+
 
 async function testDB() {
   try {
@@ -221,6 +310,18 @@ async function testDB() {
       999
     );
     console.log(updateProduct);
+    
+        const productReviews = await getProductReviews();
+    console.log("product reviews", productReviews);
+
+    const productReviewsByProductId = await getProductReviewsByProductId(1);
+    console.log("productReviewsByProductId",productReviewsByProductId);
+    
+        const editedReview = await editReview({id: 1, message: "Updated Review: size is not accurate"});
+    console.log("edited review: 1", editedReview);
+
+    const reviews = await getAllReviews();
+    console.log("here are the reviews", reviews);
 
     const cartByUserID = await getCartByUserID(1);
     console.log(cartByUserID);
@@ -242,6 +343,7 @@ async function rebuildDB() {
     await createTables();
     await createInitialUsers();
     await createInitialProducts();
+    await createInitialReviews();
     await createInitialCarts();
   } catch (error) {
     console.log('Error during rebuildDB');
@@ -254,40 +356,4 @@ rebuildDB()
   .catch(console.error)
   .finally(() => client.end());
 
-// const seedDB = async () => {
 
-//   await client.query(`
-//     DROP TABLE IF EXISTS orders_products;
-//     DROP TABLE IF EXISTS products;
-//     DROP TABLE IF EXISTS orders;
-//     DROP TABLE IF EXISTS reviews;
-//     DROP TABLE IF EXISTS users;
-
-//     CREATE TABLE products (
-//       id SERIAL PRIMARY KEY,
-//       title VARCHAR(255) UNIQUE,
-//       description TEXT NOT NULL,
-//       price INTEGER NOT NULL,
-//       quantity INTEGER NOT NULL,
-//       catagory VARCHAR(255) NOT NULL );
-
-//     CREATE TABLE users (
-//       id SERIAL PRIMARY KEY,
-//       email VARCHAR(255) UNIQUE NOT NULL,
-//       username VARCHAR(255) UNIQUE NOT NULL,
-//       password VARCHAR(255) UNIQUE NOT NULL);
-
-//     CREATE TABLE orders (id SERIAL PRIMARY KEY, "userId" INTEGER REFERENCES users(id), price INTEGER NOT NULL);
-//     CREATE TABLE reviews (id SERIAL PRIMARY KEY, "userId" INTEGER REFERENCES users(id), text TEXT NOT NULL);
-
-//     CREATE TABLE orders_products (
-//       id SERIAL PRIMARY KEY,
-//       count INTEGER NOT NULL,
-//       "orderId" INTEGER REFERENCES orders(id),
-//       "productId" INTEGER REFERENCES products(id));
-//   `);
-
-//   console.log('DB SEEDED.');
-// };
-
-// seedDB();

@@ -1,60 +1,49 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const {
-  createUser,
-  getUserByUsername,
-  getUser,
-  getAllUsers,
-  getUserByEmail,
-} = require('../db/users.js');
+const { createUser, getUserByUsername, getUser, getAllUsers } = require('../db/users.js');
+const { requireAdmin } = require('./utils');
+
 
 const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
+  console.log("here is the current user", req.user);
   res.send('User Page');
 });
 
-userRouter.get('/view', async (req, res) => {
+
+userRouter.get("/view", async(req, res, next) => {
   try {
-    if (req.user) {
-      if (req.user.isAdmin === true) {
-        const users = await getAllUsers();
-        res.send({ users });
-      } else {
-        res.send('Only admins may view all users');
-      }
-    } else {
-      res.send('Error: No user logged in');
-    }
+    const users = await getAllUsers();
+    console.log(users);
+    res.send({users})
   } catch (error) {
-    throw error;
+    res.send({
+      message: error.message
+    })
   }
 });
 
-userRouter.get('/view/:username', async (req, res) => {
+userRouter.get("/view/:username", requireAdmin, async(req, res, next) => {
+  const {username} = req.params;
   try {
-    if (req.user) {
-      if (req.user.isAdmin === true) {
-        const { username } = req.params;
-        const user = await getUserByUsername(username);
-        res.send({ user });
-      } else {
-        res.send('Only admins may view a user');
-      }
-    } else {
-      res.send('Error: No user logged in');
-    }
+    const users = await getUserByUsername(username);
+    delete users.password;
+    res.send({users})
   } catch (error) {
-    throw error;
+    next({error})
   }
 });
+
 
 userRouter.get('/register', async (req, res) => {
   res.send('Register Page');
 });
 
+
 userRouter.post('/register', async (req, res, next) => {
+
   const { email, username, password } = req.body;
 
   try {
@@ -65,6 +54,16 @@ userRouter.post('/register', async (req, res, next) => {
         name: 'UserExistsError',
         message: 'Username already exists',
       });
+      return;
+    }
+
+    const userEmail = await getUserByEmail(email);
+
+    if (userEmail) {
+      next({
+        name: "UserExistsError",
+        error: "Username already exists",
+      })
       return;
     }
 
@@ -115,10 +114,11 @@ userRouter.post('/login', async (req, res, next) => {
   }
 
   try {
-    const user = await getUser({ username, password });
+    const user = await getUser({username, password});
 
-    if (!user) {
-      res.send({ error: 'No user found' });
+    if(!user) {
+      res.send({ error: "No user found" });
+
     }
 
     const token = jwt.sign(
@@ -131,7 +131,11 @@ userRouter.post('/login', async (req, res, next) => {
 
     user.token = token;
 
-    res.send({ message: "you're logged in!!!", token });
+
+    res.send({
+      message: "you're logged in!!!", 
+      token
+    });
   } catch (error) {
     throw error;
   }
