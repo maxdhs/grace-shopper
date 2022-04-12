@@ -80,8 +80,75 @@ const createProduct = async ({
 //   );
 // }
 
+async function updateProduct({
+  id,
+  title,
+  designer,
+  description,
+  price,
+  category,
+  inventoryQuantity,
+}) {
+  try {
+    if (title) {
+      await client.query(
+        `
+    UPDATE products SET title = $1 WHERE id = $2 RETURNING *;
+    `,
+        [title, id]
+      );
+    }
+    if (designer) {
+      await client.query(
+        `
+    UPDATE products SET designer = $1 WHERE id = $2 RETURNING *;
+    `,
+        [designer, id]
+      );
+    }
+    if (description) {
+      await client.query(
+        `
+    UPDATE products SET description = $1 WHERE id = $2 RETURNING *;
+    `,
+        [description, id]
+      );
+    }
+    if (price) {
+      await client.query(
+        `
+    UPDATE products SET price = $1 WHERE id = $2 RETURNING *;
+    `,
+        [price, id]
+      );
+    }
+    if (category) {
+      await client.query(
+        `
+    UPDATE products SET category = $1 WHERE id = $2 RETURNING *;
+    `,
+        [category, id]
+      );
+    }
+    if (inventoryQuantity) {
+      await client.query(
+        `
+    UPDATE products SET inventoryQuantity = $1 WHERE id = $2 RETURNING *;
+    `,
+        [inventoryQuantity, id]
+      );
+    }
+
+    const product = getProductById(id);
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
+  // destroyProduct,
+  updateProduct,
 };

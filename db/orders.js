@@ -49,31 +49,56 @@ async function getOrdersByUser(id) {
     const orders = output.filter((order) => order.userId === id);
 
     return orders;
-    //   try {
-    //     const { rows } = await client.query(
-    //       `
-    //       SELECT orders.*
-    //       FROM orders
-    //       JOIN users ON users.id = orders."userId"
-    //       WHERE email = $1`,
-    //       [email]
-    //     );
-    //     for (const order of rows) {
-    //       const { rows: products } = await client.query(
-    //         `
-    //         SELECT products.*, order_products.id AS order_productId
-    //         FROM products
-    //         JOIN order_products ON order_products."productId" = product.id
-    //         WHERE order_products."orderId" = $1`,
-    //         [order.id]
-    //       );
-    //       order.products = products;
-    //     }
-    //     return rows;
   } catch (error) {
     throw error;
   }
 }
+//   try {
+//     const { rows } = await client.query(
+//       `
+//       SELECT orders.*
+//       FROM orders
+//       JOIN users ON users.id = orders."userId"
+//       WHERE email = $1`,
+//       [email]
+//     );
+//     for (const order of rows) {
+//       const { rows: products } = await client.query(
+//         `
+//         SELECT products.*, order_products.id AS order_productId
+//         FROM products
+//         JOIN order_products ON order_products."productId" = product.id
+//         WHERE order_products."orderId" = $1`,
+//         [order.id]
+//       );
+//       order.products = products;
+//     }
+//     return rows;
+// async function getOrdersByUser({ userId }) {
+//   try {
+//     const { rows } = await client.query(
+//       `
+//       SELECT *
+//       FROM orders
+//       WHERE "userId" = $1`,
+//       [userId]
+//     );
+//     for (const order of rows) {
+//       const { rows: products } = await client.query(
+//         `
+//         SELECT products.*, orders_products.id AS "order_productId"
+//         FROM products
+//         JOIN orders_products ON orders_products."productId" = product.id
+//         WHERE orders_products."orderId" = $1`,
+//         [order.id]
+//       );
+//       order.products = products;
+//     }
+//     return rows;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 async function getOrderById(id) {
   try {
