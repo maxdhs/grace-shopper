@@ -27,7 +27,6 @@ describe("API", () => {
   //   });
   it("responds to a request at /api/ with a message specifying it is working", async () => {
     const res = await axios.get(`${API_URL}/api`);
-
     expect(typeof res.data.message).toEqual("string");
   });
 

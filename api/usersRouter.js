@@ -79,13 +79,13 @@ usersRouter.post("/login", async (req, res, next) => {
 
 //
 usersRouter.get("/:userId/orders", async (req, res, next) => {
-  const { userId } = req.params;
+  const { userId: id } = req.params;
 
   try {
-    const user = await getUserById(userId);
+    const user = await getUserById(id);
 
     if (user) {
-      const orders = await getOrdersByUser({ userId });
+      const orders = await getOrdersByUser(id);
       res.send(orders);
     }
   } catch (error) {

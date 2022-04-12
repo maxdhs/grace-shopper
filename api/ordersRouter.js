@@ -10,10 +10,10 @@ const requireUser = require("./utils").default;
 
 const ordersRouter = express.Router();
 
-ordersRouter.use("/", (req, res, next) => {
-  res.send("Order router working");
-  next();
-});
+// ordersRouter.use("/", (req, res, next) => {
+//   res.send("Order router working");
+//   next();
+// });
 
 // Get a specific order
 ordersRouter.get("/:ordersId", async (req, res, next) => {
