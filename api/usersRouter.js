@@ -12,22 +12,23 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const requireUser = require("./utils").default;
 
+// User register
+// Tested with Postman - is currently working
 usersRouter.post("/register", async (req, res, next) => {
-  console.log(req.body);
   const { email, password } = req.body;
 
   try {
     const _user = await getUserByEmail(email);
-
+    // console.log(_user[0]);
     if (_user) {
-      next({
+      res.send({
         name: "EmailExistsError",
         message: "A user by that email already exists",
       });
       return;
     }
     if (password.length < 8) {
-      next({
+      res.send({
         name: "PasswordLengthError",
         message: "Password is too short, must be at least 8 characters!",
       });
@@ -42,6 +43,8 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
+// User login
+// Tested with postman and is currently working
 usersRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -74,30 +77,15 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-// Will show users past orders and current cart
-usersRouter.get("/me", async (req, res, next) => {
-  try {
-    const id = req.user.id;
-    if (id) {
-      const user = await getUserById(id);
-      console.log(user);
-      res.send(user);
-    }
-  } catch (error) {
-    res.send({ error: "bad token" });
-  }
-});
-
-usersRouter.get("/:email/orders", async (req, res, next) => {
-  const { email } = req.params;
+//
+usersRouter.get("/:userId/orders", async (req, res, next) => {
+  const { userId } = req.params;
 
   try {
-    const user = await getUserByEmail(email);
+    const user = await getUserById(userId);
 
     if (user) {
-      const id = user.id;
-      const orders = await getOrdersByUser({ id });
-
+      const orders = await getOrdersByUser({ userId });
       res.send(orders);
     }
   } catch (error) {

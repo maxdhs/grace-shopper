@@ -8,8 +8,10 @@ const { JWT_SECRET = "neverTell" } = process.env;
 
 const rebuildDB = require("../db/seed");
 const client = require("../db/index");
-const { idleTimeoutMillis } = require("pg/lib/defaults");
 const { createProduct } = require("../db/products");
+const { getOrderById } = require("../db/orders");
+const { getOrderProductsById } = require("../db/order_products");
+
 describe("API", () => {
   let token, registeredUser;
   let orderProductsToCreateAndUpdate = {
@@ -17,14 +19,14 @@ describe("API", () => {
     productId: 8,
     count: 20,
   };
-  beforeAll(async () => {
-    await rebuildDB();
-  });
-  afterAll(async () => {
-    await client.end();
-  });
+  //   beforeAll(async () => {
+  //     await client.connect();
+  //   });
+  //   afterAll(async () => {
+  //     await client.end();
+  //   });
   it("responds to a request at /api/ with a message specifying it is working", async () => {
-    const res = await axios.get(`${API_URL}/api/`);
+    const res = await axios.get(`${API_URL}/api`);
 
     expect(typeof res.data.message).toEqual("string");
   });
@@ -184,153 +186,137 @@ describe("API", () => {
         expect(filteredProduct.image).toEqual(shoe.image);
       });
     });
-    describe("POST /activities (*)", () => {
-      it("Creates a new activity", async () => {
-        const { data: respondedActivity } = await axios.post(
-          `${API_URL}/api/activities`,
-          activityToCreateAndUpdate,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        expect(respondedActivity.name).toEqual(activityToCreateAndUpdate.name);
-        expect(respondedActivity.description).toEqual(
-          activityToCreateAndUpdate.description
-        );
-        activityToCreateAndUpdate = respondedActivity;
-      });
-    });
-    describe("PATCH /activities/:activityId (*)", () => {
-      it("Anyone can update an activity (yes, this could lead to long term problems a la wikipedia)", async () => {
-        const newActivityData = {
-          name: "Double Bicep Curls",
-          description: "They hurt EVEN MORE, but you will thank you later",
-        };
-        const { data: respondedActivity } = await axios.patch(
-          `${API_URL}/api/activities/${activityToCreateAndUpdate.id}`,
-          newActivityData,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        expect(respondedActivity.name).toEqual(newActivityData.name);
-        expect(respondedActivity.description).toEqual(
-          newActivityData.description
-        );
-      });
-    });
-    describe("GET /activities/:activityId/routines", () => {
-      it("Get a list of all public routines which feature that activity", async () => {
-        const [testRoutine] = await getAllPublicRoutines();
-        const [testActivity] = testRoutine.activities;
-        const { data: routines } = await axios.get(
-          `${API_URL}/api/activities/${testActivity.id}/routines`
-        );
-        const routinesFromDB = await getPublicRoutinesByActivity(testActivity);
-        expect(routines).toEqual(routinesFromDB);
-      });
-    });
+    // describe("POST /activities (*)", () => {
+    //   it("Creates a new activity", async () => {
+    //     const { data: respondedActivity } = await axios.post(
+    //       `${API_URL}/api/activities`,
+    //       activityToCreateAndUpdate,
+    //       { headers: { Authorization: `Bearer ${token}` } }
+    //     );
+    //     expect(respondedActivity.name).toEqual(activityToCreateAndUpdate.name);
+    //     expect(respondedActivity.description).toEqual(
+    //       activityToCreateAndUpdate.description
+    //     );
+    //     activityToCreateAndUpdate = respondedActivity;
+    //   });
+    // });
+    // describe("PATCH /activities/:activityId (*)", () => {
+    //   it("Anyone can update an activity (yes, this could lead to long term problems a la wikipedia)", async () => {
+    //     const newActivityData = {
+    //       name: "Double Bicep Curls",
+    //       description: "They hurt EVEN MORE, but you will thank you later",
+    //     };
+    //     const { data: respondedActivity } = await axios.patch(
+    //       `${API_URL}/api/activities/${activityToCreateAndUpdate.id}`,
+    //       newActivityData,
+    //       { headers: { Authorization: `Bearer ${token}` } }
+    //     );
+    //     expect(respondedActivity.name).toEqual(newActivityData.name);
+    //     expect(respondedActivity.description).toEqual(
+    //       newActivityData.description
+    //     );
+    //   });
+    // });
+    // describe("GET /activities/:activityId/routines", () => {
+    //   it("Get a list of all public routines which feature that activity", async () => {
+    //     const [testRoutine] = await getAllPublicRoutines();
+    //     const [testActivity] = testRoutine.activities;
+    //     const { data: routines } = await axios.get(
+    //       `${API_URL}/api/activities/${testActivity.id}/routines`
+    //     );
+    //     const routinesFromDB = await getPublicRoutinesByActivity(testActivity);
+    //     expect(routines).toEqual(routinesFromDB);
+    //   });
+    // });
   });
-  describe("Routines", () => {
-    let routineToCreateAndUpdate = {
-      isPublic: true,
-      name: "Elliptical Day",
-      goal: "Work on that Elliptical!",
-    };
-    let routineToFail = {
-      isPublic: false,
-      name: "Elliptical Day 2",
-      goal: "Work on that Elliptical... again!",
-    };
-    const newRoutineData = {
-      isPublic: false,
-      name: "Elliptical Day Private",
-      goal: "Work on that Elliptical, yet again!",
-    };
-    describe("GET /routines", () => {
-      it("Returns a list of public routines, includes the activities with them", async () => {
-        const publicRoutinesFromDB = await getAllPublicRoutines();
-        const { data: publicRoutinesFromAPI } = await axios.get(
-          `${API_URL}/api/routines`
+  describe("Orders", () => {
+    let orderToCreateAndUpdate = { userId: 3, productId: 2, isPurchased: true };
+    let routineToFail = { userId: 3, productId: 1, isPurchased: false };
+    const newOrderData = { userId: 3, productId: 3, isPurchased: true };
+    describe("GET /orders/:orderId", () => {
+      it("Returns a list of orders, includes the products with them", async () => {
+        const orderFromDB = await getOrderById(orderToCreateAndUpdate.id);
+        const { data: orderFromAPI } = await axios.get(
+          `${API_URL}/api/orders/${orderToCreateAndUpdate.id}`
         );
-        expect(publicRoutinesFromAPI).toEqual(publicRoutinesFromDB);
+        expect(orderFromAPI).toEqual(orderFromDB);
       });
     });
 
-    describe("POST /routines (*)", () => {
-      it("Creates a new routine, with the creatorId matching the logged in user", async () => {
-        const { data: respondedRoutine } = await axios.post(
-          `${API_URL}/api/routines`,
-          routineToCreateAndUpdate,
+    describe("POST /orders", () => {
+      it("Creates a new order", async () => {
+        const { data: respondedOrder } = await axios.post(
+          `${API_URL}/api/orders`,
+          orderToCreateAndUpdate,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        expect(respondedRoutine.name).toEqual(routineToCreateAndUpdate.name);
-        expect(respondedRoutine.goal).toEqual(routineToCreateAndUpdate.goal);
-        expect(respondedRoutine.name).toEqual(routineToCreateAndUpdate.name);
-        expect(respondedRoutine.creatorId).toEqual(registeredUser.id);
-        routineToCreateAndUpdate = respondedRoutine;
+        expect(respondedOrder.userId).toEqual(orderToCreateAndUpdate.userId);
+        expect(respondedOrder.productId).toEqual(
+          orderToCreateAndUpdate.productId
+        );
+        expect(respondedOrder.isPurchased).toEqual(
+          orderToCreateAndUpdate.isPurchased
+        );
+        orderToCreateAndUpdate = respondedOrder;
       });
-      it("Requires logged in user", async () => {
-        let noLoggedInUserResp, noLoggedInUserErrResp;
-        try {
-          noLoggedInUserResp = await axios.post(
-            `${API_URL}/api/routines`,
-            routineToFail
-          );
-        } catch (err) {
-          noLoggedInUserErrResp = err.response;
-        }
-        expect(noLoggedInUserResp).toBeFalsy();
-        expect(noLoggedInUserErrResp.data).toBeTruthy();
-      });
+      //   it("Requires logged in user", async () => {
+      //     let noLoggedInUserResp, noLoggedInUserErrResp;
+      //     try {
+      //       noLoggedInUserResp = await axios.post(
+      //         `${API_URL}/api/routines`,
+      //         routineToFail
+      //       );
+      //     } catch (err) {
+      //       noLoggedInUserErrResp = err.response;
+      //     }
+      //     expect(noLoggedInUserResp).toBeFalsy();
+      //     expect(noLoggedInUserErrResp.data).toBeTruthy();
+      //   });
     });
-    describe("PATCH /routines/:routineId (**)", () => {
-      it("Updates a routine, notably changing public/private, the name, or the goal", async () => {
-        const { data: respondedRoutine } = await axios.patch(
-          `${API_URL}/api/routines/${routineToCreateAndUpdate.id}`,
-          newRoutineData,
+    describe("PATCH /orders/:orderId", () => {
+      it("Updates an order, notably changing count", async () => {
+        const { data: respondedOrder } = await axios.patch(
+          `${API_URL}/api/orders/${orderToCreateAndUpdate.id}`,
+          newOrderData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        expect(respondedRoutine.name).toEqual(newRoutineData.name);
-        expect(respondedRoutine.goal).toEqual(newRoutineData.goal);
-        routineToCreateAndUpdate = respondedRoutine;
+        expect(respondedOrder.count).toEqual(newOrderData.count);
+        orderToCreateAndUpdate = respondedOrder;
       });
     });
-    describe("DELETE /routines/:routineId (**)", () => {
-      it("Hard deletes a routine. Makes sure to delete all the routineActivities whose routine is the one being deleted.", async () => {
-        const { data: deletedRoutine } = await axios.delete(
-          `${API_URL}/api/routines/${routineToCreateAndUpdate.id}`,
+    describe("DELETE /orders/:orderId", () => {
+      it("Hard deletes an order. Makes sure to delete all the products whose order is the one being deleted.", async () => {
+        const { data: deletedOrder } = await axios.delete(
+          `${API_URL}/api/order/${orderToCreateAndUpdate.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        const shouldBeDeleted = await getRoutineById(deletedRoutine.id);
-        expect(deletedRoutine.id).toBe(routineToCreateAndUpdate.id);
-        expect(deletedRoutine.name).toBe(routineToCreateAndUpdate.name);
-        expect(deletedRoutine.goal).toBe(routineToCreateAndUpdate.goal);
+        const shouldBeDeleted = await getOrderById(deletedOrder.id);
+        expect(deletedOrder.id).toBe(orderToCreateAndUpdate.id);
         expect(shouldBeDeleted).toBeFalsy();
       });
     });
-    describe("POST /routines/:routineId/activities", () => {
-      let newRoutine;
-      it("Attaches a single activity to a routine.", async () => {
-        newRoutine = await createRoutine({
-          creatorId: registeredUser.id,
-          name: "Pull Ups",
-          goal: "10 pull ups",
-        });
-        const { data: respondedRoutineActivity } = await axios.post(
-          `${API_URL}/api/routines/${newRoutine.id}/activities`,
-          { routineId: newRoutine.id, ...routineActivityToCreateAndUpdate },
+    describe("POST /orders/:orderId/:productId", () => {
+      let newOrder;
+      it("Attaches a single product to an order.", async () => {
+        newOrder = await createOrder({ userId: 1, isPurchased: false });
+        const { data: respondedOrderProduct } = await axios.post(
+          `${API_URL}/api/orders/${newOrder.id}/products`,
+          { orderId: orderId.id, ...orderProductsToCreateAndUpdate },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        expect(respondedRoutineActivity.routineId).toBe(newRoutine.id);
-        expect(respondedRoutineActivity.activityId).toBe(
-          routineActivityToCreateAndUpdate.activityId
+        expect(respondedOrderProduct.orderId).toBe(newOrder.id);
+        expect(respondedOrderProduct.productId).toBe(
+          orderProductsToCreateAndUpdate.productId
         );
-        routineActivityToCreateAndUpdate = respondedRoutineActivity;
+        orderProductsToCreateAndUpdate = respondedOrderProduct;
       });
-      it("Prevents duplication on (routineId, activityId) pair.", async () => {
+      it("Prevents duplication on (orderId, productId) pair.", async () => {
         let duplicateIds, duplicateIdsResp;
         try {
           duplicateIds = await axios.post(
-            `${API_URL}/api/routines/${newRoutine.id}/activities`,
-            routineActivityToCreateAndUpdate,
+            `${API_URL}/api/orders/${newOrder.id}/products`,
+            orderProductsToCreateAndUpdate,
             { headers: { Authorization: `Bearer ${token}` } }
           );
         } catch (err) {
@@ -341,50 +327,44 @@ describe("API", () => {
       });
     });
   });
-  describe("routine_activities", () => {
-    let newRoutineActivityData = {
-      routineId: 3,
-      activityId: 8,
+  describe("order_products", () => {
+    let newOrderProductData = {
+      orderId: 3,
+      productId: 8,
       count: 25,
-      duration: 200,
     };
-    describe("PATCH /routine_activities/:routineActivityId (**)", () => {
-      it("Updates the count or duration on the routine activity", async () => {
-        const { data: respondedRoutineActivity } = await axios.patch(
-          `${API_URL}/api/routine_activities/${routineActivityToCreateAndUpdate.id}`,
-          newRoutineActivityData,
+    describe("PATCH /order_products/:orderProductId", () => {
+      it("Updates the count on the order products", async () => {
+        const { data: respondedOrderProduct } = await axios.patch(
+          `${API_URL}/api/order_products/${orderProductsToCreateAndUpdate.id}`,
+          newOrderProductData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        expect(respondedRoutineActivity.count).toEqual(
-          newRoutineActivityData.count
-        );
-        expect(respondedRoutineActivity.duration).toEqual(
-          newRoutineActivityData.duration
-        );
-        routineActivityToCreateAndUpdate = respondedRoutineActivity;
+        expect(respondedOrderProduct.count).toEqual(newOrderProductData.count);
+        orderProductsToCreateAndUpdate = respondedOrderProduct;
       });
-      it("Logged in user should be the owner of the modified object.", async () => {
-        let respondedRoutineActivity, errRespondedRoutineActivity;
-        try {
-          respondedRoutineActivity = await axios.patch(
-            `${API_URL}/api/routine_activities/${4}`,
-            newRoutineActivityData,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-        } catch (err) {
-          errRespondedRoutineActivity = err.response;
-        }
-        expect(respondedRoutineActivity).toBeFalsy();
-        expect(errRespondedRoutineActivity.data).toBeTruthy();
-      });
+      //   it("Logged in user should be the owner of the modified object.", async () => {
+      //     let respondedRoutineActivity, errRespondedRoutineActivity;
+      //     try {
+      //       respondedRoutineActivity = await axios.patch(
+      //         `${API_URL}/api/routine_activities/${4}`,
+      //         newRoutineActivityData,
+      //         { headers: { Authorization: `Bearer ${token}` } }
+      //       );
+      //     } catch (err) {
+      //       errRespondedRoutineActivity = err.response;
+      //     }
+      //     expect(respondedRoutineActivity).toBeFalsy();
+      //     expect(errRespondedRoutineActivity.data).toBeTruthy();
+      //   });
     });
-    describe("DELETE /routine_activities/:routineActivityId (**)", () => {
-      it("Removes an activity from a routine, uses hard delete", async () => {
-        const { data: deletedRoutineActivity } = await axios.delete(
-          `${API_URL}/api/routine_activities/${routineActivityToCreateAndUpdate.id}`,
+    describe("DELETE /order_products/:orderProductId", () => {
+      it("Removes an product from a order, uses hard delete", async () => {
+        const { data: deletedOrderProduct } = await axios.delete(
+          `${API_URL}/api/order_products/${orderProductsToCreateAndUpdate.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        const shouldBeDeleted = await getRoutineActivityById(
+        const shouldBeDeleted = await getOrderProductsById(
           deletedRoutineActivity.id
         );
         expect(deletedRoutineActivity.id).toBe(

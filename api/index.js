@@ -1,13 +1,13 @@
 const express = require("express");
 const productRouter = require("./productRouter");
-const userRouter = require("./userRouter");
+const usersRouter = require("./usersRouter");
 const ordersRouter = require("./ordersRouter");
 const orderProductsRouter = require("./orderProductsRouter");
 
 const apiRouter = express.Router();
 
 apiRouter.use("/products", productRouter);
-apiRouter.use("/users", userRouter);
+apiRouter.use("/users", usersRouter);
 apiRouter.use("/orders", ordersRouter);
 apiRouter.use("/order_products", orderProductsRouter);
 

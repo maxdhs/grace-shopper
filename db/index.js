@@ -12,6 +12,4 @@ if (process.env.DATABASE_URL) {
   client = new Client("postgres://localhost:5432/grace-shopper");
 }
 
-client.connect();
-
 module.exports = client;

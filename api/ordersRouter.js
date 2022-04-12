@@ -1,11 +1,21 @@
 const express = require("express");
 const { getOrderById, createOrder } = require("../db/orders");
-const { addProductToOrder } = require("../db/order_products");
+const {
+  addProductToOrder,
+  getOrderProductsById,
+} = require("../db/order_products");
+const { getProductById } = require("../db/products");
 const { getUser } = require("../db/users");
 const requireUser = require("./utils").default;
 
 const ordersRouter = express.Router();
 
+ordersRouter.use("/", (req, res, next) => {
+  res.send("Order router working");
+  next();
+});
+
+// Get a specific order
 ordersRouter.get("/:ordersId", async (req, res, next) => {
   try {
     const { ordersId } = req.params;
@@ -24,27 +34,30 @@ ordersRouter.get("/:ordersId", async (req, res, next) => {
   }
 });
 
+// Create a new order (with the first product added)
 ordersRouter.post("/", async (req, res, next) => {
+  const { userId, productId, count } = req.body;
   try {
-    userId = req.user.id;
-    const newOrder = await createOrder({ userId });
+    const newOrder = await createOrder({ userId, productId, isPurchased });
     res.send(newOrder);
   } catch (err) {
     next(err);
   }
 });
 
+// Delete an existing order
 ordersRouter.delete("/:ordersId", async (req, res, next) => {
+  const { ordersId: id } = req.params;
+
   try {
-    const { ordersId } = req.params;
-    const userId = await getUserIdByOrderId(ordersId);
+    const userId = await getUserIdByOrderId(id);
     if (req.user.id !== userId.id) {
       res.status(400).send({
         name: "UsersDontMatch",
         message: "users don't match",
       });
     } else {
-      const destroyed = await destroyOrder(ordersId);
+      const destroyed = await destroyOrder(id);
       res.send(destroyed);
     }
   } catch (error) {
@@ -52,7 +65,12 @@ ordersRouter.delete("/:ordersId", async (req, res, next) => {
   }
 });
 
+// Update an existing order
 ordersRouter.patch("/:ordersId", async (req, res, next) => {
+  const { count } = req.body;
+  const { ordersId: id } = req.params;
+  const toUpdate = { id, count };
+
   try {
     const { id: userId } = await getUserIdByOrderId(req.params.ordersId);
     if (req.user.id !== userId) {
@@ -61,14 +79,53 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
         message: "users don't match",
       });
     } else {
-      // const { count, duration } = req.body;
-      const orders = await updateOrder({
-        id: req.params.ordersId,
-      });
+      const orders = await updateOrder(toUpdate);
       res.send(orders);
     }
   } catch (error) {
     next(error);
+  }
+});
+
+// Add a product to an order
+ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
+  const { orderId, productId, count } = req.body;
+  const { tempOrderId } = req.params;
+  try {
+    if (tempOrderId === orderId) {
+      console.log("order dupe");
+      throw false;
+    }
+
+    const {
+      rows: [checkOrderProducts],
+    } = await client.query(
+      `
+        SELECT * FROM order_products
+        WHERE "orderId" = $1
+        AND "productId" = $2;
+        `,
+      [tempOrderId, productId]
+    );
+
+    if (checkOrderProducts) {
+      throw "order product already exists";
+    } else {
+      const {
+        rows: [order_products],
+      } = await client.query(
+        `
+      INSERT INTO order_products ("orderId","productId",count)
+      VALUES($1,$2,$3)
+      RETURNING *;
+      `,
+        [tempOrderId, productId, count]
+      );
+      res.send(order_products);
+      return;
+    }
+  } catch (err) {
+    next(err);
   }
 });
 

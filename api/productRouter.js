@@ -1,13 +1,19 @@
 const express = require("express");
 const { getAllProducts } = require("../db/products");
-
 const productRouter = express.Router();
 
-// Tested route with Postman - is working
+// productRouter.use("/", (req, res, next) => {
+//   res.send("Product router working");
+//   next();
+// });
+
 productRouter.get("/", async (req, res) => {
-  const products = await getAllProducts();
-  console.log(products);
-  res.send({ products });
+  try {
+    const products = await getAllProducts();
+    res.send({ products });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 module.exports = productRouter;
