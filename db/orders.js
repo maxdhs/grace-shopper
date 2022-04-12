@@ -16,20 +16,19 @@ async function createOrder({ userId, isPurchased }) {
   }
 }
 
-async function getOrdersByUser({ email }) {
+async function getOrdersByUser({ userId }) {
   try {
     const { rows } = await client.query(
       `
-      SELECT orders.*, users.email AS "userId" 
+      SELECT *
       FROM orders
-      JOIN users ON users.id = orders."creatorId"
-      WHERE email = $1`,
-      [email]
+      WHERE "userId" = $1`,
+      [userId]
     );
     for (const order of rows) {
       const { rows: products } = await client.query(
         `
-        SELECT products.*, orders_products.id AS order_productId
+        SELECT products.*, orders_products.id AS "order_productId"
         FROM products
         JOIN orders_products ON orders_products."productId" = product.id
         WHERE orders_products."orderId" = $1`,

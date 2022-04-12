@@ -19,8 +19,11 @@ ordersRouter.delete("/:ordersId", requireUser, async (req, res, next) => {
     }
   } catch (error) {
     next(error);
-  }
-});
+
+}
+}
+);
+
 
 ordersRouter.patch("/:ordersId", requireUser, async (req, res, next) => {
   try {
