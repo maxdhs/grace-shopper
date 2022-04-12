@@ -4,12 +4,14 @@ const jwt = require('jsonwebtoken');
 const { createUser, getUserByUsername, getUser, getAllUsers } = require('../db/users.js');
 const { requireAdmin } = require('./utils');
 
+
 const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
   console.log("here is the current user", req.user);
   res.send('User Page');
 });
+
 
 userRouter.get("/view", async(req, res, next) => {
   try {
@@ -32,19 +34,32 @@ userRouter.get("/view/:username", requireAdmin, async(req, res, next) => {
   } catch (error) {
     next({error})
   }
-})
+});
+
 
 userRouter.get('/register', async (req, res) => {
   res.send('Register Page');
 });
 
-userRouter.post('/register', async (req, res) => {
+
+userRouter.post('/register', async (req, res, next) => {
+
   const { email, username, password } = req.body;
 
   try {
     const user = await getUserByUsername(username);
-    
-    if(user) {
+
+    if (user) {
+      next({
+        name: 'UserExistsError',
+        message: 'Username already exists',
+      });
+      return;
+    }
+
+    const userEmail = await getUserByEmail(email);
+
+    if (userEmail) {
       next({
         name: "UserExistsError",
         error: "Username already exists",
@@ -62,22 +77,25 @@ userRouter.post('/register', async (req, res) => {
       return;
     }
 
-    const newUser = await createUser({email, username, password});
+    const newUser = await createUser({ email, username, password });
 
-    const token = jwt.sign({
-      id: newUser.id,
-      username: newUser.username
-    }, process.env.SECRET_KEY, {
-      expiresIn: "1w"
-    })
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        username: newUser.username,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: '1w',
+      }
+    );
 
     res.send({
       user: newUser,
-      token
+      token,
     });
-
-  } catch ({name, message}) {
-    next({name, message})
+  } catch ({ name, message }) {
+    next({ name, message });
   }
 });
 
@@ -86,14 +104,13 @@ userRouter.get('/login', async (req, res) => {
 });
 
 userRouter.post('/login', async (req, res, next) => {
+  const { username, password } = req.body;
 
-  const {username, password} = req.body;
-
-  if(!username || !password) {
+  if (!username || !password) {
     next({
-      name: "MissingCredentialsError",
-      message: "Please supply both a username and password"
-    })
+      name: 'MissingCredentialsError',
+      message: 'Please supply both a username and password',
+    });
   }
 
   try {
@@ -101,14 +118,19 @@ userRouter.post('/login', async (req, res, next) => {
 
     if(!user) {
       res.send({ error: "No user found" });
+
     }
 
-    const token = jwt.sign({ 
-      id: user.id, 
-      username: user.username 
-    }, process.env.SECRET_KEY);
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+      },
+      process.env.SECRET_KEY
+    );
 
     user.token = token;
+
 
     res.send({
       message: "you're logged in!!!", 
@@ -117,6 +139,5 @@ userRouter.post('/login', async (req, res, next) => {
   } catch (error) {
     throw error;
   }
-
-})
+});
 module.exports = userRouter;

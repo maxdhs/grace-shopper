@@ -1,3 +1,4 @@
+
 const { client } = require(".");
 
 const createProduct = async({
@@ -26,10 +27,12 @@ const getProducts = async() => {
       SELECT * FROM products;
     `);
     return products;
+
   } catch (error) {
     throw error;
   }
 };
+
 
 const getProductById = async(id) => {
   try {
@@ -38,6 +41,7 @@ const getProductById = async(id) => {
       WHERE id = $1
     `,[id])
     return product;
+
   } catch (error) {
     throw error;
   }
