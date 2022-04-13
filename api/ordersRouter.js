@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getOrderById,
   createOrder,
+  destroyOrder,
   getUserIdByOrderId,
   updateOrder,
 } = require("../db/orders");
@@ -68,6 +69,7 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
+  // console.log(tempOrderId);
   try {
     if (tempOrderId === orderId) {
       console.log("order dupe");
