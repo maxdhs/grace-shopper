@@ -28,7 +28,6 @@ const getProductById = async (productId) => {
         name: `ProductError`,
         message: `No Product exists with that id`,
       };
-
     return product;
   } catch (error) {
     throw error;
@@ -63,22 +62,22 @@ const createProduct = async ({
   }
 };
 
-// async function destroyProduct(id) {
-//   await client.query(
-//     `
-//     DELETE FROM products
-//     WHERE id = $1;
-//     `,
-//     [id]
-//   );
-//   await client.query(
-//     `
-//   DELETE FROM orders
-//   WHERE "productId" = $1;
-//   `,
-//     [id]
-//   );
-// }
+async function destroyProduct(id) {
+  await client.query(
+    `
+    DELETE FROM products
+    WHERE id = $1;
+    `,
+    [id]
+  );
+  await client.query(
+    `
+  DELETE FROM orders
+  WHERE "productId" = $1;
+  `,
+    [id]
+  );
+}
 
 async function updateProduct({
   id,
@@ -87,7 +86,7 @@ async function updateProduct({
   description,
   price,
   category,
-  inventoryQuantity,
+  count,
 }) {
   try {
     if (title) {
@@ -130,15 +129,14 @@ async function updateProduct({
         [category, id]
       );
     }
-    if (inventoryQuantity) {
+    if (count) {
       await client.query(
         `
-    UPDATE products SET inventoryQuantity = $1 WHERE id = $2 RETURNING *;
+    UPDATE products SET count = $1 WHERE id = $2 RETURNING *;
     `,
-        [inventoryQuantity, id]
+        [count, id]
       );
     }
-
     const product = getProductById(id);
     return product;
   } catch (error) {
@@ -149,6 +147,6 @@ module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
-  // destroyProduct,
+  destroyProduct,
   updateProduct,
 };
