@@ -4,10 +4,10 @@ const requireUser = require("./utils");
 
 const orderProductsRouter = express.Router();
 
-orderProductsRouter.use("/", (req, res, next) => {
-  res.send("Order products router working");
-  next();
-});
+// orderProductsRouter.use("/", (req, res, next) => {
+//   res.send("Order products router working");
+//   next();
+// });
 
 const {
   getOrderProductsById,
@@ -66,7 +66,7 @@ orderProductsRouter.delete("/:orderProductId", async (req, res, next) => {
     await destroyOrderProducts(req.params.orderProductId);
     res.send(orderProduct);
   } catch (error) {
-    throw error;
+    next(error);
   }
 });
 
