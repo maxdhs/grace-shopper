@@ -10,12 +10,13 @@ const {
   createProduct,
   updateProduct,
 } = require("../db/products.js");
-const client = require("pg/lib/native/client");
+const client = require("../db/index");
 
 const productRouter = express.Router();
 productRouter.use(express.json());
 
 //get all
+// Tested with postman and is working
 productRouter.get("/", async (req, res) => {
   try {
     const products = await getAllProducts();
@@ -26,12 +27,15 @@ productRouter.get("/", async (req, res) => {
 });
 
 //get by ID
+// Tested with postman and is working
 productRouter.get("/:productId", async (req, res) => {
-  const product = await getProductById();
+  const { productId } = req.params;
+  const product = await getProductById(productId);
   res.send({ product });
 });
 
 //create
+// Tested with postman and is working
 productRouter.post("/", async (req, res, next) => {
   const { title, designer, description, price, category, inventoryQuantity } =
     req.body;
@@ -58,39 +62,40 @@ productRouter.post("/", async (req, res, next) => {
 });
 
 //update
-productRouter.patch("/productId", async (req, res, next) => {
-  const { title, designer, description, price, category, inventoryQuantity } =
-    req.body;
-  const { productId } = req.params;
+// Tested with postman and is working
+productRouter.patch("/:productId", async (req, res, next) => {
+  const { productId: id } = req.params;
+
+  const { title, designer, description, price, category, count } = req.body;
+
+  const updateFields = {
+    id,
+    title,
+    designer,
+    description,
+    price,
+    category,
+    count,
+  };
+
   try {
-    const {
-      rows: [productId],
-    } = await client.query(
-      `
-    SELECT * FROM products WHERE id = $1`,
-      [productId]
-    );
-    const updateProduct = await updateProduct();
+    const updatedProduct = await updateProduct(updateFields);
+    res.send(updatedProduct);
+    console.log(updatedProduct);
   } catch (err) {
-    next(err);
+    console.log(err);
+    throw error;
   }
 });
+
 //delete
+// Tested with postman and is working
 productRouter.delete("/:productId", async (req, res, next) => {
-  const { productId } = req.params;
+  const { productId: id } = req.params;
   try {
-    if (!req.user) {
-      throw "Must be logged in to post";
-    } else {
-      userId = req.user.id;
-
-      const {
-        rows: [product],
-      } = await destroyProduct(id);
-
-      res.send(product);
-      return;
-    }
+    const deletedProduct = await destroyProduct(id);
+    res.send("Product deleted");
+    return;
   } catch (err) {
     next(err);
   }
