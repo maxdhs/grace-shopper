@@ -11,7 +11,7 @@ const getAllProducts = async () => {
   }
 };
 
-const getProductById = async (id) => {
+const getProductById = async (productId) => {
   try {
     const {
       rows: [product],
@@ -21,7 +21,7 @@ const getProductById = async (id) => {
     FROM products
     WHERE id=$1;
       `,
-      [id]
+      [productId]
     );
     if (!product)
       throw {
@@ -42,18 +42,19 @@ const createProduct = async ({
   price,
   category,
   image,
+  count,
 }) => {
   try {
     const {
       rows: [product],
     } = await client.query(
       `
-        INSERT INTO products(title, designer, description, price, category, image)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO products(title, designer, description, price, category, image, count)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         ON CONFLICT (title) DO NOTHING
         RETURNING *;
         `,
-      [title, designer, description, price, category, image]
+      [title, designer, description, price, category, image, count]
     );
 
     return product;
@@ -62,22 +63,22 @@ const createProduct = async ({
   }
 };
 
-async function destroyProduct(id) {
-  await client.query(
-    `
-    DELETE FROM products
-    WHERE id = $1;
-    `,
-    [id]
-  );
-  await client.query(
-    `
-  DELETE FROM orders
-  WHERE "productId" = $1;
-  `,
-    [id]
-  );
-}
+// async function destroyProduct(id) {
+//   await client.query(
+//     `
+//     DELETE FROM products
+//     WHERE id = $1;
+//     `,
+//     [id]
+//   );
+//   await client.query(
+//     `
+//   DELETE FROM orders
+//   WHERE "productId" = $1;
+//   `,
+//     [id]
+//   );
+// }
 
 async function updateProduct({
   id,
@@ -148,6 +149,6 @@ module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
-  destroyProduct,
+  // destroyProduct,
   updateProduct,
 };

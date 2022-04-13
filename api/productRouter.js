@@ -1,25 +1,29 @@
 const express = require("express");
-const { user } = require("pg/lib/defaults");
+// const { user } = require("pg/lib/defaults");
 const { getProducts } = require("../db/products");
-const { requireUser } = require('./utils');
+const { requireUser } = require("./utils");
 
 const {
   getAllProducts,
   destroyProduct,
   getProductById,
   createProduct,
-  updateProduct
-} = require('../db/products.js');
-const client = require("pg/lib/native/client");
+  updateProduct,
+} = require("../db/products.js");
+// const client = require(".../db/index");
+const client = require("../db/index");
 
 const productRouter = express.Router();
 productRouter.use(express.json());
 
 //get all
 productRouter.get("/", async (req, res) => {
-  const products = await getAllProducts();
-  console.log(products);
-  res.send({ products });
+  try {
+    const products = await getAllProducts();
+    res.send({ products });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 //get by ID
@@ -29,26 +33,24 @@ productRouter.get("/:productId", async (req, res) => {
 });
 
 //create
-productRouter.post('/', async (req, res, next) => {
-  const { title,
-    designer,
-    description,
-    price,
-    category,
-    inventoryQuantity } = req.body;
+productRouter.post("/", async (req, res, next) => {
+  const { title, designer, description, price, category, inventoryQuantity } =
+    req.body;
   try {
     if (!req.user) {
-      throw 'Must be logged in to post';
+      throw "Must be logged in to post";
     } else {
       userId = req.user.id;
       const {
         rows: [newProduct],
-      } = await createProduct({ title,
+      } = await createProduct({
+        title,
         designer,
         description,
         price,
         category,
-        inventoryQuantity })
+        inventoryQuantity,
+      });
       res.send(newProduct);
     }
   } catch (err) {
@@ -57,51 +59,42 @@ productRouter.post('/', async (req, res, next) => {
 });
 
 //update
-productRouter.patch('/productId', async (req, res, next) => {
-const { title,
-  designer,
-  description,
-  price,
-  category,
-  inventoryQuantity}= req.body;
+productRouter.patch("/productId", async (req, res, next) => {
+  const { title, designer, description, price, category, inventoryQuantity } =
+    req.body;
   const { productId } = req.params;
   try {
-  const { rows: [productId]} = await client.query(
-    `
+    const {
+      rows: [productId],
+    } = await client.query(
+      `
     SELECT * FROM products WHERE id = $1`,
-    [productId]
-  );
-  const updateProduct = await updateProduct();
+      [productId]
+    );
+    const updateProduct = await updateProduct();
   } catch (err) {
     next(err);
   }
 });
 //delete
-productRouter.delete('/:productId', async (req, res, next) => {
+productRouter.delete("/:productId", async (req, res, next) => {
   const { productId } = req.params;
   try {
     if (!req.user) {
-      throw 'Must be logged in to post';
+      throw "Must be logged in to post";
     } else {
       userId = req.user.id;
 
       const {
         rows: [product],
-      } = await destroyProduct(id)
-        
+      } = await destroyProduct(id);
 
-
-
-        res.send(product);
-        return;
-       
+      res.send(product);
+      return;
     }
   } catch (err) {
     next(err);
   }
 });
-
-
-
 
 module.exports = productRouter;
