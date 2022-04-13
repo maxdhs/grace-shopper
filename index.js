@@ -32,7 +32,6 @@ app.use(async (req, res, next) => {
   const user = await getUserByUsername(_user.username);
   req.user = user;
 
-
   next();
 });
 
@@ -40,7 +39,7 @@ const apiRouter = require('./api');
 app.use('/api', apiRouter);
 
 app.use((err, req, res, next) => {
-  res.send({
+  res.status(400).send({
     name: err.name,
     message: err.message,
   });
@@ -51,14 +50,3 @@ app.listen(PORT, () => {
 
   client.connect();
 });
-
-// // app.use(express.static('build'));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(__dirname + '/build/index.html');
-// });
-
-// client.connect();
-// app.listen(PORT, () => {
-//   console.log('Server is up on port: ' + PORT);
-// });
