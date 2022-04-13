@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getOrderById,
   createOrder,
+  destroyOrder,
   getUserIdByOrderId,
   updateOrder,
 } = require("../db/orders");
@@ -29,7 +30,7 @@ ordersRouter.get("/:ordersId", async (req, res, next) => {
 
 // Create a new order (with the first product added)
 ordersRouter.post("/", async (req, res, next) => {
-  const { userId, productId, count } = req.body;
+  const { userId, productId, isPurchased } = req.body;
   try {
     const newOrder = await createOrder({ userId, productId, isPurchased });
     res.send(newOrder);
@@ -68,6 +69,7 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
+  // console.log(tempOrderId);
   try {
     if (tempOrderId === orderId) {
       console.log("order dupe");
