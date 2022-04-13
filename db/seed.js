@@ -288,8 +288,8 @@ const rebuildDB = async () => {
     await createInitialProducts();
     await createInitialOrders();
     await createInitialOrderProducts();
-    getOrdersByUser(1);
-    console.log("RebuildDB success");
+  
+    
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
