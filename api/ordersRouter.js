@@ -1,5 +1,10 @@
 const express = require("express");
-const { getOrderById, createOrder, destroyOrder, updateOrder } = require("../db/orders");
+const {
+  getOrderById,
+  createOrder,
+  getUserIdByOrderId,
+  updateOrder,
+} = require("../db/orders");
 const {
   addProductToOrder,
   getOrderProductsById,
@@ -7,7 +12,7 @@ const {
 const { getProductById } = require("../db/products");
 const { getUser } = require("../db/users");
 const requireUser = require("./utils").default;
-
+const client = require("../db/index");
 const ordersRouter = express.Router();
 
 // ordersRouter.use("/", (req, res, next) => {
@@ -17,22 +22,9 @@ const ordersRouter = express.Router();
 
 // Get a specific order
 ordersRouter.get("/:ordersId", async (req, res, next) => {
-  try {
-    const { ordersId } = req.params;
-    console.log(ordersId);
-    // const userId = await getUserIdByOrderId(ordersId);
-    // if (req.user.id !== userId.id) {
-    //   res.status(400).send({
-    //     name: "UsersDontMatch",
-    //     message: "users don't match",
-    //   });
-    // } else {
-      const order = await getOrderById(ordersId);
-      res.send(order);
-    }
-   catch (error) {
-    next(error);
-  }
+  const { ordersId } = req.params;
+  const order = await getOrderById(ordersId);
+  res.send({ order });
 });
 
 // Create a new order (with the first product added)
@@ -51,23 +43,12 @@ ordersRouter.delete("/:ordersId", async (req, res, next) => {
   const { ordersId: id } = req.params;
 
   try {
-    // const userId = await getUserIdByOrderId(id);
-    // if (req.user.id !== userId.id) {
-    //   res.status(400).send({
-    //     name: "UsersDontMatch",
-    //     message: "users don't match",
-    //   });
-    // } else {
-      const destroyed = await destroyOrder(id);
-      res.send(destroyed);
-    }
-  catch (error) {
+    const destroyed = await destroyOrder(id);
+    res.send(destroyed);
+  } catch (error) {
     next(error);
-
-}
-}
-);
-
+  }
+});
 
 // Update an existing order
 ordersRouter.patch("/:ordersId", async (req, res, next) => {
@@ -76,17 +57,9 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
   const toUpdate = { id, count };
 
   try {
-    // const { id: userId } = await getUserIdByOrderId(req.params.ordersId);
-    // if (req.user.id !== userId) {
-    //   res.status(400).send({
-    //     name: "UsersDontMatch",
-    //     message: "users don't match",
-    //   });
-    // } else {
-      const orders = await updateOrder(toUpdate);
-      res.send(orders);
-    }
-   catch (error) {
+    const orders = await updateOrder(toUpdate);
+    res.send(orders);
+  } catch (error) {
     next(error);
   }
 });
