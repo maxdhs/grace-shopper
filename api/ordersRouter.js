@@ -3,6 +3,7 @@ const {
   getOrderById,
   createOrder,
   destroyOrder,
+  getUserIdByOrderId,
   updateOrder,
 } = require("../db/orders");
 const {
@@ -12,7 +13,7 @@ const {
 const { getProductById } = require("../db/products");
 const { getUser } = require("../db/users");
 const requireUser = require("./utils").default;
-
+const client = require("../db/index");
 const ordersRouter = express.Router();
 
 // ordersRouter.use("/", (req, res, next) => {
@@ -22,21 +23,9 @@ const ordersRouter = express.Router();
 
 // Get a specific order
 ordersRouter.get("/:ordersId", async (req, res, next) => {
-  try {
-    const { ordersId } = req.params;
-    const userId = await getUserIdByOrderId(ordersId);
-    if (req.user.id !== userId.id) {
-      res.status(400).send({
-        name: "UsersDontMatch",
-        message: "users don't match",
-      });
-    } else {
-      const order = getOrderById(ordersId);
-      res.send(order);
-    }
-  } catch (error) {
-    next(error);
-  }
+  const { ordersId } = req.params;
+  const order = await getOrderById(ordersId);
+  res.send({ order });
 });
 
 // Create a new order (with the first product added)
@@ -55,16 +44,8 @@ ordersRouter.delete("/:ordersId", async (req, res, next) => {
   const { ordersId: id } = req.params;
 
   try {
-    const userId = await getUserIdByOrderId(id);
-    if (req.user.id !== userId.id) {
-      res.status(400).send({
-        name: "UsersDontMatch",
-        message: "users don't match",
-      });
-    } else {
-      const destroyed = await destroyOrder(id);
-      res.send(destroyed);
-    }
+    const destroyed = await destroyOrder(id);
+    res.send(destroyed);
   } catch (error) {
     next(error);
   }
@@ -77,16 +58,8 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
   const toUpdate = { id, count };
 
   try {
-    const { id: userId } = await getUserIdByOrderId(req.params.ordersId);
-    if (req.user.id !== userId) {
-      res.status(400).send({
-        name: "UsersDontMatch",
-        message: "users don't match",
-      });
-    } else {
-      const orders = await updateOrder(toUpdate);
-      res.send(orders);
-    }
+    const orders = await updateOrder(toUpdate);
+    res.send(orders);
   } catch (error) {
     next(error);
   }
@@ -96,6 +69,7 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
+  // console.log(tempOrderId);
   try {
     if (tempOrderId === orderId) {
       console.log("order dupe");

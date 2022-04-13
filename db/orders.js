@@ -53,6 +53,16 @@ async function getOrdersByUser(id) {
     throw error;
   }
 }
+
+const getUserIdByOrderId = async (orderId) => {
+  try {
+    const order = await getOrderById(orderId);
+    const userId = order.userId;
+    return userId;
+  } catch (error) {
+    throw error;
+  }
+};
 //   try {
 //     const { rows } = await client.query(
 //       `
@@ -100,7 +110,7 @@ async function getOrdersByUser(id) {
 //   }
 // }
 
-async function getOrderById(id) {
+async function getOrderById(ordersId) {
   try {
     const {
       rows: [order],
@@ -110,8 +120,13 @@ async function getOrderById(id) {
       FROM orders
       WHERE id=$1;
         `,
-      [id]
+      [ordersId]
     );
+    if (!order)
+      throw {
+        name: `OrderError`,
+        message: `No Order exists with that id`,
+      };
     return order;
   } catch (error) {
     throw error;
@@ -168,4 +183,5 @@ module.exports = {
   updateOrder,
   destroyOrder,
   getAllOrders,
+  getUserIdByOrderId,
 };
