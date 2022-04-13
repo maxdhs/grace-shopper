@@ -1,5 +1,4 @@
 const express = require("express");
-// const { user } = require("pg/lib/defaults");
 const { getProducts } = require("../db/products");
 const { requireUser } = require("./utils");
 
@@ -11,7 +10,6 @@ const {
   updateProduct,
 } = require("../db/products.js");
 const client = require("../db/index");
-
 const productRouter = express.Router();
 productRouter.use(express.json());
 
