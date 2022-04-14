@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { Link } from "react-router-dom";
 
-const API_LOGIN = "https://fitnesstrac-kr.herokuapp.com/api/users/login";
-const API_REGISTER = "https://fitnesstrac-kr.herokuapp.com/api/users/register";
+const API_LOGIN = "/api/users/login";
+const API_REGISTER = "/api/users/register";
 
 const Login_Register = ({ setToken, action, error, setError }) => {
   const [email, setEmail] = useState("");

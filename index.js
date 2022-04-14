@@ -1,8 +1,8 @@
 require("dotenv").config();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3001;
 
 const express = require("express");
-const jwt = require("jwt");
+const jwt = require("jsonwebtoken");
 const apiRouter = require("./api");
 
 const client = require("./db/index");
