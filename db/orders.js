@@ -176,6 +176,18 @@ async function destroyOrder(id) {
   }
 }
 
+async function getCartByUserId(userId) {
+  try {
+    const cart = await client.query(
+      `SELECT * FROM orders WHERE "userId" = $1 AND "isPurchased" = false`,
+      [userId]
+    );
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createOrder,
   getOrdersByUser,
@@ -184,4 +196,5 @@ module.exports = {
   destroyOrder,
   getAllOrders,
   getUserIdByOrderId,
+  getCartByUserId,
 };
