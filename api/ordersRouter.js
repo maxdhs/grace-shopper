@@ -3,25 +3,15 @@ const {
   getOrderById,
   createOrder,
   destroyOrder,
-  getUserIdByOrderId,
   updateOrder,
 } = require("../db/orders");
-const {
-  addProductToOrder,
-  getOrderProductsById,
-} = require("../db/order_products");
-const { getProductById } = require("../db/products");
-const { getUser } = require("../db/users");
+
 const requireUser = require("./utils").default;
 const client = require("../db/index");
 const ordersRouter = express.Router();
 
-// ordersRouter.use("/", (req, res, next) => {
-//   res.send("Order router working");
-//   next();
-// });
-
 // Get a specific order
+// Tested with postman and is working
 ordersRouter.get("/:ordersId", async (req, res, next) => {
   const { ordersId } = req.params;
   const order = await getOrderById(ordersId);
@@ -29,6 +19,7 @@ ordersRouter.get("/:ordersId", async (req, res, next) => {
 });
 
 // Create a new order (with the first product added)
+// Tested with postman and is working
 ordersRouter.post("/", async (req, res, next) => {
   const { userId, productId, isPurchased } = req.body;
   try {
@@ -40,6 +31,7 @@ ordersRouter.post("/", async (req, res, next) => {
 });
 
 // Delete an existing order
+// Tested with postman and is working
 ordersRouter.delete("/:ordersId", async (req, res, next) => {
   const { ordersId: id } = req.params;
 
@@ -52,6 +44,7 @@ ordersRouter.delete("/:ordersId", async (req, res, next) => {
 });
 
 // Update an existing order
+// Tested with postman and is working
 ordersRouter.patch("/:ordersId", async (req, res, next) => {
   const { count } = req.body;
   const { ordersId: id } = req.params;
@@ -66,10 +59,11 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 });
 
 // Add a product to an order
+// Tested with postman and is working
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
-  // console.log(tempOrderId);
+
   try {
     if (tempOrderId === orderId) {
       console.log("order dupe");

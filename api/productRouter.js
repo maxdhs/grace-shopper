@@ -1,7 +1,4 @@
 const express = require("express");
-// const { user } = require("pg/lib/defaults");
-const { getProducts } = require("../db/products");
-const { requireUser } = require("./utils");
 
 const {
   getAllProducts,
@@ -11,7 +8,6 @@ const {
   updateProduct,
 } = require("../db/products.js");
 const client = require("../db/index");
-
 const productRouter = express.Router();
 productRouter.use(express.json());
 
@@ -34,7 +30,7 @@ productRouter.get("/:productId", async (req, res) => {
   res.send({ product });
 });
 
-//create
+//create a product - admin only
 // Tested with postman and is working
 productRouter.post("/", async (req, res, next) => {
   const { title, designer, description, price, category, inventoryQuantity } =
@@ -61,7 +57,7 @@ productRouter.post("/", async (req, res, next) => {
   }
 });
 
-//update
+// update a product - admin only
 // Tested with postman and is working
 productRouter.patch("/:productId", async (req, res, next) => {
   const { productId: id } = req.params;
@@ -88,7 +84,7 @@ productRouter.patch("/:productId", async (req, res, next) => {
   }
 });
 
-//delete
+// delete a product - admin only
 // Tested with postman and is working
 productRouter.delete("/:productId", async (req, res, next) => {
   const { productId: id } = req.params;

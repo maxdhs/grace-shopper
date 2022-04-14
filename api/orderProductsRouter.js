@@ -4,34 +4,15 @@ const requireUser = require("./utils");
 
 const orderProductsRouter = express.Router();
 
-// orderProductsRouter.use("/", (req, res, next) => {
-//   res.send("Order products router working");
-//   next();
-// });
-
 const {
   getOrderProductsById,
   destroyOrderProducts,
   updateOrderProducts,
-  addProductToOrder,
 } = require("../db/order_products");
 const { getOrderById } = require("../db/orders");
-const { getProductById } = require("../db/products");
 
-// orderProductsRouter.post("/:orderId/:productId", async (req, res, next) => {
-//   const { orderId, productId } = req.params;
-//   const { count } = req.body;
-//   try {
-//     const productAddedToOrder = await addProductToOrder({
-//       orderId,
-//       count,
-//     });
-//     res.send(productAddedToOrder);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
+// Update an order_product
+// Tested with postman and is working
 orderProductsRouter.patch("/:orderProductId", async (req, res, next) => {
   const { orderProductId: id } = req.params;
   const { count } = req.body;
@@ -52,6 +33,8 @@ orderProductsRouter.patch("/:orderProductId", async (req, res, next) => {
   }
 });
 
+//Delete an order_product
+// Tested with postman and is working
 orderProductsRouter.delete("/:orderProductId", async (req, res, next) => {
   const { orderProductId: id } = req.params;
   try {

@@ -7,19 +7,17 @@ const {
   getUser,
   getUserById,
 } = require("../db/users");
-const bcrypt = require("bcrypt");
+
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const requireUser = require("./utils").default;
 
 // User register
-// Tested with Postman - is currently working
+// Tested with Postman and is working
 usersRouter.post("/register", async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
     const _user = await getUserByEmail(email);
-    // console.log(_user[0]);
     if (_user) {
       res.send({
         name: "EmailExistsError",
@@ -58,7 +56,6 @@ usersRouter.post("/login", async (req, res, next) => {
 
   try {
     const user = await getUser({ email, password });
-    // console.log(user);
 
     if (user) {
       const token = jwt.sign({ id: user.id, email }, JWT_SECRET);
@@ -77,7 +74,8 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-//
+// Get all orders for a user
+// Tested with postman and is working
 usersRouter.get("/:userId/orders", async (req, res, next) => {
   const { userId: id } = req.params;
 
