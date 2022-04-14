@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { fetchProducts } from "./api";
 import {
   Navbar,
   Home,
@@ -20,7 +21,9 @@ function App() {
   // const [token, setToken] = useState("");
   // const [userdata, setUserdata] = useState(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="App">
