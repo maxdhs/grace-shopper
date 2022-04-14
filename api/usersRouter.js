@@ -74,6 +74,18 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
+usersRouter.get("/me", async (req, res, next) => {
+  try {
+    const id = req.user.id;
+    if (id) {
+      const user = await getUserById(id);
+      res.send(user);
+    }
+  } catch (error) {
+    res.send({ error: "bad token" });
+  }
+});
+
 // Get all orders for a user
 // Tested with postman and is working
 usersRouter.get("/:userId/orders", async (req, res, next) => {

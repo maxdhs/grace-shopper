@@ -4,6 +4,8 @@ import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login_Register } from "./components/index";
 
+const API_USER = "/api/users/me";
+
 const App = () => {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState("");
@@ -31,6 +33,20 @@ const App = () => {
       }
     }
   };
+
+  async function fetchProducts() {
+    const response = await fetch("/api/products", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const info = await response.json();
+    setProducts(info);
+  }
+  useEffect(() => {
+    fetchProducts();
+    fetchUser();
+  }, [token]);
 
   return (
     <>
@@ -65,7 +81,6 @@ const App = () => {
                 />
               }
             />
-
             <Route
               exact
               path="/login"
