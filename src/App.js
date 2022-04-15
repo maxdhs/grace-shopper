@@ -2,7 +2,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login_Register, AllShoes, Navbar } from "./components/index";
+import {
+  Login_Register,
+  AllShoes,
+  Navbar,
+  SingleShoe,
+} from "./components/index";
 
 const API_USER = "/api/users/me";
 
@@ -49,27 +54,17 @@ const App = () => {
 
   return (
     <>
-      <div id="main-head">
-        <h1>Sick Kicks</h1>
-      </div>
-      {/* <div id="navbar-title">
-        <div id="links">
-          <Navbar
-            userData={userData}
-            setUserData={setUserData}
-            token={token}
-            setToken={setToken}
-          />
-        </div>
-      </div> */}
       <div id="main-section">
         <BrowserRouter>
-          <Navbar
-            userData={userData}
-            setUserData={setUserData}
-            token={token}
-            setToken={setToken}
-          />
+          <div id="links">
+            <Navbar
+              userData={userData}
+              setUserData={setUserData}
+              token={token}
+              setToken={setToken}
+            />
+          </div>
+
           <Routes>
             {/* <Route exact path="/" element={<Home userData={userData} />} /> */}
             <Route
@@ -104,6 +99,13 @@ const App = () => {
               path="/all-shoes"
               element={
                 <AllShoes products={products} fetchProducts={fetchProducts} />
+              }
+            />
+            <Route
+              exact
+              path="/:shoeId"
+              element={
+                <SingleShoe products={products} fetchProducts={fetchProducts} />
               }
             />
           </Routes>

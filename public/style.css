@@ -11,6 +11,35 @@ body > div {
   flex-direction: column;
 }
 
+#navbar {
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: center;
+  background-color: lightblue;
+  padding: 20px;
+  width: 100vw;
+}
+
+#navbar .link {
+  padding: 25px;
+  margin-bottom: 10px;
+  font-size: large;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-family: "Bebas Neue", "monospace";
+  font-size: 1.5rem;
+}
+
+#links {
+  margin: auto;
+}
+
+#nav-title {
+  text-align: center;
+  padding-bottom: 20px;
+  font-family: "Bebas Neue", "monospace";
+}
+
 #main-section {
   display: flex;
   flex-direction: column;
@@ -47,4 +76,19 @@ body > div {
 #image {
   width: 12rem;
   height: 12rem;
+}
+
+.singleView {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 50vw;
+  margin-top: 50px;
+}
+
+.single-text {
+  text-align: center;
+  margin: 10px;
 }

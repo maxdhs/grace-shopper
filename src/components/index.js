@@ -8,3 +8,4 @@ export { default as Home } from "./Home";
 export { default as Navbar } from "./Navbar";
 export { default as Sandals } from "./Sandals";
 export { default as Sneakers } from "./Sneakers";
+export { default as SingleShoe } from "./SingleShoe";
