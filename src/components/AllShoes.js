@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const AllShoes = ({ products, fetchProducts }) => {
   const [search, setSearch] = useState("");
@@ -48,7 +49,9 @@ const AllShoes = ({ products, fetchProducts }) => {
           {productsToDisplay.map((product) => {
             return (
               <div key={product.id} className="productView">
-                <h2 className="product-text">{product.title}</h2>
+                <h2 className="product-text">
+                  <Link to={`/${product.id}`}>{product.title}</Link>
+                </h2>
                 <img className="product-text" id="image" src={product.image} />
                 <h4 className="product-text">{product.designer}</h4>
                 <h4 className="product-text">{product.description}</h4>
