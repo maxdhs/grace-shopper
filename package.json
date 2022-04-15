@@ -4,7 +4,7 @@
   "description": "1. Create a .env file in the root directory with the below info replacing any values that have changed:",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "react": "react-scripts start",
     "build": "react-scripts build",
     "seed": "node db/seed",
@@ -23,6 +23,7 @@
     "express": "^4.17.3",
     "json": "^11.0.0",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
     "react": "^18.0.0",
