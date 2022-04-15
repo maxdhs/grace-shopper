@@ -7,6 +7,7 @@ import {
   AllShoes,
   Navbar,
   SingleShoe,
+  Home
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -66,7 +67,9 @@ const App = () => {
           </div>
 
           <Routes>
-            {/* <Route exact path="/" element={<Home userData={userData} />} /> */}
+          <Route exact path="/" element={
+          <Home />}>
+        </Route>
             <Route
               exact
               path="/register"
