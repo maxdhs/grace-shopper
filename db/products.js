@@ -1,136 +1,175 @@
+const { client } = require('.');
 
-const { client } = require(".");
-
-const createProduct = async({
+const createProduct = async ({
   title,
   price,
   category,
   description,
-  inventory
+  inventory,
+  imgURL,
 }) => {
   try {
-    const {rows: newProduct} = await client.query(`
-      INSERT INTO products(title, price, category, description, inventory)
-      VALUES ($1, $2, $3, $4, $5)
+    const { rows: newProduct } = await client.query(
+      `
+      INSERT INTO products(title, price, category, description, inventory, "imgURL")
+      VALUES ($1, $2, $3, $4, $5,$6)
       RETURNING *;
-    `,[title, price, category.toLowerCase(), description, inventory]);
+    `,
+      [title, price, category.toLowerCase(), description, inventory, imgURL]
+    );
     return newProduct;
   } catch (error) {
-    console.error("here is the product error",error)
+    console.error('here is the product error', error);
     throw error;
   }
-}
+};
 
-const getProducts = async() => {
+const getProducts = async () => {
   try {
-    const {rows: products} = await client.query(`
+    const { rows: products } = await client.query(`
       SELECT * FROM products;
     `);
     return products;
-
   } catch (error) {
     throw error;
   }
 };
 
-
-const getProductById = async(id) => {
+const getProductById = async (id) => {
   try {
-    const {rows: product} = await client.query(`
+    const { rows: product } = await client.query(
+      `
       SELECT * FROM products
       WHERE id = $1
-    `,[id])
+    `,
+      [id]
+    );
     return product;
-
   } catch (error) {
     throw error;
   }
 };
 
-const getProductByCategory = async(category) => {
+const getProductByCategory = async (category) => {
   try {
-    const {rows: product} = await client.query(`
+    const { rows: product } = await client.query(
+      `
       SELECT * FROM products
       WHERE category = $1
-    `,[category])
+    `,
+      [category]
+    );
     return product;
   } catch (error) {
     throw error;
   }
 };
 
-const editProduct = async({
+const editProduct = async (
   id,
   title,
   price,
   category,
   description,
-  inventory
-}) => {
+  inventory,
+  imgURL
+) => {
   try {
-    if(title) {
-      client.query(`
+    if (title) {
+      client.query(
+        `
         UPDATE products
         SET title = $1
         WHERE id = $2;
-      `,[title, id])
+      `,
+        [title, id]
+      );
     }
-    if(price) {
-      client.query(`
+    if (price) {
+      client.query(
+        `
       UPDATE products
       SET price = $1
       WHERE id = $2;
-    `,[price, id])
+    `,
+        [price, id]
+      );
     }
-    if(category) {
-      client.query(`
+    if (category) {
+      client.query(
+        `
       UPDATE products
       SET category = $1
       WHERE id = $2;
-    `,[category, id])
+    `,
+        [category, id]
+      );
     }
-    if(description) {
-      client.query(`
+    if (description) {
+      client.query(
+        `
       UPDATE products
       SET description = $1
       WHERE id = $2;
-    `,[description, id])
+    `,
+        [description, id]
+      );
     }
-    if(inventory) {
-      client.query(`
+    if (inventory) {
+      client.query(
+        `
       UPDATE products
       SET inventory = $1
       WHERE id = $2;
-    `,[inventory, id])
+    `,
+        [inventory, id]
+      );
     }
-    const {rows: product} = await client.query(`
+    if (imgURL) {
+      client.query(
+        `
+      UPDATE products
+      SET "imgURL" = $1
+      WHERE id = $2;
+      `,
+        [imgURL, id]
+      );
+    }
+    const { rows: product } = await client.query(
+      `
       SELECT * FROM products
       WHERE id = $1
-    `,[id]);
+    `,
+      [id]
+    );
     return product;
   } catch (error) {
     throw error;
   }
 };
 
-const destroyProduct = async(id) => {
+const destroyProduct = async (id) => {
   try {
-    const {rows: [product]} = await client.query(`
+    const {
+      rows: [product],
+    } = await client.query(
+      `
       DELETE FROM products
       WHERE id = $1;
-    `,[id]);
+    `,
+      [id]
+    );
     return product;
   } catch (error) {
     throw error;
   }
-}
-
+};
 
 module.exports = {
   getProducts,
   createProduct,
   getProductById,
   getProductByCategory,
-  editProduct,  
-  destroyProduct
+  editProduct,
+  destroyProduct,
 };
