@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import logo from "../logo/Sick kicks copy.png";
 
-const Navbar = ({ setToken, userData, setUserData }) => {
+const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
   return (
     <>
       <div id="navbar">
-        <h1 id="nav-title">Sick Kicks</h1>
+        <img id="nav-title" src={logo}></img>
         <div id="links">
           <Link className="link" to="/">
             Home
@@ -24,11 +25,12 @@ const Navbar = ({ setToken, userData, setUserData }) => {
           <Link className="link" to="/sneakers">
             Sneakers
           </Link>
-          {userData ? (
-            <Link className="link" to="/my-orders">
-              My Orders
+          {cartInfo ? (
+            <Link className="link" to={`/cart/${cartInfo.id}`}>
+              Cart
             </Link>
-          ) : (
+          ) : null}
+          {userData ? null : (
             <Link className="link" to="/register">
               Register
             </Link>

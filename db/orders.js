@@ -20,27 +20,32 @@ async function createOrder({ userId, productId, isPurchased }) {
 }
 
 async function getAllOrders() {
-  const { rows: orders } = await client.query(`
-      SELECT orders.*, users.email FROM orders
-      JOIN users ON users.id = orders."userId";
-      `);
-
-  for (const order of orders) {
-    const { rows: products } = await client.query(
-      `
-    SELECT products.*,
-    order_products.id AS "orderProductId",
-    order_products.count FROM products
-    JOIN order_products ON products.id = order_products."productId"
-    WHERE order_products."orderId" = $1;
-    `,
-      [order.id]
-    );
-    order.products = products;
-  }
-  //   console.log(orders);
+  const { rows: orders } = await client.query(`SELECT * FROM orders;`);
   return orders;
 }
+
+// async function getAllOrders() {
+//   const { rows: orders } = await client.query(`
+//       SELECT orders.*, users.email FROM orders
+//       JOIN users ON users.id = orders."userId";
+//       `);
+
+//   for (const order of orders) {
+//     const { rows: products } = await client.query(
+//       `
+//     SELECT products.*,
+//     order_products.id AS "orderProductId",
+//     order_products.count FROM products
+//     JOIN order_products ON products.id = order_products."productId"
+//     WHERE order_products."orderId" = $1;
+//     `,
+//       [order.id]
+//     );
+//     order.products = products;
+//   }
+//   //   console.log(orders);
+//   return orders;
+// }
 
 async function getOrdersByUser(id) {
   try {

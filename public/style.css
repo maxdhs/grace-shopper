@@ -1,74 +1,66 @@
 * {
-    font-family: monospace;
+  font-family: "monospace";
+  margin: 0;
+  box-sizing: border-box;
 }
 /* home animation */
 .backgroundhome {
-    
-    background-color: white;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow:hidden;
-
+  background-color: white;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-section{
-    
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: purple;
-    display: flex;
-    flex-direction: column;
-    overflow:hidden;
+section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: purple;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-section  {
-position: relative;
+section {
+  position: relative;
 
-top: -30%;
-left: -20%;
-width: 1900px;
+  top: -30%;
+  left: -20%;
+  width: 1900px;
 
-display: flex;
-/* padding: 10px 0; */
-white-space: normal;
+  display: flex;
+  /* padding: 10px 0; */
+  white-space: normal;
 
-transform: rotate(-30deg) ;
-
+  transform: rotate(-30deg);
 }
 
-.row1{
-animation: animate1 20s linear infinite;
-animation-delay: -80%;
+.row1 {
+  animation: animate1 20s linear infinite;
+  animation-delay: -80%;
 }
-@keyframes animate1
-{
-   0%
-   {
-       transform: translateX(70%);
-   } 
-   100%
-   {
-       transform: translateX(-50%)
-   }
+@keyframes animate1 {
+  0% {
+    transform: translateX(70%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
-.row2{
-    animation: animate2 20s linear infinite;
-    animation-delay: -80%;
-    }
-    @keyframes animate2
-    {
-       0%
-       {
-           transform: translateX(-50%);
-       } 
-       100%
-       {
-           transform: translateX(70%)
-       }
-    }
-  
+.row2 {
+  animation: animate2 20s linear infinite;
+  animation-delay: -80%;
+}
+@keyframes animate2 {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(70%);
+  }
+}
+
 /* home animation end  */
 body,
 body > div {
@@ -82,7 +74,7 @@ body > div {
   display: flex;
   flex-flow: nowrap column;
   justify-content: center;
-  background-color: lightblue;
+  /* background-color: lightblue; */
   padding: 20px;
   width: 100vw;
 }
@@ -102,9 +94,10 @@ body > div {
 }
 
 #nav-title {
-  text-align: center;
-  padding-bottom: 20px;
+  width: 10rem;
+  height: 10rem;
   font-family: "Bebas Neue", "monospace";
+  align-self: center;
 }
 
 #main-section {
@@ -116,28 +109,54 @@ body > div {
   text-align: center;
 }
 
+.page-title > h1 {
+  font-family: "Bebas Neue", "monospace";
+  margin-top: 30px;
+}
+
+#navbar > #links :hover {
+  font-size: 25px;
+  font-size-adjust: 20px;
+}
+
+#navbar > #links {
+  font-weight: bold;
+  font-size: 1em;
+  transition: all 500ms;
+}
 .textInput {
   text-align: center;
 }
 
 #products {
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
 }
 
 #search {
   justify-self: center;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-flow: column wrap;
+  width: 50%;
 }
 .productView {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 33vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-text {
+  font-family: "Bebas Neue", "monospace";
   width: 33vw;
-  padding: 20px;
+  text-align: center;
+}
+
+.product-text > a {
+  text-decoration: none;
+  color: black;
 }
 
 #image {
@@ -158,4 +177,35 @@ body > div {
 .single-text {
   text-align: center;
   margin: 10px;
+  font-family: "Bebas Neue", "monospace";
+}
+
+.main-login {
+  text-align: center;
+  margin-top: 50px;
+}
+.sign-in,
+#search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sign-in-box {
+  width: 200px;
+  margin: 10px auto 10px auto;
+  text-align: center;
+}
+
+#add-button,
+#search > input {
+  width: 50%;
+  background-color: transparent;
+  border: 2px solid black;
+
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  text-transform: uppercase;
 }

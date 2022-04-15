@@ -4,11 +4,17 @@ const {
   createOrder,
   destroyOrder,
   updateOrder,
+  getAllOrders,
 } = require("../db/orders");
 
 const requireUser = require("./utils").default;
 const client = require("../db/index");
 const ordersRouter = express.Router();
+
+ordersRouter.get("/", async (req, res, next) => {
+  const orders = await getAllOrders();
+  res.send({ orders });
+});
 
 // Get a specific order
 // Tested with postman and is working
