@@ -1,6 +1,7 @@
 * {
   font-family: "monospace";
   margin: 0;
+  box-sizing: border-box;
 }
 
 body,
@@ -15,7 +16,7 @@ body > div {
   display: flex;
   flex-flow: nowrap column;
   justify-content: center;
-  background-color: lightblue;
+  /* background-color: lightblue; */
   padding: 20px;
   width: 100vw;
 }
@@ -35,9 +36,10 @@ body > div {
 }
 
 #nav-title {
-  text-align: center;
-  padding-bottom: 20px;
+  width: 10rem;
+  height: 10rem;
   font-family: "Bebas Neue", "monospace";
+  align-self: center;
 }
 
 #main-section {
@@ -49,28 +51,54 @@ body > div {
   text-align: center;
 }
 
+.page-title > h1 {
+  font-family: "Bebas Neue", "monospace";
+  margin-top: 30px;
+}
+
+#navbar > #links :hover {
+  font-size: 25px;
+  font-size-adjust: 20px;
+}
+
+#navbar > #links {
+  font-weight: bold;
+  font-size: 1em;
+  transition: all 500ms;
+}
 .textInput {
   text-align: center;
 }
 
 #products {
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
 }
 
 #search {
   justify-self: center;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-flow: column wrap;
+  width: 50%;
 }
 .productView {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 33vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-text {
+  font-family: "Bebas Neue", "monospace";
   width: 33vw;
-  padding: 20px;
+  text-align: center;
+}
+
+.product-text > a {
+  text-decoration: none;
+  color: black;
 }
 
 #image {
@@ -91,4 +119,35 @@ body > div {
 .single-text {
   text-align: center;
   margin: 10px;
+  font-family: "Bebas Neue", "monospace";
+}
+
+.main-login {
+  text-align: center;
+  margin-top: 50px;
+}
+.sign-in,
+#search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sign-in-box {
+  width: 200px;
+  margin: 10px auto 10px auto;
+  text-align: center;
+}
+
+#add-button,
+#search > input {
+  width: 50%;
+  background-color: transparent;
+  border: 2px solid black;
+
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  text-transform: uppercase;
 }

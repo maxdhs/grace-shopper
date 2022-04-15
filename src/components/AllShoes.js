@@ -46,21 +46,21 @@ const AllShoes = ({ products, fetchProducts }) => {
             }}
             placeholder="Search Shoes"
           ></input>
-          {productsToDisplay.map((product) => {
-            return (
-              <div key={product.id} className="productView">
-                <h2 className="product-text">
-                  <Link to={`/${product.id}`}>{product.title}</Link>
-                </h2>
-                <img className="product-text" id="image" src={product.image} />
-                <h4 className="product-text">{product.designer}</h4>
-                <h4 className="product-text">{product.description}</h4>
-                <h4 className="product-text">${product.price}</h4>
-                <h4 className="product-text">Inventory: {product.count}</h4>
-              </div>
-            );
-          })}
         </div>
+        {productsToDisplay.map((product) => {
+          return (
+            <div key={product.id} className="productView">
+              <h2 className="product-text">
+                <Link to={`/${product.id}`}>{product.title}</Link>
+              </h2>
+              <img className="product-text" id="image" src={product.image} />
+              <h4 className="product-text">{product.designer}</h4>
+              {/* <h4 className="product-text">{product.description}</h4> */}
+              <h4 className="product-text">${product.price}</h4>
+              {/* <h4 className="product-text">Inventory: {product.count}</h4> */}
+            </div>
+          );
+        })}
       </div>
     </>
   );
