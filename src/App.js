@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login_Register } from "./components/index";
+import { Login_Register, AllShoes, Navbar } from "./components/index";
 
 const API_USER = "/api/users/me";
 
@@ -11,7 +11,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const [order, setOrder] = useState("");
-  const [products, setProducts] = useState("");
+  const [products, setProducts] = useState([]);
   const [email, setEmail] = useState("");
 
   const fetchUser = async () => {
@@ -35,36 +35,41 @@ const App = () => {
   };
 
   async function fetchProducts() {
-    const response = await fetch("/api/products", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch("/api/products", {});
     const info = await response.json();
-    setProducts(info);
+    setProducts(info.products);
   }
+
   useEffect(() => {
     fetchProducts();
     fetchUser();
   }, [token]);
+
+  console.log(products);
 
   return (
     <>
       <div id="main-head">
         <h1>Sick Kicks</h1>
       </div>
-      <div id="navbar-title">
+      {/* <div id="navbar-title">
         <div id="links">
-          {/* <Navbar
+          <Navbar
             userData={userData}
             setUserData={setUserData}
             token={token}
             setToken={setToken}
-          /> */}
+          />
         </div>
-      </div>
+      </div> */}
       <div id="main-section">
         <BrowserRouter>
+          <Navbar
+            userData={userData}
+            setUserData={setUserData}
+            token={token}
+            setToken={setToken}
+          />
           <Routes>
             {/* <Route exact path="/" element={<Home userData={userData} />} /> */}
             <Route
@@ -92,6 +97,13 @@ const App = () => {
                   setError={setError}
                   setUserData={setUserData}
                 />
+              }
+            />
+            <Route
+              exact
+              path="/all-shoes"
+              element={
+                <AllShoes products={products} fetchProducts={fetchProducts} />
               }
             />
           </Routes>
