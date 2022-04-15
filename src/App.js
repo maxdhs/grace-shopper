@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login_Register } from "./components/index";
+import { Login_Register, Home } from "./components/index";
+
 
 const API_USER = "/api/users/me";
 
@@ -66,7 +67,9 @@ const App = () => {
       <div id="main-section">
         <BrowserRouter>
           <Routes>
-            {/* <Route exact path="/" element={<Home userData={userData} />} /> */}
+          <Route exact path="/" element={
+          <Home />}>
+        </Route>
             <Route
               exact
               path="/register"

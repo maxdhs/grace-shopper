@@ -1,3 +1,56 @@
 * {
     font-family: monospace;
 }
+
+section, .backgroundhome {
+    
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: purple;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+section .row {
+position: relative;
+
+width: 100%;
+display: flex;
+padding: 10px 0;
+white-space: normal;
+
+transform: rotate(-30deg) ;
+
+}
+
+section .row div{
+animation: animate1 40s linear infinite;
+animation-delay: 0%;
+}
+@keyframes animate1
+{
+   0%
+   {
+       transform: translateX(100%);
+   } 
+   100%
+   {
+       transform: translateX(0%)
+   }
+}
+section .row div:nth-child(2){
+    animation: animate2 400s linear infinite;
+    animation-delay: 0%;
+    }
+    @keyframes animate2
+    {
+       0%
+       {
+           transform: translateX(200%);
+       } 
+       100%
+       {
+           transform: translateX(0%)
+       }
+    }
