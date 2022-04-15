@@ -2,7 +2,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login_Register } from "./components/index";
+import {
+  Login_Register,
+  Boots,
+  Heels,
+  Sandals,
+  Sneakers,
+} from "./components/index";
+// import Boots from "./components/Boots";
 
 const API_USER = "/api/users/me";
 
@@ -11,7 +18,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const [order, setOrder] = useState("");
-  const [products, setProducts] = useState("");
+  const [products, setProducts] = useState([]);
   const [email, setEmail] = useState("");
 
   const fetchUser = async () => {
@@ -35,19 +42,15 @@ const App = () => {
   };
 
   async function fetchProducts() {
-    const response = await fetch("/api/products", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch("/api/products");
     const info = await response.json();
-    setProducts(info);
+    setProducts(info.products);
   }
   useEffect(() => {
     fetchProducts();
     fetchUser();
   }, [token]);
-
+  // console.log(products);
   return (
     <>
       <div id="main-head">
@@ -96,10 +99,30 @@ const App = () => {
             />
             {/* <Route exact path="/" element={<Home />} /> */}
             {/* <Route exact path="/allshoes" element={<AllShoes />} /> */}
-            {/* <Route exact path="/boots" element={<Boots />} /> */}
-            {/* <Route exact path="/heels" element={<Heels />} /> */}
-            {/* <Route exact path="/sandals" element={<Sandals />} /> */}
-            {/* <Route exact path="/sneakers" element={<Sneakers />} /> */}
+            <Route
+              exact
+              path="/boots/*"
+              element={<Boots products={products} setProducts={setProducts} />}
+            />
+            <Route
+              exact
+              path="/heels"
+              element={<Heels products={products} setProducts={setProducts} />}
+            />
+            <Route
+              exact
+              path="/sandals"
+              element={
+                <Sandals products={products} setProducts={setProducts} />
+              }
+            />
+            <Route
+              exact
+              path="/sneakers"
+              element={
+                <Sneakers products={products} setProducts={setProducts} />
+              }
+            />
             {/* <Route exact path="/cart" element={<Cart />} /> */}
             {/* <Route exact path="/admin" element={<Admin />} /> */}
           </Routes>
