@@ -8,7 +8,11 @@ import {
   AllShoes,
   Navbar,
   SingleShoe,
+<<<<<<< HEAD
   Cart,
+=======
+  Home
+>>>>>>> 18ac2b39af08d57b399ba7c1b41b8d8f1db2e519
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -80,7 +84,9 @@ const App = () => {
           </div>
 
           <Routes>
-            {/* <Route exact path="/" element={<Home userData={userData} />} /> */}
+          <Route exact path="/" element={
+          <Home />}>
+        </Route>
             <Route
               exact
               path="/register"
