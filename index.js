@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 3001;
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const apiRouter = require("./api");
+const morgan = require("morgan");
 
 const client = require("./db/index");
 const { getCartByUserId } = require("./db/orders");
@@ -12,6 +13,8 @@ const { getUserById } = require("./db/users");
 const app = express();
 // app.use(express.json());
 // app.use("/api", apiRouter);
+
+app.use(morgan("dev"));
 
 app.use(express.json());
 
