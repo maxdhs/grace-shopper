@@ -24,9 +24,18 @@ const Womens = ({ setProducts, products }) => {
 							return (
 								<div key={id} className=" womens-details">
 									<p> {title}</p>
+
 									<p>{description} </p>
-									<p>{price}</p>
-									<p>{inventory}</p>
+
+									<p>
+										<span className="price">Price: ${price} </span>
+									</p>
+
+									<p>
+										<span className="inventory">In Stock: </span>
+										{inventory}
+									</p>
+
 									<img src={imgURL} width="100" />
 								</div>
 							);

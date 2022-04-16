@@ -23,7 +23,6 @@ function App() {
 
 	useEffect(() => {
 		try {
-			// setProducts(fetchProducts());
 			fetchProducts().then((product) => {
 				setProducts(product);
 			});

@@ -9,27 +9,26 @@ const Mens = ({ setProducts, products }) => {
 			<div>
 				{products
 					.filter((product) => product.category == "mens")
-					.map(
-						({
-							category,
-							description,
-							inventory,
-							price,
-							id,
-							title,
-							imgURL,
-						}) => {
-							return (
-								<div key={id} className=" mens-details">
-									<p> {title}</p>
-									<p>{description} </p>
-									<p>{price}</p>
-									<p>{inventory}</p>
-									<img src={imgURL} width="100" />
-								</div>
-							);
-						}
-					)}
+					.map(({ description, inventory, price, id, title, imgURL }) => {
+						return (
+							<div key={id} className=" mens-details">
+								<p> {title}</p>
+
+								<p>{description} </p>
+
+								<p>
+									<span className="price">Price: ${price} </span>
+								</p>
+
+								<p>
+									<span className="inventory">In Stock: </span>
+									{inventory}
+								</p>
+
+								<img src={imgURL} width="100" />
+							</div>
+						);
+					})}
 			</div>
 		</>
 	);

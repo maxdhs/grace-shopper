@@ -16,3 +16,8 @@
 	padding: 10px;
 	box-shadow: 5px 10px rgb(213, 210, 232);
 }
+
+.price {
+	font-weight: bold;
+	font-size: 17px;
+}

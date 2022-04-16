@@ -11,14 +11,24 @@ const Accessories = ({ setProducts, products }) => {
 				{products
 					.filter((product) => product.category == "accessories")
 
-					.map(({ category, description, inventory, price, id, title }) => {
+					.map(({ description, inventory, price, id, title }) => {
 						console.log("accessories", products);
 						return (
 							<div key={id} className=" accessories-details">
 								<p> {title}</p>
+
 								<p>{description} </p>
-								<p>{price}</p>
-								<p>{inventory}</p>
+
+								<p>
+									<span className="price">Price: ${price}</span>
+								</p>
+
+								<p>
+									<span className="inventory">In Stock: </span>
+									{inventory}
+								</p>
+
+								<img src={imgURL} width="100" />
 							</div>
 						);
 					})}
