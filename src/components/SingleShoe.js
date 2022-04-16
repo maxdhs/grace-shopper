@@ -15,10 +15,10 @@ const SingleShoe = ({
   const id = useParams();
   const [count, setCount] = useState("");
   const shoe = products.filter((product) => id.shoeId == product.id);
-  console.log(shoe);
+  //   console.log(shoe);
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [orderProductId, setOrderProductId] = useState("");
-  console.log(orderInfo);
+  //   console.log(orderInfo);
 
   const [product, setProduct] = useState("any");
   const [productId, setProductId] = useState("");
