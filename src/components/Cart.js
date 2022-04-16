@@ -14,14 +14,12 @@ const Cart = ({
   products,
   count,
 }) => {
-  const lsToken = localStorage.getItem("token");
-
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+  console.log(count);
   const [orderProductId, setOrderProductId] = useState("");
   const lsOrderId = localStorage.getItem("orderId");
-  console.log(lsOrderId);
-  console.log(orderProducts);
+  //   console.log(lsOrderId);
+  //   console.log(orderProducts);
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
@@ -31,30 +29,35 @@ const Cart = ({
     const productId = orderProduct[i].productId;
     productArr.push(productId);
   }
-  console.log(productArr);
-  console.log(products);
+  //   console.log(productArr);
+  //   console.log(products);
+
   let finalProducts = [];
   for (let j = 0; j < productArr.length; j++) {
     let product = productArr[j];
-    console.log(product);
+    // console.log(product);
     for (let l = 0; l < products.length; l++) {
       let product1 = products[l];
-      console.log(product1);
+      //   console.log(product1);
       if (product === product1.id) {
         finalProducts.push(product1);
       }
     }
-    console.log(finalProducts);
+    // console.log(finalProducts);
   }
 
-  console.log(orderProduct);
+  //   console.log(orderProduct);
 
-  const fetchCart = async () => {
-    const response = await fetch(`/api/orders/${lsOrderId}`);
-    const info = await response.json();
-    console.log(info);
-    setCartInfo(info);
-  };
+  //   const fetchCart = async () => {
+  //     try {
+  //       const response = await fetch(`/api/orders/${lsOrderId}`);
+  //       const info = await response.json();
+  //       console.log(info);
+  //       setCartInfo(info);
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   };
 
   //   const handleProductDelete = async (id) => {
   //     const response = await fetch(`${API_ORDERPRODUCTS}/${orderProductId}`, {
@@ -92,7 +95,7 @@ const Cart = ({
   //   };
 
   useEffect(() => {
-    fetchCart();
+    // fetchCart();
     fetchOrderProducts();
     setOrderProductId(orderProduct.id);
   }, []);
@@ -114,16 +117,16 @@ const Cart = ({
                       id="image"
                       src={product.image}
                     />
-                    <h4 className="product-designer">"{product.designer}"</h4>
-                    <h5 className="product-price">By: ${product.price}</h5>
-                    <h5 className="product-count">By: {product.count}</h5>
+                    <h4 className="product-designer">{product.designer}</h4>
+                    <h5 className="product-price">${product.price}</h5>
+
                     <select
                       value={count}
                       onChange={(event) => {
                         setCount(event.target.value);
                       }}
                     >
-                      <option value="any">Quantity</option>
+                      <option value="any">{count}</option>
                       {quantity.map((num, index) => {
                         return (
                           <>

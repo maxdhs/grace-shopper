@@ -1,8 +1,12 @@
 const client = require("./index");
 
 const getAllOrderProducts = async () => {
-  const order_products = await client.query(`SELECT * FROM order_products;`);
-  return order_products.rows;
+  try {
+    const order_products = await client.query(`SELECT * FROM order_products;`);
+    return order_products.rows;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const getOrderProductsById = async (id) => {
