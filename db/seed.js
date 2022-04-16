@@ -11,6 +11,7 @@ const dropTables = async () => {
   DROP TABLE IF EXISTS order_products;
   DROP TABLE IF EXISTS orders;
   DROP TABLE IF EXISTS products;
+  DROP TABLE IF EXISTS guests;
   DROP TABLE IF EXISTS users;
   `);
   console.log("done dropping tables");
@@ -22,6 +23,7 @@ const createTables = async () => {
       email VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
       "isAdmin" BOOLEAN DEFAULT false);
+    CREATE TABLE guests(id SERIAL PRIMARY KEY);
     CREATE TABLE products(id SERIAL PRIMARY KEY,
       title VARCHAR(255) UNIQUE NOT NULL,
       designer VARCHAR(255) NOT NULL,
@@ -32,7 +34,6 @@ const createTables = async () => {
       count INTEGER NOT NULL);
     CREATE TABLE orders(id SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
-      "productId" INTEGER REFERENCES products(id),
       "isPurchased" BOOLEAN DEFAULT false);
     CREATE TABLE order_products(id SERIAL PRIMARY KEY,
       count INTEGER NOT NULL, 
@@ -61,9 +62,9 @@ async function createInitialUsers() {
 async function createInitialOrders() {
   try {
     const ordersToCreate = [
-      { userId: 1, productId: 2, isPurchased: true },
-      { userId: 1, productId: 3, isPurchased: false },
-      { userId: 2, productId: 2, isPurchased: true },
+      { userId: 1, isPurchased: true },
+      { userId: 2, isPurchased: false },
+      { userId: 3, isPurchased: true },
     ];
     const users = await Promise.all(ordersToCreate.map(createOrder));
     console.log("done making orders");
@@ -126,7 +127,7 @@ const createInitialProducts = async () => {
         description:
           "The iconic sandal with a cult following, the Miller is loved for its timeless style and exceptional comfort with a smooth leather toe post",
         price: 228,
-        category: "sandals",
+        category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/798678c1-7ee0-4be8-aff1-7df8e47c0fda.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
         count: 10,
@@ -137,7 +138,7 @@ const createInitialProducts = async () => {
         description:
           "An espadrille-style platform brings earthy texture and summery style to a breezy sandal",
         price: 74,
-        category: "sandals",
+        category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/b13e3bf8-2b34-4d63-857d-1e1f9fcf36aa.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
         count: 10,
@@ -147,7 +148,7 @@ const createInitialProducts = async () => {
         designer: "Birkenstock",
         description: "this is a shoe",
         price: 10,
-        category: "sneakers",
+        category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/e693ede9-4162-4a12-9789-3d9dcd74f843.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
         count: 10,

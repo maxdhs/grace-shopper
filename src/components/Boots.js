@@ -10,26 +10,23 @@ const Boots = ({ products, setProducts }) => {
 
   return (
     <>
-      <Routes>
-        <Route
-          exact
-          path="singleshoe/:id"
-          element={<SingleShoe products={products} />}
-        />
-      </Routes>
-
-      <h1>Boots</h1>
-      {filteredProducts.map((product) => (
-        <div key={product.id}>
-          <h2>{product.title}</h2>
-          <img src={product.image} />
-          <h4>{product.designer}</h4>
-          <h4>{product.description}</h4>
-          <h4>${product.price}</h4>
-          <h4>Inventory: {product.count}</h4>
-          <Link to={`SingleShoe/${product.id}`}>See More Details</Link>
-        </div>
-      ))}
+      <div className="page-title">
+        <h1>Boots</h1>
+      </div>
+      <div id="products">
+        {filteredProducts.map((product) => (
+          <div key={product.id} className="productView">
+            <h2 className="product-text">
+              <Link to={`/${product.id}`}>{product.title}</Link>
+            </h2>
+            <img className="product-text" id="image" src={product.image} />
+            <h3 className="product-text">{product.designer}</h3>
+            {/* <h4 className="product-text">{product.description}</h4> */}
+            <h3 className="product-text">${product.price}</h3>
+            {/* <h4 className="product-text">Inventory: {product.count}</h4> */}
+          </div>
+        ))}
+      </div>
     </>
   );
 };

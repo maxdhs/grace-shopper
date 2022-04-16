@@ -1,4 +1,4 @@
-export { default as Login_Register } from "./Login_Register";
+export { default as Register } from "./Register";
 export { default as Admin } from "./Admin";
 export { default as AllShoes } from "./AllShoes";
 export { default as Boots } from "./Boots";
@@ -8,3 +8,5 @@ export { default as Home } from "./Home";
 export { default as Navbar } from "./Navbar";
 export { default as Sandals } from "./Sandals";
 export { default as Sneakers } from "./Sneakers";
+export { default as SingleShoe } from "./SingleShoe";
+export { default as Login } from "./Login";

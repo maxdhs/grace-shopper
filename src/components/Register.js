@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const API_LOGIN = "/api/users/login";
 const API_REGISTER = "/api/users/register";
 
-const Login_Register = ({ setToken, action, error, setError }) => {
+const Register = ({ setToken, action, error, setError }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -23,7 +23,7 @@ const Login_Register = ({ setToken, action, error, setError }) => {
       setError("Passwords do not match");
     } else {
       try {
-        const response = await fetch(`${actionURL}`, {
+        const response = await fetch(`${API_REGISTER}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -34,11 +34,16 @@ const Login_Register = ({ setToken, action, error, setError }) => {
           }),
         });
         const info = await response.json();
+        console.log(info);
         if (info.error) {
           return setError(info.error);
         }
         setToken(info.token);
         localStorage.setItem("token", info.token);
+        setEmail("");
+        setPassword("");
+        setConfirm("");
+        setError("Thank you for registering!");
       } catch (error) {
         throw error;
       }
@@ -90,12 +95,12 @@ const Login_Register = ({ setToken, action, error, setError }) => {
         <p className="sign-in-box" id="error">
           {error}
         </p>
-        <Link className="sign-in-box" to={`${oppositeAction}`}>
-          Click here to {oppositeTitle}
+        <Link className="sign-in-box" to="/login">
+          Click here to Login!
         </Link>
       </form>
     </>
   );
 };
 
-export default Login_Register;
+export default Register;

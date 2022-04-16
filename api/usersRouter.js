@@ -10,6 +10,7 @@ const {
 
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const requireUser = require("./utils");
 
 // User register
 // Tested with Postman and is working
@@ -74,12 +75,12 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", async (req, res, next) => {
+usersRouter.get("/me", requireUser, async (req, res, next) => {
   try {
     const id = req.user.id;
     if (id) {
       const user = await getUserById(id);
-      res.send(user);
+      res.send({ user });
     }
   } catch (error) {
     res.send({ error: "bad token" });

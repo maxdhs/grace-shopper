@@ -4,11 +4,17 @@ const {
   createOrder,
   destroyOrder,
   updateOrder,
+  getAllOrders,
 } = require("../db/orders");
 
 const requireUser = require("./utils").default;
 const client = require("../db/index");
 const ordersRouter = express.Router();
+
+ordersRouter.get("/", async (req, res, next) => {
+  const orders = await getAllOrders();
+  res.send({ orders });
+});
 
 // Get a specific order
 // Tested with postman and is working
@@ -21,9 +27,9 @@ ordersRouter.get("/:ordersId", async (req, res, next) => {
 // Create a new order (with the first product added)
 // Tested with postman and is working
 ordersRouter.post("/", async (req, res, next) => {
-  const { userId, productId, isPurchased } = req.body;
+  const { userId } = req.body;
   try {
-    const newOrder = await createOrder({ userId, productId, isPurchased });
+    const newOrder = await createOrder({ userId });
     res.send(newOrder);
   } catch (err) {
     next(err);
