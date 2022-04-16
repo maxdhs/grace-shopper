@@ -8,8 +8,14 @@ const {
   getOrderProductsById,
   destroyOrderProducts,
   updateOrderProducts,
+  getAllOrderProducts,
 } = require("../db/order_products");
 const { getOrderById } = require("../db/orders");
+
+orderProductsRouter.get("/", async (req, res, next) => {
+  const order_products = await getAllOrderProducts();
+  res.send({ order_products });
+});
 
 // Update an order_product
 // Tested with postman and is working
