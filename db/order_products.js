@@ -1,5 +1,10 @@
 const client = require("./index");
 
+const getAllOrderProducts = async () => {
+  const order_products = await client.query(`SELECT * FROM order_products;`);
+  return order_products.rows;
+};
+
 const getOrderProductsById = async (id) => {
   try {
     const {
@@ -72,4 +77,5 @@ module.exports = {
   addProductToOrder,
   destroyOrderProducts,
   updateOrderProducts,
+  getAllOrderProducts,
 };

@@ -11,6 +11,7 @@ const SingleShoe = ({
   setCartInfo,
   userId,
   orderInfo,
+  fetchOrderProducts,
 }) => {
   const id = useParams();
   const [count, setCount] = useState("");
@@ -50,6 +51,7 @@ const SingleShoe = ({
     });
     const info = await response.json();
     console.log(info);
+    fetchOrderProducts();
     if (info.error) {
       return setError(info.error);
     }

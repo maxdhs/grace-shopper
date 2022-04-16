@@ -30,6 +30,8 @@ const App = () => {
   const [cartInfo, setCartInfo] = useState([]);
   const [orders, setOrders] = useState([]);
   const [orderInfo, setOrderInfo] = useState([]);
+  const [orderProducts, setOrderProducts] = useState([]);
+  const [count, setCount] = useState("");
 
   // const fetchUser = async () => {
   //   const lsToken = localStorage.getItem("token");
@@ -54,10 +56,29 @@ const App = () => {
   //   }
   // };
 
+  const fetchOrderProducts = async () => {
+    const response = await fetch(`/api/order_products`);
+    const info = await response.json();
+    console.log(info);
+    setOrderProducts(info.order_products);
+  };
+
   async function createNewOrder() {
+    const lsOrderId = localStorage.getItem("orderId");
+    const lsOrderUserId = localStorage.getItem("orderUserId");
+    const lsOrderIsPurchased = localStorage.getItem("orderIsPurchased");
     if (!userId) {
       userId === null;
     }
+    if (lsOrderId) {
+      setOrderInfo({
+        id: lsOrderId,
+        userId: lsOrderUserId,
+        isPurchased: lsOrderIsPurchased,
+      });
+      return;
+    }
+
     const response = await fetch("/api/orders", {
       method: "POST",
       body: JSON.stringify({
@@ -66,6 +87,13 @@ const App = () => {
     });
     const info = await response.json();
     setOrderInfo(info);
+    localStorage.setItem("orderId", info.id);
+    localStorage.setItem(
+      "orderUserId",
+
+      info.userId
+    );
+    localStorage.setItem("orderIsPurchased", info.isPurchased);
   }
 
   async function fetchProducts() {
@@ -85,6 +113,7 @@ const App = () => {
     // fetchUser();
     fetchOrders();
     createNewOrder();
+    fetchOrderProducts();
   }, [token]);
   // console.log(products);
   return (
@@ -149,18 +178,24 @@ const App = () => {
                   userId={userId}
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
+                  fetchOrderProducts={fetchOrderProducts}
+                  count={count}
                 />
               }
             />
             <Route
               exact
-              path="/cart/:orderId"
+              path="/cart"
               element={
                 <Cart
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
                   orders={orders}
                   orderInfo={orderInfo}
+                  fetchOrderProducts={fetchOrderProducts}
+                  orderProducts={orderProducts}
+                  products={products}
+                  count={count}
                 />
               }
             />

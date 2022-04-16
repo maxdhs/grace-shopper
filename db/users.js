@@ -1,17 +1,28 @@
 const bcrypt = require("bcrypt");
 const client = require("./index");
 
-const createUser = async ({ email, password }) => {
+const createUser = async ({ email, password, isAdmin }) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const {
-      rows: [user],
-    } = await client.query(
-      `INSERT INTO users(email, password) VALUES ($1, $2) RETURNING *;`,
-      [email, hashedPassword]
-    );
-    delete user.password;
-    return user;
+    if (isAdmin) {
+      const {
+        rows: [user],
+      } = await client.query(
+        `INSERT INTO users(email, password, "isAdmin") VALUES ($1, $2, $3) RETURNING *;`,
+        [email, hashedPassword, isAdmin]
+      );
+      delete user.password;
+      return user;
+    } else {
+      const {
+        rows: [user],
+      } = await client.query(
+        `INSERT INTO users(email, password) VALUES ($1, $2) RETURNING *;`,
+        [email, hashedPassword]
+      );
+      delete user.password;
+      return user;
+    }
   } catch (error) {
     throw error;
   }
