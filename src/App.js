@@ -48,12 +48,14 @@ const App = () => {
   //   }
   // };
 
-  async function createBlankOrder() {
+  async function createNewOrder() {
+    if (!userId) {
+      userId === null;
+    }
     const response = await fetch("/api/orders", {
       method: "POST",
       body: JSON.stringify({
         userId,
-        isPurchased: false,
       }),
     });
     const info = await response.json();
@@ -76,10 +78,11 @@ const App = () => {
     fetchProducts();
     // fetchUser();
     fetchOrders();
-    createBlankOrder();
+    createNewOrder();
   }, [token]);
 
   console.log(userData);
+  console.log(orderInfo);
 
   return (
     <>

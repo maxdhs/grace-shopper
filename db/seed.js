@@ -34,7 +34,6 @@ const createTables = async () => {
       count INTEGER NOT NULL);
     CREATE TABLE orders(id SERIAL PRIMARY KEY,
       "userId" INTEGER REFERENCES users(id),
-      "productId" INTEGER REFERENCES products(id),
       "isPurchased" BOOLEAN DEFAULT false);
     CREATE TABLE order_products(id SERIAL PRIMARY KEY,
       count INTEGER NOT NULL, 
@@ -63,9 +62,9 @@ async function createInitialUsers() {
 async function createInitialOrders() {
   try {
     const ordersToCreate = [
-      { userId: 1, productId: 2, isPurchased: true },
-      { userId: 1, productId: 3, isPurchased: false },
-      { userId: 2, productId: 2, isPurchased: true },
+      { userId: 1, isPurchased: true },
+      { userId: 2, isPurchased: false },
+      { userId: 3, isPurchased: true },
     ];
     const users = await Promise.all(ordersToCreate.map(createOrder));
     console.log("done making orders");
