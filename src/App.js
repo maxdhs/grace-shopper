@@ -10,6 +10,10 @@ import {
   SingleShoe,
   Cart,
   Home,
+  Boots,
+  Heels,
+  Sandals,
+  Sneakers,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -18,6 +22,7 @@ const App = () => {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
+  // const [order, setOrder] = useState("");
   const [products, setProducts] = useState([]);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
@@ -99,10 +104,7 @@ const App = () => {
     fetchOrders();
     createNewOrder();
   }, [token]);
-
-  console.log(userData);
-  console.log(orderInfo);
-
+  // console.log(products);
   return (
     <>
       <div id="main-section">
@@ -180,6 +182,34 @@ const App = () => {
                 />
               }
             />
+            {/* <Route exact path="/" element={<Home />} /> */}
+            {/* <Route exact path="/allshoes" element={<AllShoes />} /> */}
+            <Route
+              exact
+              path="/boots/*"
+              element={<Boots products={products} setProducts={setProducts} />}
+            />
+            <Route
+              exact
+              path="/heels"
+              element={<Heels products={products} setProducts={setProducts} />}
+            />
+            <Route
+              exact
+              path="/sandals"
+              element={
+                <Sandals products={products} setProducts={setProducts} />
+              }
+            />
+            <Route
+              exact
+              path="/sneakers"
+              element={
+                <Sneakers products={products} setProducts={setProducts} />
+              }
+            />
+            {/* <Route exact path="/cart" element={<Cart />} /> */}
+            {/* <Route exact path="/admin" element={<Admin />} /> */}
           </Routes>
         </BrowserRouter>
       </div>

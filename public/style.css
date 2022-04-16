@@ -146,6 +146,7 @@ body > div {
   max-width: 33vw;
   align-items: center;
   justify-content: center;
+  padding: 2rem;
 }
 
 .product-text {
@@ -153,6 +154,10 @@ body > div {
   width: 33vw;
   text-align: center;
 }
+
+/* .product-text:hover {
+  font-weight: bolder;
+} */
 
 .product-text > a {
   text-decoration: none;

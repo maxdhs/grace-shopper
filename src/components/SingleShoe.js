@@ -102,12 +102,12 @@ const SingleShoe = ({
 
   return (
     <div key={shoe[0].id} className="singleView">
-      <h2 className="single-text">{shoe[0].title}</h2>
+      <h1 className="single-text">{shoe[0].title}</h1>
       <img className="single-text" id="image" src={shoe[0].image} />
-      <h4 className="single-text">{shoe[0].designer}</h4>
-      <h4 className="single-text">{shoe[0].description}</h4>
-      <h4 className="single-text">${shoe[0].price}</h4>
-      <h4 className="single-text">Inventory: {shoe[0].count}</h4>
+      <h2 className="single-text">{shoe[0].designer}</h2>
+      <h3 className="single-text">{shoe[0].description}</h3>
+      <h2 className="single-text">${shoe[0].price}</h2>
+      <h3 className="single-text">Inventory: {shoe[0].count}</h3>
       <select
         value={count}
         onChange={(event) => {

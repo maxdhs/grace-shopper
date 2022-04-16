@@ -54,9 +54,9 @@ const AllShoes = ({ products, fetchProducts }) => {
                 <Link to={`/${product.id}`}>{product.title}</Link>
               </h2>
               <img className="product-text" id="image" src={product.image} />
-              <h4 className="product-text">{product.designer}</h4>
+              <h3 className="product-text">{product.designer}</h3>
               {/* <h4 className="product-text">{product.description}</h4> */}
-              <h4 className="product-text">${product.price}</h4>
+              <h3 className="product-text">${product.price}</h3>
               {/* <h4 className="product-text">Inventory: {product.count}</h4> */}
             </div>
           );

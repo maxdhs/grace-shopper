@@ -13,9 +13,7 @@ const { getUserById } = require("./db/users");
 const app = express();
 // app.use(express.json());
 // app.use("/api", apiRouter);
-
 app.use(morgan("dev"));
-
 app.use(express.json());
 
 app.use(express.static("build"));

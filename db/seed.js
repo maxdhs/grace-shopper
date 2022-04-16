@@ -127,7 +127,7 @@ const createInitialProducts = async () => {
         description:
           "The iconic sandal with a cult following, the Miller is loved for its timeless style and exceptional comfort with a smooth leather toe post",
         price: 228,
-        category: "sandals",
+        category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/798678c1-7ee0-4be8-aff1-7df8e47c0fda.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
         count: 10,
@@ -138,7 +138,7 @@ const createInitialProducts = async () => {
         description:
           "An espadrille-style platform brings earthy texture and summery style to a breezy sandal",
         price: 74,
-        category: "sandals",
+        category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/b13e3bf8-2b34-4d63-857d-1e1f9fcf36aa.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
         count: 10,
@@ -148,7 +148,7 @@ const createInitialProducts = async () => {
         designer: "Birkenstock",
         description: "this is a shoe",
         price: 10,
-        category: "sneakers",
+        category: "Sandals",
         image:
           "https://n.nordstrommedia.com/id/sr3/e693ede9-4162-4a12-9789-3d9dcd74f843.jpeg?crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838",
         count: 10,
