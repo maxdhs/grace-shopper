@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Products } from ".";
+import { fetchPeoducts } from "../api";
 
 const Womens = ({ setProducts, products }) => {
 	const history = useNavigate();
