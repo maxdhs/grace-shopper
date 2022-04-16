@@ -25,11 +25,11 @@ const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
           <Link className="link" to="/sneakers">
             Sneakers
           </Link>
-          {cartInfo ? (
-            <Link className="link" to={`/cart/${cartInfo.id}`}>
-              Cart
-            </Link>
-          ) : null}
+
+          <Link className="link" to={`/cart`}>
+            Cart
+          </Link>
+
           {userData ? null : (
             <Link className="link" to="/register">
               Register
