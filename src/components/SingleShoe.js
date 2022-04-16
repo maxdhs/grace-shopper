@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const API_URL = "/api/orders";
+const API_ORDERS = "/api/orders";
 
 const SingleShoe = ({
   products,
@@ -10,62 +10,93 @@ const SingleShoe = ({
   cartInfo,
   setCartInfo,
   userId,
+  orderInfo,
 }) => {
   const id = useParams();
   const [count, setCount] = useState("");
   const shoe = products.filter((product) => id.shoeId == product.id);
   console.log(shoe);
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [orderProductId, setOrderProductId] = useState("");
+  console.log(orderInfo);
+
+  const [product, setProduct] = useState("any");
+  const [productId, setProductId] = useState("");
 
   useEffect(() => {
     fetchProducts();
+    setProduct(shoe[0]);
+    setProductId(shoe[0].id);
   }, []);
 
   if (!userId) {
     userId === null;
   }
 
-  const handleClick = async () => {
-    try {
-      const lsOrder = localStorage.getItem("order");
-      console.log(cartInfo.id);
-      if (lsOrder) {
-        const response = await fetch(`/api/orders/${cartInfo.id}/products`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            orderId: cartInfo.id,
-            productId: id.shoeId,
-            isPurchased: false,
-          }),
-        });
-        const info = await response.json();
-        console.log(info);
-        setCartInfo([...cartInfo, info]);
-        localStorage.setItem("order", cartInfo);
-      } else {
-        const response = await fetch(`${API_URL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            productId: id.shoeId,
-            isPurchased: false,
-          }),
-        });
-        const info = await response.json();
-        console.log(info);
-        setCartInfo(info);
-        localStorage.setItem("order", info);
-      }
-    } catch (error) {
-      throw error;
+  const handleClick = async (e) => {
+    e.preventDefault();
+    console.log(productId);
+    console.log(count, product);
+
+    const response = await fetch(`${API_ORDERS}/${orderInfo.id}/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        count,
+      }),
+    });
+    const info = await response.json();
+    console.log(info);
+    if (info.error) {
+      return setError(info.error);
     }
+    fetchProducts;
   };
+
+  //   const handleClick = async () => {
+  //     try {
+  //       const lsOrder = localStorage.getItem("order");
+  //       console.log(cartInfo.id);
+  //       if (lsOrder) {
+  //         const response = await fetch(`/api/orders/${cartInfo.id}/products`, {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             orderId: cartInfo.id,
+  //             productId: id.shoeId,
+  //             isPurchased: false,
+  //           }),
+  //         });
+  //         const info = await response.json();
+  //         console.log(info);
+  //         setCartInfo([...cartInfo, info]);
+  //         localStorage.setItem("order", cartInfo);
+  //       } else {
+  //         const response = await fetch(`${API_URL}`, {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             userId,
+  //             productId: id.shoeId,
+  //             isPurchased: false,
+  //           }),
+  //         });
+  //         const info = await response.json();
+  //         console.log(info);
+  //         setCartInfo(info);
+  //         localStorage.setItem("order", info);
+  //       }
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   };
 
   console.log(cartInfo);
 

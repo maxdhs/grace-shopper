@@ -23,6 +23,7 @@ const App = () => {
   const [userId, setUserId] = useState("");
   const [cartInfo, setCartInfo] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [orderInfo, setOrderInfo] = useState([]);
 
   // const fetchUser = async () => {
   //   const lsToken = localStorage.getItem("token");
@@ -47,6 +48,18 @@ const App = () => {
   //   }
   // };
 
+  async function createBlankOrder() {
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+        isPurchased: false,
+      }),
+    });
+    const info = await response.json();
+    setOrderInfo(info);
+  }
+
   async function fetchProducts() {
     const response = await fetch("/api/products", {});
     const info = await response.json();
@@ -63,6 +76,7 @@ const App = () => {
     fetchProducts();
     // fetchUser();
     fetchOrders();
+    createBlankOrder();
   }, [token]);
 
   console.log(userData);
@@ -122,6 +136,7 @@ const App = () => {
               path="/:shoeId"
               element={
                 <SingleShoe
+                  orderInfo={orderInfo}
                   products={products}
                   fetchProducts={fetchProducts}
                   // fetchUser={fetchUser}
@@ -139,6 +154,7 @@ const App = () => {
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
                   orders={orders}
+                  orderInfo={orderInfo}
                 />
               }
             />
