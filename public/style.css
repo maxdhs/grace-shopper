@@ -1,10 +1,17 @@
 .prj-name {
-  font-family: cursive;
-  color: rgb(14, 83, 172);
-  font-size: 0.3in;
+	font-family: cursive;
+	color: rgb(14, 83, 172);
+	font-size: 0.3in;
 }
 .authors {
-  font-family: "Dancing Script";
-  color: rgb(14, 83, 172);
-  font-size: 0.3in;
+	font-family: "Dancing Script";
+	color: rgb(14, 83, 172);
+	font-size: 0.3in;
+}
+
+.mens-details,
+.womens-details {
+	border: 1px solid;
+	padding: 10px;
+	box-shadow: 5px 10px rgb(213, 210, 232);
 }
