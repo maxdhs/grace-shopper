@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Mens = ({ setProducts, products }) => {
+const Jewelries = ({ setProducts, products }) => {
 	const history = useNavigate();
 	return (
 		<>
-			<h4>All Men's clothing</h4>
+			<h4>All Jewelries</h4>
 			<div>
 				{products
-					.filter((product) => product.category == "mens")
+					.filter((product) => product.category == "jewelery")
 					.map(
 						({
 							category,
@@ -19,8 +19,9 @@ const Mens = ({ setProducts, products }) => {
 							title,
 							imgURL,
 						}) => {
+							console.log("jewelry", products);
 							return (
-								<div key={id} className=" mens-details">
+								<div key={id} className=" jewelry-details">
 									<p> {title}</p>
 									<p>{description} </p>
 									<p>{price}</p>
@@ -34,4 +35,4 @@ const Mens = ({ setProducts, products }) => {
 		</>
 	);
 };
-export default Mens;
+export default Jewelries;

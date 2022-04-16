@@ -11,8 +11,8 @@ import {
 	Mens,
 	Womens,
 	Kids,
-	Shoes,
-	Bags,
+	Jewelries,
+	Accessories,
 } from "./Components";
 
 function App() {
@@ -59,13 +59,17 @@ function App() {
 					/>
 
 					<Route
-						path="shoes"
-						element={<Shoes setProducts={setProducts} products={products} />}
+						path="jewelries"
+						element={
+							<Jewelries setProducts={setProducts} products={products} />
+						}
 					/>
 
 					<Route
-						path="bags"
-						element={<Bags setProducts={setProducts} products={products} />}
+						path="accessories"
+						element={
+							<Accessories setProducts={setProducts} products={products} />
+						}
 					/>
 				</Route>
 

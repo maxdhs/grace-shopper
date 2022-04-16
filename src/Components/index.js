@@ -7,5 +7,5 @@ export { default as Login } from "./Login";
 export { default as Mens } from "./Mens";
 export { default as Womens } from "./Womens";
 export { default as Kids } from "./Kids";
-export { default as Shoes } from "./Shoes";
-export { default as Bags } from "./Bags";
+export { default as Jewelries } from "./Jewelries";
+export { default as Accessories } from "./Accessories";

@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Products } from ".";
-import { fetchPeoducts } from "../api";
 
 const Womens = ({ setProducts, products }) => {
 	const history = useNavigate();
@@ -12,17 +10,28 @@ const Womens = ({ setProducts, products }) => {
 				{products
 					.filter((product) => product.category == "womens")
 
-					.map(({ category, description, inventory, price, id, title }) => {
-						console.log("womens", products);
-						return (
-							<div key={id} className=" womens-details">
-								<p> {title}</p>
-								<p>{description} </p>
-								<p>{price}</p>
-								<p>{inventory}</p>
-							</div>
-						);
-					})}
+					.map(
+						({
+							category,
+							description,
+							inventory,
+							price,
+							id,
+							title,
+							imgURL,
+						}) => {
+							console.log("womens", products);
+							return (
+								<div key={id} className=" womens-details">
+									<p> {title}</p>
+									<p>{description} </p>
+									<p>{price}</p>
+									<p>{inventory}</p>
+									<img src={imgURL} width="100" />
+								</div>
+							);
+						}
+					)}
 			</div>
 		</>
 	);

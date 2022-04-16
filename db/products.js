@@ -6,15 +6,16 @@ const createProduct = async ({
 	category,
 	description,
 	inventory,
+	imgURL,
 }) => {
 	try {
 		const { rows: newProduct } = await client.query(
 			`
-      INSERT INTO products(title, price, category, description, inventory)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO products(title, price, category, description, inventory, "imgURL")
+      VALUES ($1, $2, $3, $4, $5,$6)
       RETURNING *;
     `,
-			[title, price, category.toLowerCase(), description, inventory]
+			[title, price, category.toLowerCase(), description, inventory, imgURL]
 		);
 		return newProduct;
 	} catch (error) {
@@ -64,14 +65,15 @@ const getProductByCategory = async (category) => {
 	}
 };
 
-const editProduct = async ({
+const editProduct = async (
 	id,
 	title,
 	price,
 	category,
 	description,
 	inventory,
-}) => {
+	imgURL
+) => {
 	try {
 		if (title) {
 			client.query(
@@ -121,6 +123,16 @@ const editProduct = async ({
       WHERE id = $2;
     `,
 				[inventory, id]
+			);
+		}
+		if (imgURL) {
+			client.query(
+				`
+      UPDATE products
+      SET "imgURL" = $1
+      WHERE id = $2;
+      `,
+				[imgURL, id]
 			);
 		}
 		const { rows: product } = await client.query(

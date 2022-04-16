@@ -27,12 +27,12 @@ const Products = ({}) => {
 					KIDS
 				</Link>
 
-				<Link to="shoes" style={linkStyle}>
-					SHOES
+				<Link to="jewelries" style={linkStyle}>
+					JEWELRIES
 				</Link>
 
-				<Link to="bags" style={linkStyle}>
-					BAGS
+				<Link to="accessories" style={linkStyle}>
+					ACCESSORIES
 				</Link>
 			</nav>
 			<Outlet />
