@@ -30,6 +30,7 @@ const App = () => {
   const [orders, setOrders] = useState([]);
   const [orderInfo, setOrderInfo] = useState([]);
   const [orderProducts, setOrderProducts] = useState([]);
+  const [count, setCount] = useState("");
 
   // const fetchUser = async () => {
   //   const lsToken = localStorage.getItem("token");
@@ -177,6 +178,7 @@ const App = () => {
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
                   fetchOrderProducts={fetchOrderProducts}
+                  count={count}
                 />
               }
             />
@@ -192,6 +194,7 @@ const App = () => {
                   fetchOrderProducts={fetchOrderProducts}
                   orderProducts={orderProducts}
                   products={products}
+                  count={count}
                 />
               }
             />

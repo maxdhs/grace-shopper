@@ -12,12 +12,12 @@ const Cart = ({
   fetchOrderProducts,
   orderProducts,
   products,
+  count,
 }) => {
   const lsToken = localStorage.getItem("token");
 
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const [count, setCount] = useState("");
   const [orderProductId, setOrderProductId] = useState("");
   const lsOrderId = localStorage.getItem("orderId");
   console.log(lsOrderId);
