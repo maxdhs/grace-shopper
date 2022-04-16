@@ -24,6 +24,7 @@ const App = () => {
   const [cartInfo, setCartInfo] = useState([]);
   const [orders, setOrders] = useState([]);
   const [orderInfo, setOrderInfo] = useState([]);
+  const [orderProducts, setOrderProducts] = useState([]);
 
   // const fetchUser = async () => {
   //   const lsToken = localStorage.getItem("token");
@@ -47,6 +48,13 @@ const App = () => {
   //     }
   //   }
   // };
+
+  const fetchOrderProducts = async () => {
+    const response = await fetch(`/api/order_products`);
+    const info = await response.json();
+    console.log(info);
+    setOrderProducts(info.order_products);
+  };
 
   async function createNewOrder() {
     const lsOrderId = localStorage.getItem("orderId");
@@ -98,6 +106,7 @@ const App = () => {
     // fetchUser();
     fetchOrders();
     createNewOrder();
+    fetchOrderProducts();
   }, [token]);
 
   console.log(userData);
@@ -165,18 +174,22 @@ const App = () => {
                   userId={userId}
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
+                  fetchOrderProducts={fetchOrderProducts}
                 />
               }
             />
             <Route
               exact
-              path="/cart/:orderId"
+              path="/cart"
               element={
                 <Cart
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
                   orders={orders}
                   orderInfo={orderInfo}
+                  fetchOrderProducts={fetchOrderProducts}
+                  orderProducts={orderProducts}
+                  products={products}
                 />
               }
             />
