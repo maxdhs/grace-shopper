@@ -5,7 +5,7 @@ const Jewelries = ({ setProducts, products }) => {
 	const history = useNavigate();
 	return (
 		<>
-			<h4>All Jewelries</h4>
+			<h4>All Fine Jewelry</h4>
 			<div>
 				{products
 					.filter((product) => product.category == "jewelery")
