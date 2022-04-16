@@ -116,7 +116,9 @@ const SingleShoe = ({
           setCount(event.target.value);
         }}
       >
-        <option value="any">Quantity</option>
+        <option className="quantity" value="any">
+          Quantity
+        </option>
         {quantity.map((num, index) => {
           return (
             <>
