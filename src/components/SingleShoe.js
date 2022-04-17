@@ -23,6 +23,7 @@ const SingleShoe = ({
 
   const [product, setProduct] = useState("any");
   const [productId, setProductId] = useState("");
+  const [cartMessage, setCartMessage] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -52,6 +53,7 @@ const SingleShoe = ({
     const info = await response.json();
     console.log(info);
     fetchOrderProducts();
+    setCartMessage("Item added to cart!");
     if (info.error) {
       return setError(info.error);
     }
@@ -130,6 +132,7 @@ const SingleShoe = ({
       <button id="add-button" onClick={handleClick} className="single-text">
         Add To Cart
       </button>
+      <p>{cartMessage}</p>
     </div>
   );
 };

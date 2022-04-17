@@ -177,6 +177,7 @@ body > div {
   flex-wrap: wrap;
   width: 50vw;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .single-text {
