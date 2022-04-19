@@ -9,6 +9,7 @@ const {
 
 const requireUser = require("./utils").default;
 const client = require("../db/index");
+const { updateOrderProducts } = require("../db/order_products");
 const ordersRouter = express.Router();
 
 ordersRouter.get("/", async (req, res, next) => {
@@ -69,6 +70,8 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
+  // const toUpdate = { id, count };
+
 
   try {
     if (tempOrderId === orderId) {
@@ -88,7 +91,9 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     );
 
     if (checkOrderProducts) {
-      throw "order product already exists";
+      const orders = await updateOrderProducts(toUpdate);
+    res.send(orders);
+      // throw "order product already exists";
     } else {
       const {
         rows: [order_products],

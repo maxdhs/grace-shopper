@@ -39,6 +39,7 @@ const Login = ({
       }
       setToken(info.token);
       localStorage.setItem("token", info.token);
+      localStorage.setItem("userid", info.token);
       setEmail("");
       setPassword("");
 

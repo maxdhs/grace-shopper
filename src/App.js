@@ -155,6 +155,7 @@ const App = () => {
                   setError={setError}
                   setUserData={setUserData}
                   setUserId={setUserId}
+                  setOrderInfo={setOrderInfo}
                 />
               }
             />
