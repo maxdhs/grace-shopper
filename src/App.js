@@ -17,8 +17,23 @@ import Accessories from './Components/categories/Accessories';
 
 const App = () => {
   const [products, setProducts] = useState([]);
+  const [userData, setUserData] = useState({});
+
+  const fetchUser = async () => {
+    try {
+      const IsToken = localStorage.getItem('token');
+      if (IsToken) {
+        setToken(IsToken);
+        const response = await userInfo(IsToken);
+        setUserdata(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    fetchUser();
     fetchProducts().then((product) => {
       setProducts(product);
     });

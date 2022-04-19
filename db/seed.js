@@ -1,32 +1,32 @@
 const { client } = require('.');
-const { 
-  getCartByUserId, 
-  getCartProducts, 
-  createCart, 
-  addProductToCart, 
-  getCartById 
+const {
+  getCartByUserId,
+  getCartProducts,
+  createCart,
+  addProductToCart,
+  getCartById,
 } = require('./cart');
-const { 
-  createProduct, 
-  getProducts, 
-  getProductById, 
-  getProductByCategory, 
-  editProduct, 
-  destroyProduct 
+const {
+  createProduct,
+  getProducts,
+  getProductById,
+  getProductByCategory,
+  editProduct,
+  destroyProduct,
 } = require('./products');
-const { 
-  createReview, 
-  getAllReviews, 
-  editReview, 
-  getProductReviews, 
-  getProductReviewsByProductId 
+const {
+  createReview,
+  getAllReviews,
+  editReview,
+  getProductReviews,
+  getProductReviewsByProductId,
 } = require('./reviews');
-const { 
-  createUser, 
-  getAllUsers, 
-  getUserByUsername, 
-  getUser, 
-  getUserByEmail 
+const {
+  createUser,
+  getAllUsers,
+  getUserByUsername,
+  getUser,
+  getUserByEmail,
 } = require('./users');
 require('dotenv').config();
 
@@ -56,7 +56,6 @@ async function createTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
-
         "isAdmin" BOOLEAN DEFAULT false
       );
       CREATE TABLE products (
@@ -86,8 +85,8 @@ async function createTables() {
         "cartId" INTEGER REFERENCES carts(id),
         "productId" INTEGER REFERENCES products(id)
       );
-      `)
-    console.log("Finished building tables!");
+      `);
+    console.log('Finished building tables!');
 
     await client.query(`
     CREATE TABLE carts(
@@ -355,8 +354,6 @@ async function createInitialCartProducts() {
   }
 }
 
-
-
 async function testDB() {
   try {
     console.log('Starting to create carts...');
@@ -428,21 +425,21 @@ async function testDB() {
     console.log('here are the reviews', reviews);
 
     const newCart = await createCart(1);
-    console.log("createCart", newCart);
+    console.log('createCart', newCart);
 
     const cartByUserID = await getCartByUserId(1);
-    console.log("cartByUserId",cartByUserID);
+    console.log('cartByUserId', cartByUserID);
 
     const cartProduct = await addProductToCart(1, 40, 1, 1);
-    console.log("addProductToCart", cartProduct);
+    console.log('addProductToCart', cartProduct);
 
     // const cartProducts = await getCartProducts();
     // console.log("getCartProducts",cartProducts);
 
     const cartById = await getCartById(1);
-    console.log("getCartById", cartById);
+    console.log('getCartById', cartById);
 
-    console.log("Finished testing database!")
+    console.log('Finished testing database!');
 
     await purchasedCart(1);
     await deleteProductFromCart(1, 1);
