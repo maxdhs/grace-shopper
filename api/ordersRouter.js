@@ -5,6 +5,7 @@ const {
   destroyOrder,
   updateOrder,
   getAllOrders,
+  updateUserIdOrdersTable,
 } = require("../db/orders");
 
 const requireUser = require("./utils").default;
@@ -110,6 +111,19 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     }
   } catch (err) {
     next(err);
+  }
+});
+
+ordersRouter.patch("/:userId", async (req, res, next) => {
+  const { userId } = req.body;
+  const { userId: id } = req.params;
+  const toUpdate = { id };
+
+  try {
+    const orders = await updateUserIdOrdersTable(toUpdate);
+    res.send(orders);
+  } catch (error) {
+    next(error);
   }
 });
 

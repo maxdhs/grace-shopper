@@ -199,6 +199,21 @@ async function getCartByUserId(userId) {
   }
 }
 
+async function updateUserIdOrdersTable(userId) {
+  try {
+    if (count) {
+      await client.query(
+        `UPDATE orders SET userId WHERE id = $2 RETURNING *;`,
+        [userId, id]
+      );
+    }
+    const order = getOrderById(id);
+    return order;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createOrder,
   getOrdersByUser,
@@ -208,4 +223,5 @@ module.exports = {
   getAllOrders,
   getUserIdByOrderId,
   getCartByUserId,
+  updateUserIdOrdersTable
 };
