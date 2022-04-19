@@ -1,5 +1,11 @@
 const express = require("express");
-const { getAllReviews, createReview, editReview, destroyReview, getProductReviewsByProductId } = require("../db/reviews");
+const { 
+    getAllReviews, 
+    createReview, 
+    editReview, 
+    destroyReview, 
+    getProductReviewsByProductId 
+} = require("../db/reviews");
 const { requireUser } = require("./utils");
 const reviewsRouter = express.Router();
 

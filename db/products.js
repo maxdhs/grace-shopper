@@ -5,17 +5,18 @@ const createProduct = async({
   price,
   category,
   description,
-  inventory
+  inventory,
+  imgURL
 }) => {
   try {
     const {rows: newProduct} = await client.query(`
-      INSERT INTO products(title, price, category, description, inventory)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO products(title, price, category, description, inventory, "imgURL")
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *;
-    `,[title, price, category.toLowerCase(), description, inventory]);
+    `,[title, price, category.toLowerCase(), description, inventory, imgURL]);
     return newProduct;
   } catch (error) {
-    console.error("here is the product error",error)
+    console.error("here is the product error",error);
     throw error;
   }
 }
@@ -61,7 +62,8 @@ const editProduct = async({
   price,
   category,
   description,
-  inventory
+  inventory,
+  imgURL
 }) => {
   try {
     if(title) {
@@ -73,35 +75,41 @@ const editProduct = async({
     }
     if(price) {
       client.query(`
-      UPDATE products
-      SET price = $1
-      WHERE id = $2;
+        UPDATE products
+        SET price = $1
+        WHERE id = $2;
     `,[price, id])
     }
     if(category) {
       client.query(`
-      UPDATE products
-      SET category = $1
-      WHERE id = $2;
+        UPDATE products
+        SET category = $1
+        WHERE id = $2;
     `,[category, id])
     }
     if(description) {
       client.query(`
-      UPDATE products
-      SET description = $1
-      WHERE id = $2;
+        UPDATE products
+        SET description = $1
+        WHERE id = $2;
     `,[description, id])
     }
     if(inventory) {
       client.query(`
-      UPDATE products
-      SET inventory = $1
-      WHERE id = $2;
+        UPDATE products
+        SET inventory = $1
+        WHERE id = $2;
     `,[inventory, id])
     }
+    if(imgURL) {
+      client.query(`
+        UPDATE products
+        SET "imgURL" = $1
+      `,[imgURL])
+    }
     const {rows: product} = await client.query(`
-      SELECT * FROM products
-      WHERE id = $1
+        SELECT * FROM products
+        WHERE id = $1
     `,[id]);
     return product;
   } catch (error) {
@@ -119,7 +127,7 @@ const destroyProduct = async(id) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 
 module.exports = {

@@ -43,7 +43,7 @@ app.use('/api', apiRouter);
 
 app.use((err, req, res, next) => {
 
-  res.end({
+  res.send({
     name: err.name,
     message: err.message,
   });
