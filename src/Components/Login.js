@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login, userInfo } from "../api";
 
 const Login = ({ setToken, setUserdata }) => {
@@ -60,6 +60,12 @@ const Login = ({ setToken, setUserdata }) => {
 
 				<button type="submit"> Log In</button>
 			</form>
+
+			<div className="goto-register ">
+				<Link to="/register">
+					Don't have an account? Click here to register
+				</Link>
+			</div>
 
 			{error && <div> {error}!</div>}
 		</>

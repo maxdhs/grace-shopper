@@ -5,7 +5,7 @@ export const fetchProducts = async () => {
 		const response = await fetch(`${BASE_URL}/products`);
 
 		const info = await response.json();
-
+		// console.log("info", info.products);
 		return info.products;
 	} catch (error) {
 		console.error(`Error retrieving products ${error}`);

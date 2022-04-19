@@ -8,3 +8,4 @@ export { default as Mens } from "./Mens";
 export { default as Womens } from "./Womens";
 export { default as Kids } from "./Kids";
 export { default as Accessories } from "./Accessories";
+export { default as ShopAll } from "./ShopAll";

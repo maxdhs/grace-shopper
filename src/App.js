@@ -12,6 +12,7 @@ import {
 	Womens,
 	Kids,
 	Accessories,
+	ShopAll,
 } from "./Components";
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
 	};
 
 	useEffect(() => {
-		fetchUser();
+		// fetchUser();
 		try {
 			fetchProducts().then((product) => {
 				setProducts(product);
@@ -58,6 +59,10 @@ function App() {
 					path="/products"
 					element={<Products setProducts={setProducts} products={products} />}
 				>
+					<Route
+						index
+						element={<ShopAll setProducts={setProducts} products={products} />}
+					/>
 					<Route
 						path="mens"
 						element={<Mens setProducts={setProducts} products={products} />}
