@@ -1,27 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { fetchProducts } from "./api";
+import { fetchProducts, userInfo } from "./api";
 import {
 	Navbar,
 	Home,
+	Register,
 	Products,
 	Cart,
-	Register,
 	Login,
 	Mens,
 	Womens,
 	Kids,
-	Jewelries,
 	Accessories,
 } from "./Components";
 
 function App() {
 	const [cartIsEmpty] = useState(false);
+	const [token, setToken] = useState("");
+	const [userdata, setUserdata] = useState(null);
 	const [products, setProducts] = useState([]);
-	// const [token, setToken] = useState("");
-	// const [userdata, setUserdata] = useState(null);
+
+	const fetchUser = async () => {
+		try {
+			const IsToken = localStorage.getItem("token");
+			if (IsToken) {
+				setToken(IsToken);
+				const response = await userInfo(IsToken);
+				setUserdata(response);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
+		fetchUser();
 		try {
 			fetchProducts().then((product) => {
 				setProducts(product);
@@ -33,8 +46,11 @@ function App() {
 
 	return (
 		<div className="App">
-			<Navbar />
-
+			<Navbar
+				userdata={userdata}
+				setToken={setToken}
+				setUserdata={setUserdata}
+			/>
 			<Routes>
 				<Route path="/" element={<Home />} />
 
@@ -57,12 +73,12 @@ function App() {
 						element={<Kids setProducts={setProducts} products={products} />}
 					/>
 
-					<Route
+					{/* <Route
 						path="jewelries"
 						element={
 							<Jewelries setProducts={setProducts} products={products} />
 						}
-					/>
+					/> */}
 
 					<Route
 						path="accessories"
@@ -72,21 +88,18 @@ function App() {
 					/>
 				</Route>
 
-				<Route path="/register" element={<Register />} />
+				<Route path="/register" element={<Register setToken={setToken} />} />
 
-				<Route path="/login" element={<Login />} />
+				<Route
+					path="/login"
+					element={<Login setToken={setToken} setUserdata={setUserdata} />}
+				/>
 
 				<Route
 					path="/cart"
 					element={cartIsEmpty ? <Navigate to="/products" /> : <Cart />}
 				/>
 			</Routes>
-			{/* <div>
-        {products &&
-          products.map((product) => {
-            return <h1> {product.title}</h1>;
-          })}
-      </div> */}
 		</div>
 	);
 }

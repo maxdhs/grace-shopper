@@ -9,7 +9,8 @@
 	font-size: 0.3in;
 }
 
-.jewelry-details,
+/* .jewelry-details, */
+.accessories-details,
 .mens-details,
 .womens-details {
 	border: 1px solid;
@@ -20,4 +21,25 @@
 .price {
 	font-weight: bold;
 	font-size: 17px;
+}
+
+.register-form input,
+.login-form input {
+	padding: 8px;
+	width: 35%;
+}
+
+.login-form label,
+.register-form label {
+	display: block;
+}
+
+.register-form-grp,
+.login-form-grp {
+	padding-bottom: 15px;
+}
+
+.goto-login {
+	margin-top: 15px;
+	margin-bottom: 15px;
 }

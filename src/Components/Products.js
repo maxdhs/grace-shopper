@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { fetchPeoducts } from "../api";
 
 const linkStyle = {
 	// color: "white",
@@ -25,10 +23,6 @@ const Products = ({}) => {
 
 				<Link to="kids" style={linkStyle}>
 					KIDS
-				</Link>
-
-				<Link to="jewelries" style={linkStyle}>
-					JEWELRIES
 				</Link>
 
 				<Link to="accessories" style={linkStyle}>
