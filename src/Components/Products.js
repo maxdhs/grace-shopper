@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { fetchPeoducts } from "../api";
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchPeoducts } from '../api';
 
 const linkStyle = {
   // color: "white",
-  margin: "10px",
-  fontSize: "15px",
-  display: "inline-block",
-  marginRight: ".3em",
-  textDecoration: "none",
+  margin: '10px',
+  fontSize: '15px',
+  display: 'inline-block',
+  marginRight: '.3em',
+  textDecoration: 'none',
 };
 
 const Products = ({}) => {
@@ -35,7 +35,6 @@ const Products = ({}) => {
           BAGS
         </Link>
       </nav>
-      <Outlet />
     </>
   );
 };

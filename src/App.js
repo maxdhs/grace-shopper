@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { fetchProducts } from "./api";
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {
   Navbar,
   Home,
@@ -13,17 +12,14 @@ import {
   Kids,
   Shoes,
   Bags,
-} from "./Components";
+} from './Components';
 
-function App() {
-  const [cartIsEmpty] = useState(false);
+async function App() {
+  const [cartIsEmpty, setCartIsEmpty] = useState(false);
+  const [products, setProducts] = useState([]);
 
   // const [token, setToken] = useState("");
   // const [userdata, setUserdata] = useState(null);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return (
     <div className="App">
@@ -32,18 +28,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/products" element={<Products />}>
-          <Route path="mens" element={<Mens />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/mens" element={<Mens />} />
 
-          <Route path="womens" element={<Womens />} />
+        <Route
+          path="/products/womens"
+          element={<Womens products={products} />}
+        />
 
-          <Route path="kids" element={<Kids />} />
+        <Route path="kids" element={<Kids />} />
 
-          <Route path="shoes" element={<Shoes />} />
+        <Route path="shoes" element={<Shoes />} />
 
-          <Route path="bags" element={<Bags />} />
-        </Route>
-
+        <Route path="/products/bags" element={<Bags />} />
         <Route path="/register" element={<Register />} />
 
         <Route path="/login" element={<Login />} />

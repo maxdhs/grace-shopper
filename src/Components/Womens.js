@@ -1,15 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Products } from ".";
-import { fetchPeoducts } from "../api";
+import { useNavigate } from 'react-router-dom';
 
-const Womens = ({}) => {
+const Womens = ({ products }) => {
+  console.log(products);
   const history = useNavigate();
   return (
     <>
       <h4>All Women's clothing</h4>
       <div>
-        {Products.map((product) => {
+        {products.map((product) => {
           return <h1> {product.title}</h1>;
         })}
       </div>
