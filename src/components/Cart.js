@@ -18,12 +18,10 @@ const Cart = ({
   console.log(count);
   const [orderProductId, setOrderProductId] = useState("");
   const lsOrderId = localStorage.getItem("orderId");
-  //   console.log(lsOrderId);
-  //   console.log(orderProducts);
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
-
+  const lsToken = localStorage.getItem("token");
   const productArr = [];
   for (let i = 0; i < orderProduct.length; i++) {
     const productId = orderProduct[i].productId;
@@ -43,7 +41,7 @@ const Cart = ({
         finalProducts.push(product1);
       }
     }
-    // console.log(finalProducts);
+    console.log(finalProducts);
   }
 
   //   console.log(orderProduct);
@@ -59,20 +57,30 @@ const Cart = ({
   //     }
   //   };
 
-  //   const handleProductDelete = async (id) => {
-  //     const response = await fetch(`${API_ORDERPRODUCTS}/${orderProductId}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${lsToken}`,
-  //       },
-  //     });
-  //     const info = await response.json();
-  //     if (info.error) {
-  //       return setError(info.error);
-  //     }
-  //     fetchRoutines();
-  //   };
+  const handleProductDelete = async (id) => {
+    let product;
+    for (let i = 0; i < orderProducts.length; i++) {
+      let thisProductId = orderProducts[i].productId;
+      console.log(thisProductId);
+      if (thisProductId) {
+        product = orderProducts[i];
+      }
+    }
+    console.log(product);
+    console.log(id);
+    const response = await fetch(`${API_ORDERPRODUCTS}/${product.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${lsToken}`,
+      },
+    });
+    const info = await response.json();
+    if (info.error) {
+      return setError(info.error);
+    }
+    fetchOrderProducts();
+  };
 
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
@@ -139,17 +147,17 @@ const Cart = ({
                     </select>
                     {/* <button className="products" onClick={handleSubmit}>
                       Update Quantity
-                    </button>
+                    </button> */}
                     <button
                       className="products"
-                      value={product.orderProductId}
+                      value={product.id}
                       onClick={(e) => {
                         const orderProductId = e.target.value;
                         handleProductDelete(orderProductId);
                       }}
                     >
                       Delete
-                    </button> */}
+                    </button>
                     <br />
                   </div>
                 );
