@@ -1,12 +1,11 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const {
-  createUser,
-  getUserByUsername,
-  getUserByEmail,
-  getUser,
-  getAllUsers,
+const { 
+  createUser, 
+  getUserByUsername, 
+  getUser, 
+  getAllUsers 
 } = require('../db/users.js');
 const { requireAdmin } = require('./utils');
 
