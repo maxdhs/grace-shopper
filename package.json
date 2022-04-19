@@ -1,37 +1,36 @@
 {
-  "name": "grace-shopper",
+  "name": "grace-shopper-front-end",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "seed": "node ./db/seed.js",
+    "seed:dev": "nodemon ./db/seed.js",
     "react": "react-scripts start",
-    "build": "react-scripts build",
-    "seed": "node db/seed"
+    "build": "react-scripts build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "proxy": "http://localhost:3001",
+  "description": "",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "dot-env": "^0.0.1",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
     "pg": "^8.7.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

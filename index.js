@@ -1,19 +1,52 @@
-require("dotenv").config();
-const express = require("express");
-const apiRouter = require("./api");
+require('dotenv').config();
+const express = require('express');
+const { client } = require('./db');
 
 let PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use("/api", apiRouter);
+const morgan = require('morgan');
+app.use(morgan('dev'));
 
-app.use(express.static("build"));
+const cors = require('cors');
+app.use(cors());
 
-app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
+app.use(express.json());
+
+const jwt = require('jsonwebtoken');
+
+const { getUserByUsername } = require('./db/users');
+
+app.use(async (req, res, next) => {
+  if (!req.headers.authorization) {
+    return next();
+  }
+  const auth = req.headers.authorization.split(' ')[1];
+  const _user = jwt.decode(auth, process.env.SECRET_KEY);
+
+  if (!_user) {
+    return next();
+  }
+
+  const user = await getUserByUsername(_user.username);
+  req.user = user;
+
+  next();
+});
+
+const apiRouter = require('./api');
+app.use('/api', apiRouter);
+
+app.use((err, req, res, next) => {
+  res.send({
+    name: err.name,
+    message: err.message,
+  });
 });
 
 app.listen(PORT, () => {
-  console.log("Server is up on port: " + PORT);
+  console.log('server is up!', PORT);
+
+  client.connect();
 });
