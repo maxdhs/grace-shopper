@@ -1,6 +1,6 @@
-const { client } = require(".");
+const { client } = require('.');
 
-const createProduct = async({
+const createProduct = async ({
   title,
   price,
   category,
@@ -19,11 +19,11 @@ const createProduct = async({
     console.error("here is the product error",error);
     throw error;
   }
-}
+};
 
-const getProducts = async() => {
+const getProducts = async () => {
   try {
-    const {rows: products} = await client.query(`
+    const { rows: products } = await client.query(`
       SELECT * FROM products;
     `);
     return products;
@@ -32,31 +32,37 @@ const getProducts = async() => {
   }
 };
 
-const getProductById = async(id) => {
+const getProductById = async (id) => {
   try {
-    const {rows: product} = await client.query(`
+    const { rows: product } = await client.query(
+      `
       SELECT * FROM products
       WHERE id = $1
-    `,[id])
+    `,
+      [id]
+    );
     return product;
   } catch (error) {
     throw error;
   }
 };
 
-const getProductByCategory = async(category) => {
+const getProductByCategory = async (category) => {
   try {
-    const {rows: product} = await client.query(`
+    const { rows: product } = await client.query(
+      `
       SELECT * FROM products
       WHERE category = $1
-    `,[category])
+    `,
+      [category]
+    );
     return product;
   } catch (error) {
     throw error;
   }
 };
 
-const editProduct = async({
+const editProduct = async ({
   id,
   title,
   price,
@@ -66,12 +72,15 @@ const editProduct = async({
   imgURL
 }) => {
   try {
-    if(title) {
-      client.query(`
+    if (title) {
+      client.query(
+        `
         UPDATE products
         SET title = $1
         WHERE id = $2;
-      `,[title, id])
+      `,
+        [title, id]
+      );
     }
     if(price) {
       client.query(`
@@ -117,24 +126,28 @@ const editProduct = async({
   }
 };
 
-const destroyProduct = async(id) => {
+const destroyProduct = async (id) => {
   try {
-    const {rows: [product]} = await client.query(`
+    const {
+      rows: [product],
+    } = await client.query(
+      `
       DELETE FROM products
       WHERE id = $1;
-    `,[id]);
+    `,
+      [id]
+    );
     return product;
   } catch (error) {
     throw error;
   }
 };
 
-
 module.exports = {
   getProducts,
   createProduct,
   getProductById,
   getProductByCategory,
-  editProduct,  
-  destroyProduct
+  editProduct,
+  destroyProduct,
 };

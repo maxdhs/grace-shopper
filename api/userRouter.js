@@ -12,30 +12,30 @@ const { requireAdmin } = require('./utils');
 const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
-  console.log("here is the current user", req.user);
+  console.log('here is the current user', req.user);
   res.send('User Page');
 });
 
-userRouter.get("/view", async(req, res, next) => {
+userRouter.get('/view', async (req, res, next) => {
   try {
     const users = await getAllUsers();
     console.log(users);
-    res.send({users})
+    res.send({ users });
   } catch (error) {
     res.send({
-      message: error.message
-    })
+      message: error.message,
+    });
   }
 });
 
-userRouter.get("/view/:username", requireAdmin, async(req, res, next) => {
-  const {username} = req.params;
+userRouter.get('/view/:username', requireAdmin, async (req, res, next) => {
+  const { username } = req.params;
   try {
     const users = await getUserByUsername(username);
     delete users.password;
-    res.send({users})
+    res.send({ users });
   } catch (error) {
-    next({error})
+    next({ error });
   }
 });
 
@@ -43,17 +43,17 @@ userRouter.get('/register', async (req, res) => {
   res.send('Register Page');
 });
 
-userRouter.post('/register', async (req, res) => {
+userRouter.post('/register', async (req, res, next) => {
   const { email, username, password } = req.body;
 
   try {
     const user = await getUserByUsername(username);
-    
-    if(user) {
+
+    if (user) {
       next({
-        name: "UserExistsError",
-        error: "Username already exists",
-      })
+        name: 'UserExistsError',
+        message: 'Username already exists',
+      });
       return;
     }
 
@@ -67,22 +67,25 @@ userRouter.post('/register', async (req, res) => {
       return;
     }
 
-    const newUser = await createUser({email, username, password});
+    const newUser = await createUser({ email, username, password });
 
-    const token = jwt.sign({
-      id: newUser.id,
-      username: newUser.username
-    }, process.env.SECRET_KEY, {
-      expiresIn: "1w"
-    })
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        username: newUser.username,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: '1w',
+      }
+    );
 
     res.send({
       user: newUser,
-      token
+      token,
     });
-
-  } catch ({name, message}) {
-    next({name, message})
+  } catch ({ name, message }) {
+    next({ name, message });
   }
 });
 
@@ -91,37 +94,38 @@ userRouter.get('/login', async (req, res) => {
 });
 
 userRouter.post('/login', async (req, res, next) => {
+  const { username, password } = req.body;
 
-  const {username, password} = req.body;
-
-  if(!username || !password) {
+  if (!username || !password) {
     next({
-      name: "MissingCredentialsError",
-      message: "Please supply both a username and password"
-    })
+      name: 'MissingCredentialsError',
+      message: 'Please supply both a username and password',
+    });
   }
 
   try {
-    const user = await getUser({username, password});
+    const user = await getUser({ username, password });
 
-    if(!user) {
-      res.send({ error: "No user found" });
+    if (!user) {
+      res.send({ error: 'No user found' });
     }
 
-    const token = jwt.sign({ 
-      id: user.id, 
-      username: user.username 
-    }, process.env.SECRET_KEY);
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+      },
+      process.env.SECRET_KEY
+    );
 
     user.token = token;
 
     res.send({
-      message: "you're logged in!!!", 
-      token
+      message: "you're logged in!!!",
+      token,
     });
   } catch (error) {
     throw error;
   }
-
-})
+});
 module.exports = userRouter;

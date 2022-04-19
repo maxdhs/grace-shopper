@@ -39,7 +39,8 @@ async function dropTables() {
       DROP TABLE IF EXISTS users;
       DROP TABLE IF EXISTS products;
     `);
-    console.log("Finished dropping tables!");
+
+    console.log('Finished dropping tables!');
   } catch (error) {
     throw error;
   }
@@ -47,8 +48,7 @@ async function dropTables() {
 
 async function createTables() {
   try {
-
-    console.log("Starting to build tables...");
+    console.log('Starting to build tables...');
 
     await client.query(`
       CREATE TABLE users(
@@ -56,6 +56,7 @@ async function createTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
+
         "isAdmin" BOOLEAN DEFAULT false
       );
       CREATE TABLE products (
@@ -88,62 +89,79 @@ async function createTables() {
       `)
     console.log("Finished building tables!");
 
-  } catch (error) {
+    await client.query(`
+    CREATE TABLE carts(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id),
+      "isPurchased" BOOLEAN DEFAULT FALSE
+    )
+    `);
 
-    console.error("Error building tables!");
+    await client.query(`
+    CREATE TABLE carts_products(
+      id SERIAL PRIMARY KEY,
+      count INTEGER NOT NULL,
+      price INTEGER NOT NULL,
+      "cartId" INTEGER REFERENCES carts(id),
+      "productId" INTEGER REFERENCES products(id)
+    );
+    `);
+
+    console.log('Finished building tables!');
+  } catch (error) {
+    console.error('Error building tables!');
     throw error;
   }
 }
 
 async function createInitialUsers() {
   try {
-    console.log("Starting to create users...");
+    console.log('Starting to create users...');
     await createUser({
-      email: "albert@gmail.com",
-      username: "albert",
-      password: "bertie99",
-      isAdmin: false
+      email: 'albert@gmail.com',
+      username: 'albert',
+      password: 'bertie99',
+      isAdmin: false,
     });
     await createUser({
-      email: "sandra@gmail.com",
-      username: "sandra",
-      password: "2sandy4me",
-      isAdmin: false
+      email: 'sandra@gmail.com',
+      username: 'sandra',
+      password: '2sandy4me',
+      isAdmin: false,
     });
     await createUser({
-      email: "glamgal@gmail.com",
-      username: "glamgal",
-      password: "soglam",
-      isAdmin: false
+      email: 'glamgal@gmail.com',
+      username: 'glamgal',
+      password: 'soglam',
+      isAdmin: false,
     });
     await createUser({
-      email: "jacob.admin@gmail.com",
-      username: "jacob.admin",
-      password: "jacob.admin",
-      isAdmin: true
+      email: 'jacob.admin@gmail.com',
+      username: 'jacob.admin',
+      password: 'jacob.admin',
+      isAdmin: true,
     });
     await createUser({
-      email: "emma.admin@gmail.com",
-      username: "emma.admin",
-      password: "emma.admin",
-      isAdmin: true
+      email: 'emma.admin@gmail.com',
+      username: 'emma.admin',
+      password: 'emma.admin',
+      isAdmin: true,
     });
     await createUser({
-      email: "carmen.admin@gmail.com",
-      username: "carmen.admin",
-      password: "carmen.admin",
-      isAdmin: true
+      email: 'carmen.admin@gmail.com',
+      username: 'carmen.admin',
+      password: 'carmen.admin',
+      isAdmin: true,
     });
-    console.log("Finished creating users!");
+    console.log('Finished creating users!');
   } catch (error) {
-    console.error("Error creating users!");
+    console.error('Error creating users!');
     throw error;
   }
 }
 
 async function createInitialProducts() {
   try {
-    console.log("Starting to create products...");
     await createProduct({
       title:
         "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
@@ -260,39 +278,56 @@ async function createInitialProducts() {
       inventory: 79,
       imgURL: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
     });
-    console.log("Finished creating products!");
+    await createProduct({
+      title: "MBJ Women's Solid Short Sleeve Boat Neck V ",
+      price: 10,
+      description:
+        '95% RAYON 5% SPANDEX, Made in USA or Imported, Do Not Bleach, Lightweight fabric with great stretch for comfort, Ribbed on sleeves and neckline / Double stitching on bottom hem',
+      category: 'womens',
+      inventory: 61,
+      imgURL: 'https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg',
+    });
+    await createProduct({
+      id: 19,
+      title: "Opna Women's Short Sleeve Shirt",
+      price: 9,
+      description:
+        '100% Polyester, Machine wash, 100% cationic polyester interlock, Machine Wash & Pre Shrunk for a Great Fit, Lightweight, roomy and highly breathable with moisture wicking fabric which helps to keep moisture away, Soft Lightweight Fabric with comfortable V-neck collar and a slimmer fit, delivers a sleek, more feminine silhouette and Added Comfort',
+      category: 'womens',
+      inventory: 79,
+      imgURL: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
+    });
   } catch (error) {
-    console.error("Error creating products!");
+    console.error('Error creating products!');
     throw error;
   }
 }
-
 async function createInitialReviews() {
   try {
-    console.log("Starting to create reviews");
+    console.log('Starting to create reviews');
     await createReview({
       creatorId: 1,
       productId: 3,
-      message: "This is nice but the size is not accurate"
+      message: 'This is nice but the size is not accurate',
     });
     await createReview({
       creatorId: 2,
       productId: 1,
-      message: "I love the fabric of this clothing!"
+      message: 'I love the fabric of this clothing!',
     });
     await createReview({
       creatorId: 3,
       productId: 2,
-      message: "Bought this for my kid looks good!!"
+      message: 'Bought this for my kid looks good!!',
     });
     await createReview({
       creatorId: 3,
       productId: 2,
-      message: "Just so I could populate the reviews"
+      message: 'Just so I could populate the reviews',
     });
-    console.log("Finished creating reviews!")
+    console.log('Finished creating reviews!');
   } catch (error) {
-    console.error("Error creating reviews");
+    console.error('Error creating reviews');
     throw error;
   }
 }
@@ -324,48 +359,73 @@ async function createInitialCartProducts() {
 
 async function testDB() {
   try {
+    console.log('Starting to create carts...');
+    await createCart(1);
+    await createCart(2);
+    await createCart(3);
+    console.log('Finished creating carts!');
+  } catch (error) {
+    throw error;
+  }
+}
 
-    console.log("Starting to test database...");
+async function createInitialCartProducts() {
+  try {
+    console.log('Starting to create cart products...');
+    await addProductToCart(1, 20, 1, 1);
+    await addProductToCart(1, 5, 1, 2);
+    await addProductToCart(1, 13, 1, 3);
+    console.log('Finished creating cart products!');
+  } catch (error) {
+    throw error;
+  }
+}
 
-    // const allUsers = await getAllUsers();
-    // console.log("getAllUsers", allUsers);
+async function testDB() {
+  try {
+    console.log('Starting to test database...');
 
-    // const userByUsername = await getUserByUsername("albert");
-    // console.log("getUserByUsername", userByUsername);
+    const allUsers = await getAllUsers();
+    console.log('getAllUsers', allUsers);
 
-    // const user = await getUser({username: "albert", password:"bertie99"});
-    // console.log("here are the users", user);
+    const userByUsername = await getUserByUsername('albert');
+    console.log('getUserByUsername', userByUsername);
 
-    // const userByEmail = await getUserByEmail("albert@gmail.com");
-    // console.log("userByEmail: albert",userByEmail);
+    const user = await getUser({ username: 'albert', password: 'bertie99' });
+    console.log('here are users', user);
 
-    // const products = await getProducts();
-    // console.log("here are all the products", products);
+    const deletedProduct = await destroyProduct(4);
+    console.log('destroyProduct', deletedProduct);
 
-    // const productById = await getProductById(2);
-    // console.log("here is the product by id:2", productById);
+    const products = await getProducts();
+    console.log('getProducts', products);
 
-    // const productByCategory = await getProductByCategory("womens");
-    // console.log("getProductByCategory: Womens", productByCategory);
-
-    // const editedProduct = await editProduct({id: 1, description: "here is the Updated Description"})
-    // console.log("editedProduct: 1", editedProduct);
+    const productToEdit = products[0];
+    const updateProduct = await editProduct(
+      productToEdit.id,
+      productToEdit.title,
+      999,
+      'UpdatedCategory',
+      productToEdit.description,
+      999,
+      productToEdit.imgURL
+    );
+    console.log('updated product: ', updateProduct);
 
     const productReviews = await getProductReviews();
-    console.log("product reviews", productReviews);
+    console.log('product reviews', productReviews);
 
     const productReviewsByProductId = await getProductReviewsByProductId(1);
-    console.log("productReviewsByProductId",productReviewsByProductId);
+    console.log('productReviewsByProductId', productReviewsByProductId);
 
-    // const deletedProduct = await destroyProduct(7);
-    // console.log("deleted product: id 7", await getProducts());
-    //----delete is working
-
-    const editedReview = await editReview({id: 1, message: "Updated Review: size is not accurate"});
-    console.log("edited review: 1", editedReview);
+    const editedReview = await editReview({
+      id: 1,
+      message: 'Updated Review: size is not accurate',
+    });
+    console.log('edited review: 1', editedReview);
 
     const reviews = await getAllReviews();
-    console.log("here are the reviews", reviews);
+    console.log('here are the reviews', reviews);
 
     const newCart = await createCart(1);
     console.log("createCart", newCart);
@@ -384,17 +444,22 @@ async function testDB() {
 
     console.log("Finished testing database!")
 
+    await purchasedCart(1);
+    await deleteProductFromCart(1, 1);
+    await editCount(5, 1, 2);
+
+    const cartProducts = await getCartProducts();
+    console.log(cartProducts[2].products);
+
+    console.log('Finished testing database!');
   } catch (error) {
-
-    console.error("Error testing database!");
+    console.error('Error testing database!');
     throw error;
-
   }
 }
 
 async function rebuildDB() {
   try {
-    
     client.connect();
     await dropTables();
     await createTables();
@@ -403,10 +468,8 @@ async function rebuildDB() {
     await createInitialReviews();
     await createInitialCarts();
     await createInitialCartProducts();
-
   } catch (error) {
-
-    console.log("Error during rebuildDB");
+    console.log('Error during rebuildDB');
     console.log(error);
   }
 }
