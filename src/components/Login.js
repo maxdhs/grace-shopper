@@ -11,6 +11,7 @@ const Login = ({
   setError,
   setUserData,
   setUserId,
+  setOrderInfo
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +40,7 @@ const Login = ({
       }
       setToken(info.token);
       localStorage.setItem("token", info.token);
-      localStorage.setItem("userid", info.token);
+      localStorage.setItem("userid", setOrderInfo);
       setEmail("");
       setPassword("");
 

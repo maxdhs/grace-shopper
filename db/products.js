@@ -7,7 +7,7 @@ const getAllProducts = async () => {
         `);
     return products;
   } catch (error) {
-    throw error;
+    res.send(error);
   }
 };
 
@@ -63,20 +63,24 @@ const createProduct = async ({
 };
 
 async function destroyProduct(id) {
-  await client.query(
-    `
+  try {
+    await client.query(
+      `
     DELETE FROM products
     WHERE id = $1;
     `,
-    [id]
-  );
-  await client.query(
-    `
+      [id]
+    );
+    await client.query(
+      `
   DELETE FROM orders
   WHERE "productId" = $1;
   `,
-    [id]
-  );
+      [id]
+    );
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function updateProduct({

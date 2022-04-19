@@ -14,6 +14,7 @@ import {
   Heels,
   Sandals,
   Sneakers,
+  Admin,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -224,6 +225,11 @@ const App = () => {
               element={
                 <Sneakers products={products} setProducts={setProducts} />
               }
+            />
+            <Route
+              exact
+              path="/admin"
+              element={<Admin products={products} setProducts={setProducts} />}
             />
             {/* <Route exact path="/cart" element={<Cart />} /> */}
             {/* <Route exact path="/admin" element={<Admin />} /> */}

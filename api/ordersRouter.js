@@ -70,14 +70,12 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
-  // const toUpdate = { id, count };
-
-
+  console.log(+tempOrderId, +productId, +count);
   try {
-    if (tempOrderId === orderId) {
-      console.log("order dupe");
-      throw false;
-    }
+    // if (tempOrderId === orderId) {
+    //   console.log("order dupe");
+    //   throw false;
+    // }
 
     const {
       rows: [checkOrderProducts],
@@ -103,9 +101,11 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
       VALUES($1,$2,$3)
       RETURNING *;
       `,
-        [tempOrderId, productId, count]
+        [+tempOrderId, +productId, +count]
       );
+
       res.send(order_products);
+
       return;
     }
   } catch (err) {

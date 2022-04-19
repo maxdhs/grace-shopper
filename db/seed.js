@@ -11,7 +11,6 @@ const dropTables = async () => {
   DROP TABLE IF EXISTS order_products;
   DROP TABLE IF EXISTS orders;
   DROP TABLE IF EXISTS products;
-  DROP TABLE IF EXISTS guests;
   DROP TABLE IF EXISTS users;
   `);
   console.log("done dropping tables");
@@ -23,7 +22,7 @@ const createTables = async () => {
       email VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
       "isAdmin" BOOLEAN DEFAULT false);
-    CREATE TABLE guests(id SERIAL PRIMARY KEY);
+  
     CREATE TABLE products(id SERIAL PRIMARY KEY,
       title VARCHAR(255) UNIQUE NOT NULL,
       designer VARCHAR(255) NOT NULL,
@@ -37,8 +36,8 @@ const createTables = async () => {
       "isPurchased" BOOLEAN DEFAULT false);
     CREATE TABLE order_products(id SERIAL PRIMARY KEY,
       count INTEGER NOT NULL, 
-      "orderId" INTEGER REFERENCES orders(id),
-      "productId" INTEGER REFERENCES products(id));
+      "orderId" INTEGER NOT NULL,
+      "productId" INTEGER NOT NULL);
       `);
 
   console.log("done making tables");

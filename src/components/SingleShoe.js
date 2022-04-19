@@ -16,13 +16,14 @@ const SingleShoe = ({
   const id = useParams();
   const [count, setCount] = useState("");
   const shoe = products.filter((product) => id.shoeId == product.id);
-  //   console.log(shoe);
+  console.log(shoe);
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [orderProductId, setOrderProductId] = useState("");
-  //   console.log(orderInfo);
+  console.log(orderInfo);
 
   const [product, setProduct] = useState("any");
   const [productId, setProductId] = useState("");
+  const [cartMessage, setCartMessage] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -52,10 +53,11 @@ const SingleShoe = ({
     const info = await response.json();
     console.log(info);
     fetchOrderProducts();
+    setCartMessage("Item added to cart!");
     if (info.error) {
       return setError(info.error);
     }
-    fetchProducts;
+    fetchProducts();
   };
 
   //   const handleClick = async () => {
@@ -116,7 +118,9 @@ const SingleShoe = ({
           setCount(event.target.value);
         }}
       >
-        <option value="any">Quantity</option>
+        <option className="quantity" value="any">
+          Quantity
+        </option>
         {quantity.map((num, index) => {
           return (
             <>
@@ -130,6 +134,7 @@ const SingleShoe = ({
       <button id="add-button" onClick={handleClick} className="single-text">
         Add To Cart
       </button>
+      <p>{cartMessage}</p>
     </div>
   );
 };
