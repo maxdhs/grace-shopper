@@ -1,16 +1,18 @@
-const { useNavigate, Link } = require("react-router-dom");
+import { useNavigate } from "react-router-dom";
+import MainCategories from "../MainCategories";
 
-import "./css/Products.css";
-import MainCategories from "./MainCategories";
-
-
-const Products = ({products}) => {
+const Men = ({products}) => {
     const navigate = useNavigate();
-
-    return <div className="products_main">
+    const filteredProducts = products.filter(product => {
+        if(product.category === "men") {
+            return true;
+        }
+    });
+    return (
+        <div className="products_main">
         <MainCategories/>
         <div className="products_container">
-            {products.map(product => {
+            {filteredProducts.map(product => {
                 return <div 
                     key={product.id}
                 >
@@ -29,6 +31,7 @@ const Products = ({products}) => {
             })}
         </div>
     </div>
+    )
 }
 
-export default Products;
+export default Men;
