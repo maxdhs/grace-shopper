@@ -14,6 +14,7 @@ import {
   Heels,
   Sandals,
   Sneakers,
+  Admin,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -29,6 +30,8 @@ const App = () => {
   const [cartInfo, setCartInfo] = useState([]);
   const [orders, setOrders] = useState([]);
   const [orderInfo, setOrderInfo] = useState([]);
+  const [orderProducts, setOrderProducts] = useState([]);
+  const [count, setCount] = useState("");
 
   // const fetchUser = async () => {
   //   const lsToken = localStorage.getItem("token");
@@ -52,6 +55,13 @@ const App = () => {
   //     }
   //   }
   // };
+
+  const fetchOrderProducts = async () => {
+    const response = await fetch(`/api/order_products`);
+    const info = await response.json();
+    console.log(info);
+    setOrderProducts(info.order_products);
+  };
 
   async function createNewOrder() {
     const lsOrderId = localStorage.getItem("orderId");
@@ -103,6 +113,7 @@ const App = () => {
     // fetchUser();
     fetchOrders();
     createNewOrder();
+    fetchOrderProducts();
   }, [token]);
   // console.log(products);
   return (
@@ -167,18 +178,24 @@ const App = () => {
                   userId={userId}
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
+                  fetchOrderProducts={fetchOrderProducts}
+                  count={count}
                 />
               }
             />
             <Route
               exact
-              path="/cart/:orderId"
+              path="/cart"
               element={
                 <Cart
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
                   orders={orders}
                   orderInfo={orderInfo}
+                  fetchOrderProducts={fetchOrderProducts}
+                  orderProducts={orderProducts}
+                  products={products}
+                  count={count}
                 />
               }
             />
@@ -209,7 +226,17 @@ const App = () => {
               }
             />
             {/* <Route exact path="/cart" element={<Cart />} /> */}
-            {/* <Route exact path="/admin" element={<Admin />} /> */}
+            <Route
+              exact
+              path="/admin"
+              element={
+                <Admin
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
+              }
+            />
           </Routes>
         </BrowserRouter>
       </div>
