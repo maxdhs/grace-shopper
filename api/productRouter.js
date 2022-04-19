@@ -1,11 +1,11 @@
 const express = require('express');
-const {
-  getProducts,
-  createProduct,
-  editProduct,
-  destroyProduct,
-  getProductById,
-  getProductByCategory,
+const { 
+  getProducts, 
+  createProduct, 
+  editProduct, 
+  destroyProduct, 
+  getProductById, 
+  getProductByCategory 
 } = require('../db/products');
 const productRouter = express.Router();
 

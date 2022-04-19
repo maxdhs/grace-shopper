@@ -6,20 +6,17 @@ const createProduct = async ({
   category,
   description,
   inventory,
-  imgURL,
+  imgURL
 }) => {
   try {
-    const { rows: newProduct } = await client.query(
-      `
+    const {rows: newProduct} = await client.query(`
       INSERT INTO products(title, price, category, description, inventory, "imgURL")
-      VALUES ($1, $2, $3, $4, $5,$6)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *;
-    `,
-      [title, price, category.toLowerCase(), description, inventory, imgURL]
-    );
+    `,[title, price, category.toLowerCase(), description, inventory, imgURL]);
     return newProduct;
   } catch (error) {
-    console.error('here is the product error', error);
+    console.error("here is the product error",error);
     throw error;
   }
 };
@@ -65,7 +62,7 @@ const getProductByCategory = async (category) => {
   }
 };
 
-const editProduct = async (
+const editProduct = async ({
   id,
   title,
   price,
@@ -73,7 +70,7 @@ const editProduct = async (
   description,
   inventory,
   imgURL
-) => {
+}) => {
   try {
     if (title) {
       client.query(
@@ -85,63 +82,44 @@ const editProduct = async (
         [title, id]
       );
     }
-    if (price) {
-      client.query(
-        `
-      UPDATE products
-      SET price = $1
-      WHERE id = $2;
-    `,
-        [price, id]
-      );
+    if(price) {
+      client.query(`
+        UPDATE products
+        SET price = $1
+        WHERE id = $2;
+    `,[price, id])
     }
-    if (category) {
-      client.query(
-        `
-      UPDATE products
-      SET category = $1
-      WHERE id = $2;
-    `,
-        [category, id]
-      );
+    if(category) {
+      client.query(`
+        UPDATE products
+        SET category = $1
+        WHERE id = $2;
+    `,[category, id])
     }
-    if (description) {
-      client.query(
-        `
-      UPDATE products
-      SET description = $1
-      WHERE id = $2;
-    `,
-        [description, id]
-      );
+    if(description) {
+      client.query(`
+        UPDATE products
+        SET description = $1
+        WHERE id = $2;
+    `,[description, id])
     }
-    if (inventory) {
-      client.query(
-        `
-      UPDATE products
-      SET inventory = $1
-      WHERE id = $2;
-    `,
-        [inventory, id]
-      );
+    if(inventory) {
+      client.query(`
+        UPDATE products
+        SET inventory = $1
+        WHERE id = $2;
+    `,[inventory, id])
     }
-    if (imgURL) {
-      client.query(
-        `
-      UPDATE products
-      SET "imgURL" = $1
-      WHERE id = $2;
-      `,
-        [imgURL, id]
-      );
+    if(imgURL) {
+      client.query(`
+        UPDATE products
+        SET "imgURL" = $1
+      `,[imgURL])
     }
-    const { rows: product } = await client.query(
-      `
-      SELECT * FROM products
-      WHERE id = $1
-    `,
-      [id]
-    );
+    const {rows: product} = await client.query(`
+        SELECT * FROM products
+        WHERE id = $1
+    `,[id]);
     return product;
   } catch (error) {
     throw error;
