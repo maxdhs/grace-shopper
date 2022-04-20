@@ -20,8 +20,12 @@ async function createOrder({ userId }) {
 }
 
 async function getAllOrders() {
-  const { rows: orders } = await client.query(`SELECT * FROM orders;`);
-  return orders;
+  try {
+    const { rows: orders } = await client.query(`SELECT * FROM orders;`);
+    return orders;
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 // async function getAllOrders() {

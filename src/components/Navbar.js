@@ -30,13 +30,15 @@ const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
             Cart
           </Link>
 
-          <Link
-            className="link"
-            to="/admin"
-            //hidden={userData.isAdmin ? false : true}
-          >
-            Admin
-          </Link>
+          {
+            <Link
+              className="link"
+              to="/admin"
+              //hidden={userData.isAdmin ? false : true}
+            >
+              Admin
+            </Link>
+          }
 
           {userData ? null : (
             <Link className="link" to="/register">

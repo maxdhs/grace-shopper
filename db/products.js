@@ -7,7 +7,7 @@ const getAllProducts = async () => {
         `);
     return products;
   } catch (error) {
-    throw error;
+    res.send(error);
   }
 };
 
@@ -43,40 +43,37 @@ const createProduct = async ({
   image,
   count,
 }) => {
-  try {
-    const {
-      rows: [product],
-    } = await client.query(
-      `
+  const response = await client.query(
+    `
         INSERT INTO products(title, designer, description, price, category, image, count)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-        ON CONFLICT (title) DO NOTHING
         RETURNING *;
         `,
-      [title, designer, description, price, category, image, count]
-    );
+    [title, designer, description, price, category, image, count]
+  );
 
-    return product;
-  } catch (error) {
-    throw error;
-  }
+  return response.rows[0];
 };
 
 async function destroyProduct(id) {
-  await client.query(
-    `
+  try {
+    await client.query(
+      `
     DELETE FROM products
     WHERE id = $1;
     `,
-    [id]
-  );
-  await client.query(
-    `
+      [id]
+    );
+    await client.query(
+      `
   DELETE FROM orders
   WHERE "productId" = $1;
   `,
-    [id]
-  );
+      [id]
+    );
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function updateProduct({
