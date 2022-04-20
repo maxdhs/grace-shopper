@@ -1,3 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Meddon&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Wire+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Whisper&display=swap');
+
 * {
     font-family: monospace;
+
+}
+
+#nav-one {
+    display: flex;
+    background: transparent;
+    height: 75px;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    background-color: black;
+    padding-left: 10px;
+}
+
+#nav-one-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+
+#nav-one-right>link {
+    color: wheat;
+}
+
+#cart {
+    font-size: 20px;
+    padding: 40px;
+    color: white;
+}
+
+#cart:hover {
+    animation: shake 0.9s;
+}
+
+#cart:active {
+    transform: translate(0px, 5px, 5px);
+}
+
+.linksolo {
+    font-family: "Wire One";
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+    padding-right: 10px;
+}
+
+#nav-two {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#logo {
+    height: 440px;
+    width: 440px;
+}
+
+#links {
+    display: flex;
+    justify-content: center;
+    margin-top: -70px;
+}
+
+
+
+.link {
+    font-family: "Wire One";
+    font-size: 50px;
+    color: black;
+    text-decoration: none;
+    padding: 50px;
+}
+
+.link:hover {
+    transform: scale(1.05);
+    background-color: transparent;
+}
+
+h1 {
+    display: flex;
+    justify-content: left;
+    /* font-family: 'Meddon'; */
+    font-family: 'Whisper';
+    font-size: 45px;
+    color: black;
+    padding-left: 15px;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
 }

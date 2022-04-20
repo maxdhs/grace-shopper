@@ -1,20 +1,41 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
+import { Meat, Home, Navbar } from "./components";
 
 const App = () => {
-  const [products, setProducts] = useState([]);
+  const [meats, setMeat] = useState([]);
+  const [cow, setCow] = useState([]);
+  const [gnarwall, setGnarwall] = useState([]);
+  const [bison, setBison] = useState([]);
 
-  const fetchProducts = async () => {
-    const response = await fetch("/api/products");
-    const info = await response.json();
-    setProducts(info);
+  const fetchMeat = async () => {
+    const resp = await fetch(`api/meats`);
+
+    const info = await resp.json();
+
+    setMeat(info);
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchMeat();
   }, []);
 
-  return <>Full-Stack App!!!!</>;
-};
+  return (
+    <div id="container">
+      <Navbar />
+      <div id="main-section">
+        <Routes>
+          <Route exact path="/" element={<Home />} />
 
+          <Route
+            exact
+            path="/meat"
+            element={<Meat meats={(meats, cow, gnarwall, bison)} />}
+          />
+        </Routes>
+      </div>
+    </div>
+  );
+};
 export default App;
