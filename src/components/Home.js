@@ -2,7 +2,6 @@ const Home = () => {
   return (
     <>
       <main className="backgroundhome">
-        {/* <h1 className="main-head">Welcome to Sick Kicks</h1> */}
         <body>
           <section>
             <div className="row1">
