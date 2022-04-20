@@ -32,17 +32,17 @@ const Cart = ({
     productArr.push(productId);
     productQuantity.push(orderProduct[i].count);
   }
-  //   console.log(productArr);
+
   console.log(productQuantity);
 
   let finalProducts = [];
   let finalProductQuantity = [];
   for (let j = 0; j < productArr.length; j++) {
     let product = productArr[j];
-    // console.log(product);
+
     for (let l = 0; l < products.length; l++) {
       let product1 = products[l];
-      //   console.log(product1);
+
       if (product === product1.id) {
         finalProducts.push(product1);
         finalProductQuantity.push(productQuantity[j]);
@@ -63,32 +63,13 @@ const Cart = ({
     }
   }
 
-  console.log(finalProductsAdd);
-
-  //   console.log(orderProduct);
-
-  //   const fetchCart = async () => {
-  //     try {
-  //       const response = await fetch(`/api/orders/${lsOrderId}`);
-  //       const info = await response.json();
-  //       console.log(info);
-  //       setCartInfo(info);
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   };
-
   const handleProductDelete = async (id) => {
     let product;
     for (let i = 0; i < orderProduct.length; i++) {
-      console.log(orderProduct[i].productId);
-      console.log(id);
       if (id == orderProduct[i].productId) {
         product = orderProduct[i];
       }
     }
-    console.log(product);
-    // console.log(id);
     const response = await fetch(`${API_ORDERPRODUCTS}/${product.id}`, {
       method: "DELETE",
       headers: {
@@ -106,25 +87,20 @@ const Cart = ({
   const handleSubmit = async (id) => {
     let product;
     for (let i = 0; i < orderProduct.length; i++) {
-      console.log(orderProduct[i].productId);
-      console.log(id);
       if (id == orderProduct[i].productId) {
         product = orderProduct[i];
       }
     }
-    console.log(product);
     const response = await fetch(`${API_ORDERPRODUCTS}/${product.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${lsToken}`,
       },
       body: JSON.stringify({
         count,
       }),
     });
     const info = await response.json();
-    console.log(info);
     if (info.error) {
       return setError(info.error);
     }
@@ -143,7 +119,6 @@ const Cart = ({
   };
 
   useEffect(() => {
-    // fetchCart();
     fetchOrderProducts();
     setOrderProductId(orderProduct.id);
   }, []);
@@ -168,7 +143,7 @@ const Cart = ({
                       />
                       <h4 className="product-designer">{product.designer}</h4>
                       <h5 className="product-price">${product.price}</h5>
-                      {/* <p>{product.count}</p> */}
+
                       <select
                         value={count}
                         onChange={(event) => {
@@ -188,8 +163,6 @@ const Cart = ({
                           );
                         })}
                       </select>
-                      {/* <form onSubmit={handleSubmit}>
-                        <input placeholder={product.count}></input> */}
                       <button
                         value={product.id}
                         onClick={(e) => {
@@ -200,8 +173,6 @@ const Cart = ({
                       >
                         Update Quantity
                       </button>
-                      {/* </form> */}
-
                       <button
                         className="products"
                         value={product.id}

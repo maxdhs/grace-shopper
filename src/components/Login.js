@@ -4,14 +4,7 @@ import { Link } from "react-router-dom";
 
 const API_LOGIN = "/api/users/login";
 
-const Login = ({
-  setToken,
-  action,
-  error,
-  setError,
-  setUserData,
-  setUserId,
-}) => {
+const Login = ({ setToken, error, setError, setUserData, setUserId }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const title = "Login";
