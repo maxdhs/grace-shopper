@@ -43,7 +43,6 @@ const createProduct = async ({
   image,
   count,
 }) => {
-  console.log("hi");
   const response = await client.query(
     `
         INSERT INTO products(title, designer, description, price, category, image, count)

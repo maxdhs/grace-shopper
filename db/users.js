@@ -77,4 +77,17 @@ const getUserByEmail = async (email) => {
   }
 };
 
-module.exports = { createUser, getUser, getUserById, getUserByEmail };
+const getAllUsers = async () => {
+  const user = await client.query(`
+    SELECT * FROM users;
+    `);
+  return user;
+};
+
+module.exports = {
+  createUser,
+  getUser,
+  getUserById,
+  getUserByEmail,
+  getAllUsers,
+};
