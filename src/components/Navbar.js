@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import logo from "../logo/Sick kicks copy.png";
+
 
 const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
   return (
     <>
       <div id="navbar">
-        <img id="nav-title" src={logo}></img>
+        <img id="nav-title" src="SickKicksLogo.png"></img>
         <div id="links">
           <Link className="link" to="/">
             Home

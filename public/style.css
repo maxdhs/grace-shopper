@@ -69,7 +69,7 @@ body > div {
   display: flex;
   flex-direction: column;
 }
-
+/* Navbar */
 #navbar {
   display: flex;
   flex-flow: nowrap column;
@@ -93,11 +93,26 @@ body > div {
   margin: auto;
 }
 
+
 #nav-title {
   width: 10rem;
   height: 10rem;
-  font-family: "Bebas Neue", "monospace";
-  align-self: center;
+  animation: shoe 10s linear infinite;
+}
+
+@keyframes shoe {
+  0% {
+    transform: translateX(-150%);
+  }
+  20% {
+    transform: translateX(400%);
+  }
+  70% {
+    transform: translateX(400%);
+  }
+  100% {
+    transform: translateX(1000%);
+  }
 }
 
 #main-section {
@@ -117,6 +132,7 @@ body > div {
 #navbar > #links :hover {
   font-size: 25px;
   font-size-adjust: 20px;
+  animation: neon 3s infinite
 }
 
 #navbar > #links {
@@ -124,6 +140,28 @@ body > div {
   font-size: 1em;
   transition: all 500ms;
 }
+
+@keyframes neon {
+  from {
+    text-shadow:
+    0 0 6px rgba(202,228,225,0.92),
+    0 0 30px rgba(202,228,225,0.34),
+    0 0 12px rgba(30,132,242,0.52),
+    0 0 21px rgba(30,132,242,0.92),
+    0 0 34px purple
+    0 0 54px purple
+  }
+  to {
+    text-shadow:
+    0 0 6px rgba(202,228,225,0.98),
+    0 0 30px rgba(202,228,225,0.42),
+    0 0 12px rgba(30,132,242,0.58),
+    0 0 22px rgba(30,132,242,0.84),
+    0 0 38px rgba(30,132,242,0.88),
+    0 0 60px rgba(30,132,242,1);
+  }
+}
+/* Navbar end  */
 .textInput {
   text-align: center;
 }
