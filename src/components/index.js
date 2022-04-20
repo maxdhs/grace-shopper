@@ -10,3 +10,4 @@ export { default as Sandals } from "./Sandals";
 export { default as Sneakers } from "./Sneakers";
 export { default as SingleShoe } from "./SingleShoe";
 export { default as Login } from "./Login";
+export { default as AddShoe } from "./AddShoe";

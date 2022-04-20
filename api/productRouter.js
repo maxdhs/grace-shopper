@@ -33,27 +33,28 @@ productRouter.get("/:productId", async (req, res) => {
 //create a product - admin only
 // Tested with postman and is working
 productRouter.post("/", async (req, res, next) => {
-  const { title, designer, description, price, category, inventoryQuantity } =
+  const { title, designer, description, price, category, image, count } =
     req.body;
+
   try {
-    if (!req.user) {
-      throw "Must be logged in to post";
-    } else {
-      userId = req.user.id;
-      const {
-        rows: [newProduct],
-      } = await createProduct({
-        title,
-        designer,
-        description,
-        price,
-        category,
-        inventoryQuantity,
-      });
-      res.send(newProduct);
-    }
+    // if (!req.user) {
+    //   throw "Must be logged in to post";
+    // } else {
+    // userId = req.user.id;
+    const response = await createProduct({
+      title,
+      designer,
+      description,
+      price,
+      category,
+      image,
+      count,
+    });
+    console.log(response);
+    res.send(response);
+    // }
   } catch (err) {
-    next(err);
+    res.send({ error: err.message });
   }
 });
 

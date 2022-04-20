@@ -15,6 +15,7 @@ import {
   Sandals,
   Sneakers,
   Admin,
+  AddShoe,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -197,6 +198,8 @@ const App = () => {
                   orderProducts={orderProducts}
                   products={products}
                   count={count}
+                  setCount={setCount}
+                  setError={setError}
                 />
               }
             />
@@ -229,10 +232,31 @@ const App = () => {
             <Route
               exact
               path="/admin"
-              element={<Admin products={products} setProducts={setProducts} />}
+              element={
+                <Admin
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
+              }
             />
             {/* <Route exact path="/cart" element={<Cart />} /> */}
-            {/* <Route exact path="/admin" element={<Admin />} /> */}
+            <Route
+              exact
+              path="/add-shoe"
+              element={<AddShoe fetchProducts={fetchProducts} />}
+            />
+            <Route
+              exact
+              path="/admin"
+              element={
+                <Admin
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
+              }
+            />
           </Routes>
         </BrowserRouter>
       </div>

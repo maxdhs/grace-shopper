@@ -13,6 +13,8 @@ const Cart = ({
   orderProducts,
   products,
   count,
+  setCount,
+  setError,
 }) => {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   console.log(count);
@@ -21,53 +23,53 @@ const Cart = ({
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
+  console.log(orderProduct);
   const lsToken = localStorage.getItem("token");
   const productArr = [];
+  const productQuantity = [];
   for (let i = 0; i < orderProduct.length; i++) {
     const productId = orderProduct[i].productId;
     productArr.push(productId);
+    productQuantity.push(orderProduct[i].count);
   }
-  //   console.log(productArr);
-  //   console.log(products);
+
+  console.log(productQuantity);
 
   let finalProducts = [];
+  let finalProductQuantity = [];
   for (let j = 0; j < productArr.length; j++) {
     let product = productArr[j];
-    // console.log(product);
+
     for (let l = 0; l < products.length; l++) {
       let product1 = products[l];
-      //   console.log(product1);
+
       if (product === product1.id) {
         finalProducts.push(product1);
+        finalProductQuantity.push(productQuantity[j]);
       }
     }
     console.log(finalProducts);
+    console.log(finalProductQuantity);
   }
 
-  //   console.log(orderProduct);
-
-  //   const fetchCart = async () => {
-  //     try {
-  //       const response = await fetch(`/api/orders/${lsOrderId}`);
-  //       const info = await response.json();
-  //       console.log(info);
-  //       setCartInfo(info);
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   };
+  let finalProductsAdd = [];
+  for (let i = 0; i < finalProducts.length; i++) {
+    console.log(finalProducts[i]);
+    for (let j = 0; j < finalProductQuantity.length; j++) {
+      finalProductsAdd.push({
+        ...finalProducts[i],
+        quantity: finalProductQuantity[j],
+      });
+    }
+  }
 
   const handleProductDelete = async (id) => {
     let product;
-    for (let i = 0; i < orderProducts.length; i++) {
-      let thisProductId = orderProducts[i].productId;
-      console.log(thisProductId);
-      if (thisProductId) {
-        product = orderProducts[i];
+    for (let i = 0; i < orderProduct.length; i++) {
+      if (id == orderProduct[i].productId) {
+        product = orderProduct[i];
       }
     }
-    console.log(product);
-    console.log(id);
     const response = await fetch(`${API_ORDERPRODUCTS}/${product.id}`, {
       method: "DELETE",
       headers: {
@@ -82,28 +84,41 @@ const Cart = ({
     fetchOrderProducts();
   };
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     const response = await fetch(`${API_ORDERS}/${id}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${lsToken}`,
-  //       },
-  //       body: JSON.stringify({
-  //         count,
-  //       }),
-  //     });
-  //     const info = await response.json();
-  //     if (info.error) {
-  //       return setError(info.error);
-  //     }
-  //     fetchCart();
-  //     setError("");
-  //   };
+  const handleSubmit = async (id) => {
+    let product;
+    for (let i = 0; i < orderProduct.length; i++) {
+      if (id == orderProduct[i].productId) {
+        product = orderProduct[i];
+      }
+    }
+    const response = await fetch(`${API_ORDERPRODUCTS}/${product.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        count,
+      }),
+    });
+    const info = await response.json();
+    if (info.error) {
+      return setError(info.error);
+    }
+    setError("");
+  };
+
+  const handleSubmitOrder = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`${API_ORDERS}/${orderId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const info = await response.json();
+  };
 
   useEffect(() => {
-    // fetchCart();
     fetchOrderProducts();
     setOrderProductId(orderProduct.id);
   }, []);
@@ -116,54 +131,68 @@ const Cart = ({
         </div>
         <div id="cart">
           {finalProducts
-            ? finalProducts.map((product) => {
+            ? finalProducts.map((product, index) => {
                 return (
-                  <div key={product.id} className="product-view">
-                    <h2 className="product-title">{product.title}</h2>
-                    <img
-                      className="product-text"
-                      id="image"
-                      src={product.image}
-                    />
-                    <h4 className="product-designer">{product.designer}</h4>
-                    <h5 className="product-price">${product.price}</h5>
+                  <>
+                    <div key={product.id} className="product-view">
+                      <h2 className="product-title">{product.title}</h2>
+                      <img
+                        className="product-text"
+                        id="image"
+                        src={product.image}
+                      />
+                      <h4 className="product-designer">{product.designer}</h4>
+                      <h5 className="product-price">${product.price}</h5>
 
-                    <select
-                      value={count}
-                      onChange={(event) => {
-                        setCount(event.target.value);
-                      }}
-                    >
-                      <option value="any">{count}</option>
-                      {quantity.map((num, index) => {
-                        return (
-                          <>
-                            <option key={num.index} value={num}>
-                              {num}
-                            </option>
-                          </>
-                        );
-                      })}
-                    </select>
-                    {/* <button className="products" onClick={handleSubmit}>
-                      Update Quantity
-                    </button> */}
-                    <button
-                      className="products"
-                      value={product.id}
-                      onClick={(e) => {
-                        const orderProductId = e.target.value;
-                        handleProductDelete(orderProductId);
-                      }}
-                    >
-                      Delete
-                    </button>
-                    <br />
-                  </div>
+                      <select
+                        value={count}
+                        onChange={(event) => {
+                          setCount(event.target.value);
+                        }}
+                      >
+                        <option value="original quantity">
+                          {finalProductQuantity[index]}
+                        </option>
+                        {quantity.map((num) => {
+                          return (
+                            <>
+                              <option key={num} value={num}>
+                                {num}
+                              </option>
+                            </>
+                          );
+                        })}
+                      </select>
+                      <button
+                        value={product.id}
+                        onClick={(e) => {
+                          const orderProductId = e.target.value;
+                          handleSubmit(orderProductId);
+                        }}
+                        className="products"
+                      >
+                        Update Quantity
+                      </button>
+                      <button
+                        className="products"
+                        value={product.id}
+                        onClick={(e) => {
+                          const orderProductId = e.target.value;
+                          handleProductDelete(orderProductId);
+                        }}
+                      >
+                        Delete
+                      </button>
+                      <br />
+                    </div>
+                  </>
                 );
               })
             : null}
         </div>
+        {finalProducts.length ? (
+          <button onClick={handleSubmitOrder}>Submit Order</button>
+        ) : null}
       </div>
     </>
   );
