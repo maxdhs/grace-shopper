@@ -5,10 +5,12 @@ const {
   destroyOrder,
   updateOrder,
   getAllOrders,
+  updateUserIdOrdersTable,
 } = require("../db/orders");
 
 const requireUser = require("./utils").default;
 const client = require("../db/index");
+const { updateOrderProducts } = require("../db/order_products");
 const ordersRouter = express.Router();
 
 ordersRouter.get("/", async (req, res, next) => {
@@ -88,7 +90,9 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     );
 
     if (checkOrderProducts) {
-      throw "order product already exists";
+      const orders = await updateOrderProducts(toUpdate);
+    res.send(orders);
+      // throw "order product already exists";
     } else {
       const {
         rows: [order_products],
@@ -107,6 +111,19 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     }
   } catch (err) {
     next(err);
+  }
+});
+
+ordersRouter.patch("/:userId", async (req, res, next) => {
+  const { userId } = req.body;
+  const { userId: id } = req.params;
+  const toUpdate = { id };
+
+  try {
+    const orders = await updateUserIdOrdersTable(toUpdate);
+    res.send(orders);
+  } catch (error) {
+    next(error);
   }
 });
 

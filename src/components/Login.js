@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const API_LOGIN = "/api/users/login";
+const API_UserId= "api/orders/:userId"
 
 const Login = ({
   setToken,
@@ -11,6 +12,7 @@ const Login = ({
   setError,
   setUserData,
   setUserId,
+  setOrderInfo
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +41,7 @@ const Login = ({
       }
       setToken(info.token);
       localStorage.setItem("token", info.token);
+      localStorage.setItem("userid", info.user.id);
       setEmail("");
       setPassword("");
 
@@ -48,10 +51,29 @@ const Login = ({
     }
   };
 
+  const handleSubmituserId = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const response = await fetch(`${API_UserId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId
+        }),
+      });
+      const info = await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
   return (
     <>
       <h3 className="main-login">{title}</h3>
-      <form className="sign-in" onSubmit={handleSubmit}>
+      <form className="sign-in" onSubmit={() =>{handleSubmit(); handleSubmituserId()}}>
         <input
           className="sign-in-box"
           required
