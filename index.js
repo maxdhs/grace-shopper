@@ -16,14 +16,6 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use(express.static("build"));
-
-app.use("/api", apiRouter);
-
-app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
-});
-
 app.use(async (req, res, next) => {
   if (!req.headers.authorization) {
     return next();
@@ -37,6 +29,14 @@ app.use(async (req, res, next) => {
   req.user = user;
   req.user.cart = await getCartByUserId(user.id);
   next();
+});
+
+app.use(express.static("build"));
+
+app.use("/api", apiRouter);
+
+app.get("*", (req, res) => {
+  res.sendFile(__dirname + "/build/index.html");
 });
 
 app.listen(PORT, () => {
