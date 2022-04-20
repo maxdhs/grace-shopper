@@ -153,7 +153,8 @@ async function updateOrder({ id, count }) {
         [count, id]
       );
     }
-    const order = getOrderById(id);
+    const order = await getOrderById(id);
+    console.log(order);
     return order;
   } catch (error) {
     throw error;

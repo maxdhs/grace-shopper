@@ -51,7 +51,7 @@ orderProductsRouter.delete("/:orderProductId", async (req, res, next) => {
         message: "No order_products exist with that id",
       };
     }
-    const order = await getOrderById(orderProduct.id);
+    const order = await getOrderById(orderProduct.orderId);
     await destroyOrderProducts(req.params.orderProductId);
     res.send(orderProduct);
   } catch (error) {
