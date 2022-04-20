@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
-  // console.log("==>", userData);
   return (
     <>
       <div id="navbar">
