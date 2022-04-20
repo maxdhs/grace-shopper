@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const UpdateShoe = ({ products, setProducts }) => {
   const [title, setTitle] = useState("");
@@ -88,7 +88,7 @@ const UpdateShoe = ({ products, setProducts }) => {
             setPrice(e.target.value);
           }}
         />
-        <select defaultValue="default" required>
+        {/* <select defaultValue="default" required>
           <option key="default" value="default" disabled>
             -- Select a Category --
           </option>
@@ -96,7 +96,7 @@ const UpdateShoe = ({ products, setProducts }) => {
           <option>Sandals</option>
           <option>Sneakers</option>
           <option>Heels</option>)
-        </select>
+        </select> */}
         <button>Submit</button>
         <button
           type="reset"
@@ -105,10 +105,10 @@ const UpdateShoe = ({ products, setProducts }) => {
             setDesigner("");
             setDescription("");
             setPrice("");
-            setCategory("");
+            // setCategory("");
           }}
         >
-          Cancel
+          <Link to="/admin">Cancel</Link>
         </button>
       </form>
     </>

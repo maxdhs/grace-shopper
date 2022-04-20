@@ -16,6 +16,8 @@ import {
   Sneakers,
   Admin,
   UpdateShoe,
+  AddShoe,
+  DeleteShoe,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
@@ -167,6 +169,7 @@ const App = () => {
                   setError={setError}
                   setUserData={setUserData}
                   setUserId={setUserId}
+                  setOrderInfo={setOrderInfo}
                 />
               }
             />
@@ -207,6 +210,8 @@ const App = () => {
                   orderProducts={orderProducts}
                   products={products}
                   count={count}
+                  setCount={setCount}
+                  setError={setError}
                 />
               }
             />
@@ -244,6 +249,7 @@ const App = () => {
                   products={products}
                   setProducts={setProducts}
                   allUsers={allUsers}
+                  fetchProducts={fetchProducts}
                 />
               }
             />
@@ -254,8 +260,29 @@ const App = () => {
                 <UpdateShoe products={products} setProducts={setProducts} />
               }
             />
-            {/* <Route exact path="/cart" element={<Cart />} /> */}
-            {/* <Route exact path="/admin" element={<Admin />} /> */}
+            <Route
+              exact
+              path="/deleteShoe/:shoeId"
+              element={
+                <DeleteShoe products={products} setProducts={setProducts} />
+              }
+            />
+            <Route
+              exact
+              path="/add-shoe"
+              element={<AddShoe fetchProducts={fetchProducts} />}
+            />
+            <Route
+              exact
+              path="/admin"
+              element={
+                <Admin
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
+              }
+            />
           </Routes>
         </BrowserRouter>
       </div>
