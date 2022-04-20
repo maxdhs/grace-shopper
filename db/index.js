@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Client } = require("pg");
 
 let client;
@@ -9,12 +10,10 @@ if (process.env.DATABASE_URL) {
   });
 } else {
   client = new Client({
-    password: process.env.DB_PASSWORD,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
+    password: "bones101",
+    database: "grace-shopper",
+    user: "postgres",
   });
 }
-
-client.connect();
 
 module.exports = client;

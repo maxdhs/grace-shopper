@@ -1,21 +1,30 @@
 {
   "name": "grace-shopper",
   "version": "1.0.0",
-  "description": "",
+  "description": "1. Create a .env file in the root directory with the below info replacing any values that have changed:",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "react": "react-scripts start",
     "build": "react-scripts build",
-    "seed": "node db/seed"
+    "seed": "node db/seed",
+    "test:watch": "jest --watchAll --runInBand",
+    "start:dev": "npx nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "proxy": "http://localhost:3001",
   "dependencies": {
+    "axios": "^0.26.1",
+    "bcrypt": "^5.0.1",
     "dot-env": "^0.0.1",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "json": "^11.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
     "pg": "^8.7.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -33,5 +42,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexim515/grace-shopper.git"
   }
 }
