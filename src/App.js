@@ -198,6 +198,8 @@ const App = () => {
                   orderProducts={orderProducts}
                   products={products}
                   count={count}
+                  setCount={setCount}
+                  setError={setError}
                 />
               }
             />

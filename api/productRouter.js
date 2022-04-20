@@ -35,23 +35,24 @@ productRouter.get("/:productId", async (req, res) => {
 productRouter.post("/", async (req, res, next) => {
   const { title, designer, description, price, category, image, count } =
     req.body;
-  try {
-    if (!req.user) {
-      throw "Must be logged in to post";
-    } else {
-      userId = req.user.id;
-      const response = await createProduct({
-        title,
-        designer,
-        description,
-        price,
-        category,
-        image,
-        count,
-      });
 
-      res.send({ newProduct: response });
-    }
+  try {
+    // if (!req.user) {
+    //   throw "Must be logged in to post";
+    // } else {
+    // userId = req.user.id;
+    const response = await createProduct({
+      title,
+      designer,
+      description,
+      price,
+      category,
+      image,
+      count,
+    });
+    console.log(response);
+    res.send(response);
+    // }
   } catch (err) {
     res.send({ error: err.message });
   }

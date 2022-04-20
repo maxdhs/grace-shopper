@@ -4,12 +4,6 @@ import { Link } from "react-router-dom";
 const AllShoes = ({ products, fetchProducts }) => {
   const [search, setSearch] = useState("");
 
-  //   useEffect(() => {
-  //     fetchProducts();
-  //   }, []);
-
-  console.log(products);
-
   const filter = (product, text) => {
     text = text.toLowerCase();
     if (
@@ -53,11 +47,12 @@ const AllShoes = ({ products, fetchProducts }) => {
               <h2 className="product-text">
                 <Link to={`/${product.id}`}>{product.title}</Link>
               </h2>
-              <img className="product-text" id="image" src={product.image} />
+              <Link to={`/${product.id}`}>
+                <img className="product-text" id="image" src={product.image} />
+              </Link>
               <h3 className="product-text">{product.designer}</h3>
-              {/* <h4 className="product-text">{product.description}</h4> */}
+
               <h3 className="product-text">${product.price}</h3>
-              {/* <h4 className="product-text">Inventory: {product.count}</h4> */}
             </div>
           );
         })}

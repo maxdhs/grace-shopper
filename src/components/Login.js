@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const API_LOGIN = "/api/users/login";
-const API_UserId= "api/orders/:userId"
+const API_UserId = "api/orders/:userId";
 
 const Login = ({
   setToken,
@@ -12,7 +12,7 @@ const Login = ({
   setError,
   setUserData,
   setUserId,
-  setOrderInfo
+  setOrderInfo,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,19 +61,25 @@ const Login = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId
+          userId,
         }),
       });
       const info = await response.json();
-  } catch (error) {
-    throw error;
-  }
-};
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <>
       <h3 className="main-login">{title}</h3>
-      <form className="sign-in" onSubmit={() =>{handleSubmit(); handleSubmituserId()}}>
+      <form
+        className="sign-in"
+        onSubmit={() => {
+          handleSubmit();
+          handleSubmituserId();
+        }}
+      >
         <input
           className="sign-in-box"
           required

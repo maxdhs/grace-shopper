@@ -10,6 +10,7 @@ const AddShoe = ({ token, fetchProducts }) => {
   const [category, setCategory] = useState("");
 
   const handleShoes = async (e) => {
+    console.log(title, designer, description, price, count, image, category);
     e.preventDefault();
     const resp = await fetch("/api/products", {
       method: "POST",
@@ -18,20 +19,17 @@ const AddShoe = ({ token, fetchProducts }) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        product: {
-          title,
-          designer,
-          description,
-          price,
-          count,
-          image,
-          category,
-        },
+        title,
+        designer,
+        description,
+        price,
+        count,
+        image,
+        category,
       }),
     });
     const info = await resp.json();
     console.log(info);
-
     fetchProducts();
   };
 
