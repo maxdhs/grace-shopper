@@ -40,9 +40,7 @@ productRouter.post("/", async (req, res, next) => {
       throw "Must be logged in to post";
     } else {
       userId = req.user.id;
-      const {
-        rows: [newProduct],
-      } = await createProduct({
+      const response = await createProduct({
         title,
         designer,
         description,
@@ -50,7 +48,7 @@ productRouter.post("/", async (req, res, next) => {
         category,
         inventoryQuantity,
       });
-      res.send(newProduct);
+      res.send({ response });
     }
   } catch (err) {
     next(err);

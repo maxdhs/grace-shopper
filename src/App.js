@@ -15,12 +15,14 @@ import {
   Sandals,
   Sneakers,
   Admin,
+  UpdateShoe,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
 
 const App = () => {
   const [userData, setUserData] = useState(null);
+  const [allUsers, setAllUsers] = useState({});
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   // const [order, setOrder] = useState("");
@@ -59,7 +61,7 @@ const App = () => {
   const fetchOrderProducts = async () => {
     const response = await fetch(`/api/order_products`);
     const info = await response.json();
-    console.log(info);
+    // console.log(info);
     setOrderProducts(info.order_products);
   };
 
@@ -96,6 +98,13 @@ const App = () => {
     localStorage.setItem("orderIsPurchased", info.isPurchased);
   }
 
+  async function fetchAllUsers() {
+    const response = await fetch("/api/users/admin");
+    const info = await response.json();
+    // console.log(info);
+    setAllUsers(info.rows);
+  }
+
   async function fetchProducts() {
     const response = await fetch("/api/products", {});
     const info = await response.json();
@@ -112,6 +121,7 @@ const App = () => {
     fetchProducts();
     // fetchUser();
     fetchOrders();
+    fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
   }, [token]);
@@ -142,6 +152,7 @@ const App = () => {
                   error={error}
                   setError={setError}
                   setUserData={setUserData}
+                  setAllUsers={setAllUsers}
                 />
               }
             />
@@ -228,7 +239,20 @@ const App = () => {
             <Route
               exact
               path="/admin"
-              element={<Admin products={products} setProducts={setProducts} />}
+              element={
+                <Admin
+                  products={products}
+                  setProducts={setProducts}
+                  allUsers={allUsers}
+                />
+              }
+            />
+            <Route
+              exact
+              path="/updateShoe/:shoeId"
+              element={
+                <UpdateShoe products={products} setProducts={setProducts} />
+              }
             />
             {/* <Route exact path="/cart" element={<Cart />} /> */}
             {/* <Route exact path="/admin" element={<Admin />} /> */}

@@ -5,7 +5,7 @@ import SingleShoe from "./SingleShoe";
 const Boots = ({ products, setProducts }) => {
   let category = "Boots";
   const filteredProducts = products.filter(
-    (product) => product.category === category
+    (product) => product.category == category
   );
 
   return (
