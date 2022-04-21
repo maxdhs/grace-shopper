@@ -1,10 +1,46 @@
 .prj-name {
-  font-family: cursive;
-  color: rgb(14, 83, 172);
-  font-size: 0.3in;
+	font-family: cursive;
+	color: rgb(14, 83, 172);
+	font-size: 0.3in;
 }
 .authors {
-  font-family: "Dancing Script";
-  color: rgb(14, 83, 172);
-  font-size: 0.3in;
+	font-family: "Dancing Script";
+	color: rgb(14, 83, 172);
+	font-size: 0.3in;
+}
+
+/* .jewelry-details, */
+.accessories-details,
+.mens-details,
+.womens-details {
+	border: 1px solid;
+	padding: 10px;
+	box-shadow: 5px 10px rgb(213, 210, 232);
+}
+
+.price {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+.register-form input,
+.login-form input {
+	padding: 8px;
+	width: 35%;
+}
+
+.login-form label,
+.register-form label {
+	display: block;
+}
+
+.register-form-grp,
+.login-form-grp {
+	padding-bottom: 15px;
+}
+
+.goto-register,
+.goto-login {
+	margin-top: 15px;
+	margin-bottom: 15px;
 }

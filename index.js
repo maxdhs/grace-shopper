@@ -39,7 +39,7 @@ const apiRouter = require('./api');
 app.use('/api', apiRouter);
 
 app.use((err, req, res, next) => {
-  res.send({
+  res.status(400).send({
     name: err.name,
     message: err.message,
   });

@@ -1,11 +1,12 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const { 
-  createUser, 
-  getUserByUsername, 
-  getUser, 
-  getAllUsers 
+const {
+  createUser,
+  getUserByUsername,
+  getUserByEmail,
+  getUser,
+  getAllUsers,
 } = require('../db/users.js');
 const { requireAdmin } = require('./utils');
 
@@ -14,6 +15,14 @@ const userRouter = express.Router();
 userRouter.get('/', async (req, res) => {
   console.log('here is the current user', req.user);
   res.send('User Page');
+});
+
+userRouter.get('/me', async (req, res) => {
+  try {
+    req.user ? res.send(req.user) : res.send('Error: No user logged in.');
+  } catch (error) {
+    throw error;
+  }
 });
 
 userRouter.get('/view', async (req, res, next) => {
