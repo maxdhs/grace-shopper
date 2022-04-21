@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const API_LOGIN = "/api/users/login";
 const API_REGISTER = "/api/users/register";
 
-const Register = ({ setToken, action, error, setError }) => {
+const Register = ({ setToken, action, error, setError, setAllUsers }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -34,6 +34,7 @@ const Register = ({ setToken, action, error, setError }) => {
           }),
         });
         const info = await response.json();
+        setAllUsers(info.user);
         console.log(info);
         if (info.error) {
           return setError(info.error);
