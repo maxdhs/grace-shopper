@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './app.css';
-import { fetchProducts } from './api';
+import { fetchProducts, userInfo } from './api';
+import { createCart } from './api';
 import Cart from './Components/Cart';
 import Home from './Components/Home';
 import Login from './Components/Login';
@@ -17,6 +18,8 @@ import Accessories from './Components/categories/Accessories';
 
 const App = () => {
   const [products, setProducts] = useState([]);
+  const [token, setToken] = useState('');
+  const [cart, setCart] = useState({});
   const [userData, setUserData] = useState({});
 
   const fetchUser = async () => {
@@ -25,7 +28,7 @@ const App = () => {
       if (IsToken) {
         setToken(IsToken);
         const response = await userInfo(IsToken);
-        setUserdata(response);
+        setUserData(response);
       }
     } catch (error) {
       console.log(error);
@@ -34,6 +37,9 @@ const App = () => {
 
   useEffect(() => {
     fetchUser();
+    createCart().then((cart) => {
+      setCart(cart);
+    });
     fetchProducts().then((product) => {
       setProducts(product);
     });
@@ -56,8 +62,11 @@ const App = () => {
           element={<Accessories products={products} />}
         />
         <Route path="products/:id" element={<SingleProduct />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={<Login setToken={setToken} setUserdata={setUserData} />}
+        />
+        <Route path="/register" element={<Register setToken={setToken} />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
     </>

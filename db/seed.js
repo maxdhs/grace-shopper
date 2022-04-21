@@ -4,6 +4,9 @@ const {
   getCartProducts,
   createCart,
   addProductToCart,
+  deleteProductFromCart,
+  editCount,
+  purchaseCart,
   getCartById,
 } = require('./cart');
 const {
@@ -86,26 +89,6 @@ async function createTables() {
         "productId" INTEGER REFERENCES products(id)
       );
       `);
-    console.log('Finished building tables!');
-
-    await client.query(`
-    CREATE TABLE carts(
-      id SERIAL PRIMARY KEY,
-      "userId" INTEGER REFERENCES users(id),
-      "isPurchased" BOOLEAN DEFAULT FALSE
-    )
-    `);
-
-    await client.query(`
-    CREATE TABLE carts_products(
-      id SERIAL PRIMARY KEY,
-      count INTEGER NOT NULL,
-      price INTEGER NOT NULL,
-      "cartId" INTEGER REFERENCES carts(id),
-      "productId" INTEGER REFERENCES products(id)
-    );
-    `);
-
     console.log('Finished building tables!');
   } catch (error) {
     console.error('Error building tables!');
@@ -282,7 +265,7 @@ async function createInitialProducts() {
       price: 10,
       description:
         '95% RAYON 5% SPANDEX, Made in USA or Imported, Do Not Bleach, Lightweight fabric with great stretch for comfort, Ribbed on sleeves and neckline / Double stitching on bottom hem',
-      category: 'womens',
+      category: 'women',
       inventory: 61,
       imgURL: 'https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg',
     });
@@ -292,7 +275,7 @@ async function createInitialProducts() {
       price: 9,
       description:
         '100% Polyester, Machine wash, 100% cationic polyester interlock, Machine Wash & Pre Shrunk for a Great Fit, Lightweight, roomy and highly breathable with moisture wicking fabric which helps to keep moisture away, Soft Lightweight Fabric with comfortable V-neck collar and a slimmer fit, delivers a sleek, more feminine silhouette and Added Comfort',
-      category: 'womens',
+      category: 'women',
       inventory: 79,
       imgURL: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
     });
@@ -335,8 +318,8 @@ async function createInitialCarts() {
   try {
     console.log('Starting to create carts...');
     await createCart(5);
-    // await createCart(2);
-    // await createCart(3);
+    await createCart(2);
+    await createCart(3);
     console.log('Finished creating carts!');
   } catch (error) {
     throw error;
@@ -347,8 +330,8 @@ async function createInitialCartProducts() {
   try {
     await addProductToCart(1, 20, 3, 1);
     await addProductToCart(1, 30, 3, 2);
-    // await addProductToCart(1, 5, 2);
-    // await addProductToCart(1, 13, 3);
+    await addProductToCart(1, 5, 2);
+    await addProductToCart(1, 13, 3);
   } catch (error) {
     throw error;
   }
@@ -397,18 +380,6 @@ async function testDB() {
     const products = await getProducts();
     console.log('getProducts', products);
 
-    const productToEdit = products[0];
-    const updateProduct = await editProduct(
-      productToEdit.id,
-      productToEdit.title,
-      999,
-      'UpdatedCategory',
-      productToEdit.description,
-      999,
-      productToEdit.imgURL
-    );
-    console.log('updated product: ', updateProduct);
-
     const productReviews = await getProductReviews();
     console.log('product reviews', productReviews);
 
@@ -433,20 +404,17 @@ async function testDB() {
     const cartProduct = await addProductToCart(1, 40, 1, 1);
     console.log('addProductToCart', cartProduct);
 
-    // const cartProducts = await getCartProducts();
-    // console.log("getCartProducts",cartProducts);
+    const cartProducts = await getCartProducts();
+    console.log('getCartProducts', cartProducts);
 
     const cartById = await getCartById(1);
     console.log('getCartById', cartById);
 
     console.log('Finished testing database!');
 
-    await purchasedCart(1);
+    await purchaseCart(1);
     await deleteProductFromCart(1, 1);
     await editCount(5, 1, 2);
-
-    const cartProducts = await getCartProducts();
-    console.log(cartProducts[2].products);
 
     console.log('Finished testing database!');
   } catch (error) {

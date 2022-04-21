@@ -1,5 +1,6 @@
 const { useNavigate, Link } = require('react-router-dom');
 
+import { addToCart } from '../api';
 import './css/Products.css';
 import MainCategories from './MainCategories';
 
@@ -23,7 +24,9 @@ const Products = ({ products }) => {
                 <img src={product.imgURL} />
                 <p>${product.price}</p>
               </div>
-              <button>Add to cart</button>
+              <button onClick={(e) => addToCart(product.price, product.id, 1)}>
+                Add to cart
+              </button>
             </div>
           );
         })}

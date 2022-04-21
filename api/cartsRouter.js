@@ -1,10 +1,10 @@
 const express = require('express');
-const { 
-  createCart, 
-  getCartById, 
-  getCartByUserId, 
-  addProductToCart, 
-  getCartProducts 
+const {
+  createCart,
+  getCartById,
+  getCartByUserId,
+  addProductToCart,
+  getCartProducts,
 } = require('../db/cart');
 const { requireUser } = require('./utils');
 
@@ -24,21 +24,48 @@ const cartsRouter = express.Router();
 //   }
 // });
 
-cartsRouter.post("/", requireUser, async(req, res, next) => {
-  const {id} = req.user;
-  const {count, price, productId} = req.body;
+cartsRouter.post('/', requireUser, async (req, res, next) => {
+  const { id } = req.user;
+  const { count, price, productId } = req.body;
 
   try {
     const cart = await getCartByUserId(id);
-    const cartProducts = await addProductToCart(count, price, cart.id, productId);
+    const cartProducts = await addProductToCart(
+      count,
+      price,
+      cart.id,
+      productId
+    );
     res.send({
-      cartProducts
+      cartProducts,
     });
   } catch (error) {
     res.send({
       name: error.name,
-      message: error.message
-    })
+      message: error.message,
+    });
+  }
+});
+
+cartsRouter.get('/create', requireUser, async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      console.error('No user logged in');
+      return;
+    }
+    const cart = await getCartByUserId(user.id);
+    if (cart) {
+      console.error('User already has a cart');
+      res.send(cart);
+      return;
+    }
+    const newCart = createCart(user.id);
+    console.error('Created New Cart');
+    res.send(newCart);
+    return;
+  } catch (error) {
+    throw error;
   }
 });
 
@@ -47,17 +74,14 @@ cartsRouter.get('/', requireUser, async (req, res) => {
     const cart = await getCartProducts();
     console.log(cart);
     res.send({
-      cart
+      cart,
     });
   } catch (error) {
     res.send({
       name: error.name,
-      message: error.message
-    })
+      message: error.message,
+    });
   }
 });
-
-
-
 
 module.exports = cartsRouter;
