@@ -169,12 +169,12 @@ const Cart = ({
                           const orderProductId = e.target.value;
                           handleSubmit(orderProductId);
                         }}
-                        className="products"
+                        className="productsbutton"
                       >
                         Update Quantity
                       </button>
                       <button
-                        className="products"
+                        className="productsbutton"
                         value={product.id}
                         onClick={(e) => {
                           const orderProductId = e.target.value;
@@ -190,10 +190,11 @@ const Cart = ({
               })
             : null}
         </div>
-        {finalProducts.length ? (
-          <button onClick={handleSubmitOrder}>Submit Order</button>
-        ) : null}
+        
       </div>
+      {finalProducts.length ? (
+       <button className="submit" onClick={handleSubmitOrder}>Submit Order</button>
+      ) : null}
     </>
   );
 };
