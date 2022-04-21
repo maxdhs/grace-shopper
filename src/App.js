@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
-import { fetchProducts } from "./api";
+import { fetchProducts, fetchUser } from "./api";
 import Cart from "./Components/Cart";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
@@ -17,9 +17,11 @@ import Accessories from "./Components/categories/Accessories";
 
 const App = () => {
   const [products, setProducts] = useState([]);
+  const [user,setUser] = useState({});
 
   useEffect(() => {
     fetchProducts().then(product => {setProducts(product)});
+    fetchUser().then(userInfo => {setUser(userInfo)});
   }, []);
 
   return <>

@@ -16,6 +16,19 @@ userRouter.get('/', async (req, res) => {
   res.send('User Page');
 });
 
+userRouter.get('/me', async(req, res) => {
+  try {
+    if (!req.user) {
+      res.status(400).send("No user has been found");
+    }
+    res.send(req.user);
+  } catch (error) {
+    res.send({
+      message: error.message,
+    });
+  }
+});
+
 userRouter.get('/view', async (req, res, next) => {
   try {
     const users = await getAllUsers();

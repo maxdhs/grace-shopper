@@ -51,18 +51,13 @@ const addProductToCart = async (count, price, cartId, productId) => {
 
 const getCartProducts = async () => {
     try {
-        const {rows: cartProduct} = await client.query(`
-            SELECT *
-            FROM carts_products
-        `)
-        return cartProduct;
-        // const { rows: carts } = await client.query(`
-        //     SELECT carts_products.*, products.*
-        //     FROM carts_products
-        //     JOIN products
-        //     ON products.id = carts_products."productId";
-        //     `);
-        // return carts;
+        const { rows: carts } = await client.query(`
+          SELECT carts_products.*, products.*
+          FROM carts_products
+          JOIN products
+          ON products.id = carts_products."productId";
+          `);
+        return carts;
     } catch (error) {
         throw error;
     }
@@ -70,9 +65,9 @@ const getCartProducts = async () => {
 
 
 module.exports = {
-    createCart,
-    getCartByUserId,
-    addProductToCart,
-    getCartById,
-    getCartProducts,
+  createCart,
+  getCartByUserId,
+  addProductToCart,
+  getCartById,
+  getCartProducts,
 };

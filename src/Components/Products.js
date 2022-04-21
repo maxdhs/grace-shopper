@@ -6,7 +6,6 @@ import MainCategories from "./MainCategories";
 
 const Products = ({products}) => {
     const navigate = useNavigate();
-
     return <div className="products_main">
         <MainCategories/>
         <div className="products_container">

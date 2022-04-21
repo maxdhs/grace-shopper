@@ -86,27 +86,7 @@ async function createTables() {
         "cartId" INTEGER REFERENCES carts(id),
         "productId" INTEGER REFERENCES products(id)
       );
-      `)
-    console.log("Finished building tables!");
-
-    await client.query(`
-    CREATE TABLE carts(
-      id SERIAL PRIMARY KEY,
-      "userId" INTEGER REFERENCES users(id),
-      "isPurchased" BOOLEAN DEFAULT FALSE
-    )
-    `);
-
-    await client.query(`
-    CREATE TABLE carts_products(
-      id SERIAL PRIMARY KEY,
-      count INTEGER NOT NULL,
-      price INTEGER NOT NULL,
-      "cartId" INTEGER REFERENCES carts(id),
-      "productId" INTEGER REFERENCES products(id)
-    );
-    `);
-
+    `)
     console.log('Finished building tables!');
   } catch (error) {
     console.error('Error building tables!');
@@ -307,24 +287,35 @@ async function createInitialReviews() {
     console.log('Starting to create reviews');
     await createReview({
       creatorId: 1,
-      productId: 3,
-      message: 'This is nice but the size is not accurate',
+      productId: 4,
+      message: 'This is nice and the size is accurate',
     });
     await createReview({
       creatorId: 2,
-      productId: 1,
+      productId: 5,
       message: 'I love the fabric of this clothing!',
     });
     await createReview({
       creatorId: 3,
-      productId: 2,
-      message: 'Bought this for my kid looks good!!',
+      productId: 6,
+      message: 'This shirt is really soft. I wear it the moment it gets out of the dryer!',
     });
     await createReview({
       creatorId: 3,
       productId: 2,
-      message: 'Just so I could populate the reviews',
+      message: 'This ring fits really well! The quality is amazing and I love the details.',
     });
+    await createReview({
+      creatorId: 2,
+      productId: 1,
+      message: 'I gave this as a gift and she told me that everyone notices it!',
+    });
+    await createReview({
+      creatorId: 1,
+      productId: 3,
+      message: 'I was gonna give this as a promise ring to my girl, but she dumped me. Their refund service is very helpful!',
+    });
+
     console.log('Finished creating reviews!');
   } catch (error) {
     console.error('Error creating reviews');
@@ -394,23 +385,23 @@ async function testDB() {
     const user = await getUser({ username: 'albert', password: 'bertie99' });
     console.log('here are users', user);
 
-    const deletedProduct = await destroyProduct(4);
-    console.log('destroyProduct', deletedProduct);
+    // const deletedProduct = await destroyProduct(4);
+    // console.log('destroyProduct', deletedProduct);
 
     const products = await getProducts();
     console.log('getProducts', products);
 
-    const productToEdit = products[0];
-    const updateProduct = await editProduct(
-      productToEdit.id,
-      productToEdit.title,
-      999,
-      'UpdatedCategory',
-      productToEdit.description,
-      999,
-      productToEdit.imgURL
-    );
-    console.log('updated product: ', updateProduct);
+    // const productToEdit = products[0];
+    // const updateProduct = await editProduct(
+    //   productToEdit.id,
+    //   productToEdit.title,
+    //   999,
+    //   'UpdatedCategory',
+    //   productToEdit.description,
+    //   999,
+    //   productToEdit.imgURL
+    // );
+    // console.log('updated product: ', updateProduct);
 
     const productReviews = await getProductReviews();
     console.log('product reviews', productReviews);
@@ -418,11 +409,11 @@ async function testDB() {
     const productReviewsByProductId = await getProductReviewsByProductId(1);
     console.log('productReviewsByProductId', productReviewsByProductId);
 
-    const editedReview = await editReview({
-      id: 1,
-      message: 'Updated Review: size is not accurate',
-    });
-    console.log('edited review: 1', editedReview);
+    // const editedReview = await editReview({
+    //   id: 1,
+    //   message: 'Updated Review: size is not accurate',
+    // });
+    // console.log('edited review: 1', editedReview);
 
     const reviews = await getAllReviews();
     console.log('here are the reviews', reviews);

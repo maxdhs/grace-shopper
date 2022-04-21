@@ -8,7 +8,7 @@ const Cart = ({}) => {
   const history = useNavigate();
   return (
     <>
-      <h2>Cart</h2>
+      
     </>
   );
 };
