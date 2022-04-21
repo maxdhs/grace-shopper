@@ -23,7 +23,18 @@ const getUserByEmail = async (email) => {
   return response.rows[0];
 };
 
+const getUsers = async () => {
+  const response = await client.query(
+    `
+    SELECT id, email, is_admin FROM users
+    ;
+    `
+  );
+  return response.rows;
+};
+
 module.exports = {
   getUserByEmail,
   registerUser,
+  getUsers,
 };

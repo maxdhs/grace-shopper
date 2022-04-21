@@ -18,5 +18,8 @@ img {
 
 .products-container div {
     width: 150px;
-    margin: 20px
+    margin: 20px;
+}
+.products-container h3:hover {
+    cursor: pointer;
 }

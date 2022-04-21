@@ -25,15 +25,15 @@ const seedDB = async () => {
 
     CREATE TABLE products (id SERIAL PRIMARY KEY, title VARCHAR(255) UNIQUE NOT NULL, description TEXT NOT NULL, price FLOAT NOT NULL, image VARCHAR(255) NOT NULL, category VARCHAR(255) NOT NULL, inventory INT NOT NULL DEFAULT '0');
 
-    CREATE TABLE users (id SERIAL PRIMARY KEY, email VARCHAR(255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL);
+    CREATE TABLE users (id SERIAL PRIMARY KEY, email VARCHAR(255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL, is_admin BOOLEAN DEFAULT false);
 
     CREATE TABLE orders (id SERIAL PRIMARY KEY, user_id INT REFERENCES users(id), is_purchased BOOL DEFAULT 'false');
 
-    CREATE TABLE products_orders (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id), product_id INT REFERENCES products(id), price INT NOT NULL, quantity INT NOT NULL);
+    CREATE TABLE products_orders (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) NOT NULL, product_id INT REFERENCES products(id) NOT NULL, price FLOAT NOT NULL, quantity INT DEFAULT 1 NOT NULL, UNIQUE (product_id, order_id));
 
     INSERT INTO products (title, description, price, category, image) VALUES ('Acer Nitro 5 Laptop', 'amazing laptop', '1000', 'fake category', 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg');
 
-    INSERT INTO users(email, password) VALUES ('max@gmail.com', '123Password');
+    INSERT INTO users(email, password, is_admin) VALUES ('max@gmail.com', '$2b$10$ID3u1NY9lej9GWI8jT2.WOfkDORHkDR7AUlR59ouNn8x95L2UpgQK', true);
 
     INSERT INTO orders(user_id) VALUES (1);
 

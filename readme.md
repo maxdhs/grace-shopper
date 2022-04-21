@@ -10,4 +10,14 @@ API
 
 /api/users/login POST
 req.body = {email: "max@gmail.com", password: "pass123"}
-response = {user: {id: 1, email: "max@gmail.com", token: "token123"}}
+good response = {user: {id: 1, email: "max@gmail.com", token: "token123"}}
+bad response = {error: "Email and/or password not matched"}
+
+/api/users/register POST
+req.body = {email: "max@gmail.com", password: "pass123"}
+good response = {user: {id: 1, email: "max@gmail.com", token: "token123"}}
+bad response = {error: "User already exists"}
+
+/api/products
+good response = {products: [{}, {}, {}]}
+
