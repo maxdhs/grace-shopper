@@ -1,26 +1,26 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
-const deleteShoe = ({ products, setProducts }) => {
+const deleteShoe = ({ products, fetchProducts }) => {
   const params = useParams();
 
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
 
-  let navigate = useNavigate();
+  //let navigate = useNavigate();
 
-  const deleteShoe = async (e) => {
+  const handleDelete = async (e) => {
     const resp = await fetch(`/api/products/${params.shoeId}`, {
       method: "DELETE",
       headers: {
         "Content-type": "application/json",
       },
     });
-
+    console.log(resp);
     const info = await resp.json();
-    navigate("/admin");
-    return info;
+    await fetchProducts();
+    //navigate("/admin");
   };
 
   return (
@@ -41,13 +41,15 @@ const deleteShoe = ({ products, setProducts }) => {
             <h3 className="single-text">Inventory: {filteredShoe[0].count}</h3>
           </div>
           <form>
-            <button
-              onClick={(e) => {
-                deleteShoe(e.target.value);
-              }}
-            >
-              Yes
-            </button>
+            <Link to="/admin">
+              <button
+                onClick={(e) => {
+                  handleDelete(e.target.value);
+                }}
+              >
+                Yes
+              </button>
+            </Link>
             <Link to="/admin">
               <button type="reset">Cancel</button>
             </Link>
