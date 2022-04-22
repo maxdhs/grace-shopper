@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import MainCategories from '../MainCategories';
+import { addToCart } from '../../api';
+import { NotificationManager } from 'react-notifications';
 
 const Women = ({ products }) => {
   const navigate = useNavigate();
   const filteredProducts = products.filter((product) => {
-    console.log(product);
     if (product.category === 'women') {
       return true;
     }
   });
-  console.log(filteredProducts);
   return (
     <div className="products_main">
       <MainCategories />
@@ -27,7 +27,20 @@ const Women = ({ products }) => {
                 <img src={product.imgURL} />
                 <p>${product.price}</p>
               </div>
-              <button>Add to cart</button>
+              <button
+                onClick={(e) => {
+                  const response = addToCart(product.price, product.id, 1);
+                  if (response) {
+                    NotificationManager.success(
+                      'Added 1 item(s) to cart!',
+                      'Success!',
+                      1500
+                    );
+                  }
+                }}
+              >
+                Add to cart
+              </button>
             </div>
           );
         })}
