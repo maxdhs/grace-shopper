@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
-* {
-  font-family: Raleway;
+.prj-name {
+  font-family: cursive;
+  color: rgb(14, 83, 172);
+  font-size: 0.3in;
+}
+.authors {
+  font-family: "Dancing Script";
+  color: rgb(14, 83, 172);
+  font-size: 0.3in;
 }
