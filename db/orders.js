@@ -1,3 +1,4 @@
+const { user } = require("pg/lib/defaults");
 const client = require("./index");
 
 async function createOrder({ userId }) {
@@ -212,11 +213,11 @@ async function getCartByUserId(userId) {
   }
 }
 
-async function updateUserIdOrdersTable({ userId, orderId }) {
+async function updateUserIdOrdersTable({ newUserId, orderId }) {
   try {
     await client.query(
-      `UPDATE orders SET "userId" = ${userId} WHERE id = $2 RETURNING *;`,
-      [userId, orderId]
+      `UPDATE orders SET "userId" = ${newUserId} WHERE id = $2 RETURNING *;`,
+      [newUserId, orderId]
     );
 
     const order = getOrderById(orderId);

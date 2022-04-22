@@ -39,26 +39,27 @@ const App = () => {
   const [orderProducts, setOrderProducts] = useState([]);
   const [count, setCount] = useState("");
 
-  const fetchUser = async () => {
-    const lsToken = localStorage.getItem("token");
-    console.log(lsToken);
-    if (lsToken) {
-      setToken(lsToken);
-      try {
-        const response = await fetch(`${API_USER}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${lsToken}`,
-          },
-        });
-        const info = await response.json();
-        setUserData(info);
-        console.log(info);
-      } catch (error) {
-        throw error;
-      }
-    }
-  };
+  // const fetchUser = async () => {
+  //   const lsToken = localStorage.getItem("token");
+  //   const lsUserId = localStorage.getItem("userId")
+  //   console.log(lsToken);
+  //   if (lsToken) {
+  //     setToken(lsToken);
+  //     try {
+  //       const response = await fetch(`${API_USER}`, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${lsToken}`,
+  //         },
+  //       });
+  //       const info = await response.json();
+  //       setUserData(info.user);
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+  //   checkUser();
+  // };
 
   const fetchOrderProducts = async () => {
     const response = await fetch(`/api/order_products`);
@@ -123,22 +124,20 @@ const App = () => {
 
   async function checkUser() {
     const lsOrderId = localStorage.getItem("orderId");
-    console.log(userData.user.id);
+    const lsUserId = localStorage.getItem("userId");
+
     try {
-      const response = await fetch(
-        `${API_UserId}/${lsOrderId}/${userData.user.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-          }),
-        }
-      );
+      const response = await fetch(`${API_UserId}/${lsOrderId}/${lsUserId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+        }),
+      });
       const info = await response.json();
-      localStorage.setItem("orderUserId", userData.user.id);
+      localStorage.setItem("orderUserId", lsUserId);
     } catch (error) {
       throw error;
     }
@@ -165,12 +164,12 @@ const App = () => {
 
   useEffect(() => {
     fetchProducts();
-    checkUser();
     fetchOrders();
     fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
-    fetchUser();
+    // fetchUser();
+    checkUser();
   }, [token]);
   // console.log(products);
   return (
@@ -215,6 +214,7 @@ const App = () => {
                   setUserData={setUserData}
                   setUserId={setUserId}
                   setOrderInfo={setOrderInfo}
+                  checkUser={checkUser}
                 />
               }
             />
