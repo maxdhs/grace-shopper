@@ -264,13 +264,23 @@ const App = () => {
               exact
               path="/deleteShoe/:shoeId"
               element={
-                <DeleteShoe products={products} setProducts={setProducts} />
+                <DeleteShoe
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
               }
             />
             <Route
               exact
               path="/add-shoe"
-              element={<AddShoe fetchProducts={fetchProducts} />}
+              element={
+                <AddShoe
+                  fetchProducts={fetchProducts}
+                  error={error}
+                  setError={setError}
+                />
+              }
             />
             <Route
               exact

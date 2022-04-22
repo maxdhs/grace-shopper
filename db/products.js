@@ -66,7 +66,7 @@ async function destroyProduct(id) {
     );
     await client.query(
       `
-  DELETE FROM orders
+  DELETE FROM order_products
   WHERE "productId" = $1;
   `,
       [id]
