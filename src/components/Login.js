@@ -11,6 +11,7 @@ const Login = ({
   setError,
   setUserData,
   setUserId,
+  checkUser,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +40,10 @@ const Login = ({
       }
       setToken(info.token);
       localStorage.setItem("token", info.token);
+      localStorage.setItem("userId", info.user.id);
       setEmail("");
       setPassword("");
+      checkUser();
 
       setError("You are now logged in!");
     } catch (error) {

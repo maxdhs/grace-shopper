@@ -104,24 +104,6 @@ const Cart = ({
     setError("");
   };
 
-  //   const handleSubmitOrder = async (e) => {
-  //     console.log(orderProduct[0].orderId);
-  //     e.preventDefault();
-  //     const response = await fetch(`${API_ORDERS}/${orderProduct[0].orderId}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     const info = await response.json();
-  //     setError("Thank you for your purchase!");
-  //   };
-
-  //   useEffect(() => {
-  //     fetchOrderProducts();
-  //     setOrderProductId(orderProduct.id);
-  //   }, []);
-
   return (
     <>
       <div>
@@ -193,10 +175,10 @@ const Cart = ({
         {finalProducts.length ? (
           <Link to="/purchased">Submit Order</Link>
         ) : null}
-        <p>{error}</p>
-
-        
-
+      </div>
+    </>
+  );
+};
 
 export default Cart;
 
