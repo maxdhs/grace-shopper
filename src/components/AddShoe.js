@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddShoe = ({ token, fetchProducts }) => {
+const AddShoe = ({ token, fetchProducts, error, setError }) => {
   const [title, setTitle] = useState("");
   const [designer, setDesigner] = useState("");
   const [description, setDescription] = useState("");
@@ -10,7 +10,7 @@ const AddShoe = ({ token, fetchProducts }) => {
   const [category, setCategory] = useState("");
 
   const handleShoes = async (e) => {
-    console.log(title, designer, description, price, count, image, category);
+    setError("");
     e.preventDefault();
     const resp = await fetch("/api/products", {
       method: "POST",
@@ -31,6 +31,15 @@ const AddShoe = ({ token, fetchProducts }) => {
     const info = await resp.json();
     console.log(info);
     fetchProducts();
+
+    setTitle("");
+    setDesigner("");
+    setDescription("");
+    setPrice("");
+    setCount("");
+    setImage("");
+    setCategory("");
+    setError("Product added!");
   };
 
   return (
@@ -88,6 +97,7 @@ const AddShoe = ({ token, fetchProducts }) => {
         </select>
         <button type="submit">Submit</button>
       </form>
+      <p>{error}</p>
     </div>
   );
 };
