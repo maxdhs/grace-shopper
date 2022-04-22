@@ -168,12 +168,12 @@ const Cart = ({
                           const orderProductId = e.target.value;
                           handleSubmit(orderProductId);
                         }}
-                        className="products"
+                        className="productsbutton"
                       >
                         Update Quantity
                       </button>
                       <button
-                        className="products"
+                        className="productsbutton"
                         value={product.id}
                         onClick={(e) => {
                           const orderProductId = e.target.value;
@@ -189,14 +189,14 @@ const Cart = ({
               })
             : null}
         </div>
+
         {finalProducts.length ? (
           <Link to="/purchased">Submit Order</Link>
         ) : null}
         <p>{error}</p>
-      </div>
-    </>
-  );
-};
+
+        
+
 
 export default Cart;
 
