@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './app.css';
@@ -15,11 +15,12 @@ import Women from './Components/categories/Women';
 import Men from './Components/categories/Men';
 import Kids from './Components/categories/Kids';
 import Accessories from './Components/categories/Accessories';
+import { NotificationContainer } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 const App = () => {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState('');
-  const [cart, setCart] = useState({});
   const [userData, setUserData] = useState({});
 
   const fetchUser = async () => {
@@ -27,7 +28,7 @@ const App = () => {
       const IsToken = localStorage.getItem('token');
       if (IsToken) {
         setToken(IsToken);
-        const response = await userInfo(IsToken);
+        const response = await userInfo();
         setUserData(response);
       }
     } catch (error) {
@@ -37,9 +38,7 @@ const App = () => {
 
   useEffect(() => {
     fetchUser();
-    createCart().then((cart) => {
-      setCart(cart);
-    });
+    createCart();
     fetchProducts().then((product) => {
       setProducts(product);
     });
@@ -69,6 +68,7 @@ const App = () => {
         <Route path="/register" element={<Register setToken={setToken} />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
+      <NotificationContainer />
     </>
   );
 };

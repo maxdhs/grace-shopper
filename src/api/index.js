@@ -84,12 +84,12 @@ export const login = async (username, password) => {
   }
 };
 
-export const userInfo = async (token) => {
+export const userInfo = async () => {
   try {
     const response = await fetch(`${BASE_URL}/user/me`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${lstoken}`,
       },
     });
     const info = await response.json();
@@ -129,10 +129,23 @@ export const addToCart = async (price, productId, count) => {
       }),
     });
     const info = await response.json();
-    if (info) {
-    }
     console.log(info);
     return info;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getProductsFromCart = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/cart/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${lstoken}`,
+      },
+    });
+    const info = await response.json();
+    return info.cart;
   } catch (error) {
     throw error;
   }

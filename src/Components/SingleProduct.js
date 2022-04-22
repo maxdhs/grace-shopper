@@ -4,6 +4,7 @@ import { addToCart, fetchProductById } from '../api';
 import Products from './Products';
 
 import './css/SingleProduct.css';
+import { NotificationManager } from 'react-notifications';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -32,7 +33,18 @@ const SingleProduct = () => {
             value={count}
             onChange={(e) => setCount(e.target.value)}
           ></input>
-          <button onClick={(e) => addToCart(product.price, product.id, count)}>
+          <button
+            onClick={(e) => {
+              const response = addToCart(product.price, product.id, count);
+              if (response) {
+                NotificationManager.success(
+                  'Added ' + count + ' item(s) to cart!',
+                  'Success!',
+                  1500
+                );
+              }
+            }}
+          >
             Add to cart
           </button>
         </div>

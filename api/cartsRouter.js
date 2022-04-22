@@ -5,6 +5,8 @@ const {
   getCartByUserId,
   addProductToCart,
   getCartProducts,
+  getCartProductsByUserId,
+  editCount,
 } = require('../db/cart');
 const { requireUser } = require('./utils');
 
@@ -29,7 +31,20 @@ cartsRouter.post('/', requireUser, async (req, res, next) => {
   const { count, price, productId } = req.body;
 
   try {
-    const cart = await getCartByUserId(id);
+    const cart = await getCartProductsByUserId(id);
+    for (const product of cart.products) {
+      console.log(product);
+      if (product.productId === productId) {
+        console.log('shouldnt see this');
+        const newcount = Number(product.count) + Number(count);
+        const response = await editCount(
+          newcount,
+          product.cartId,
+          product.productId
+        );
+        return;
+      }
+    }
     const cartProducts = await addProductToCart(
       count,
       price,
@@ -55,6 +70,7 @@ cartsRouter.get('/create', requireUser, async (req, res) => {
       return;
     }
     const cart = await getCartByUserId(user.id);
+    console.log(cart);
     if (cart) {
       console.error('User already has a cart');
       res.send(cart);
@@ -71,7 +87,7 @@ cartsRouter.get('/create', requireUser, async (req, res) => {
 
 cartsRouter.get('/', requireUser, async (req, res) => {
   try {
-    const cart = await getCartProducts();
+    const cart = await getCartProductsByUserId(req.user.id);
     console.log(cart);
     res.send({
       cart,
