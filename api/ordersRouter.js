@@ -6,6 +6,7 @@ const {
   updateOrder,
   getAllOrders,
   updateUserIdOrdersTable,
+  updateOrderPurchased,
 } = require("../db/orders");
 
 const requireUser = require("./utils").default;
@@ -91,7 +92,7 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
 
     if (checkOrderProducts) {
       const orders = await updateOrderProducts(toUpdate);
-    res.send(orders);
+      res.send(orders);
       // throw "order product already exists";
     } else {
       const {
@@ -114,13 +115,26 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   }
 });
 
-ordersRouter.patch("/:userId", async (req, res, next) => {
-  const { userId } = req.body;
-  const { userId: id } = req.params;
-  const toUpdate = { id };
+ordersRouter.patch("/:orderId/:userId", async (req, res, next) => {
+  const { userId, orderId } = req.params;
 
   try {
-    const orders = await updateUserIdOrdersTable(toUpdate);
+    const orders = await updateUserIdOrdersTable({ userId, orderId });
+    console.log(orders);
+    res.send(orders);
+  } catch (error) {
+    next(error);
+  }
+});
+
+ordersRouter.patch("/:orderId", async (req, res, next) => {
+  const { orderId: id } = req.params;
+  const toUpdate = { id };
+  console.log(id);
+
+  try {
+    const orders = await updateOrderPurchased(toUpdate);
+    console.log(orders);
     res.send(orders);
   } catch (error) {
     next(error);

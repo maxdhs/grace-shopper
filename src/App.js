@@ -18,9 +18,11 @@ import {
   UpdateShoe,
   AddShoe,
   DeleteShoe,
+  PurchasedCart,
 } from "./components/index";
 
 const API_USER = "/api/users/me";
+const API_UserId = "api/orders";
 
 const App = () => {
   const [userData, setUserData] = useState(null);
@@ -37,28 +39,26 @@ const App = () => {
   const [orderProducts, setOrderProducts] = useState([]);
   const [count, setCount] = useState("");
 
-  // const fetchUser = async () => {
-  //   const lsToken = localStorage.getItem("token");
-  //   console.log(lsToken);
-  //   if (lsToken) {
-  //     setToken(lsToken);
-  //     try {
-  //       const response = await fetch(`${API_USER}`, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${lsToken}`,
-  //         },
-  //       });
-  //       const info = await response.json();
-  //       console.log(info);
-  //       setUserData(info);
-  //       setEmail(info.email);
-  //       setUserId(info.id);
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-  // };
+  const fetchUser = async () => {
+    const lsToken = localStorage.getItem("token");
+    console.log(lsToken);
+    if (lsToken) {
+      setToken(lsToken);
+      try {
+        const response = await fetch(`${API_USER}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${lsToken}`,
+          },
+        });
+        const info = await response.json();
+        setUserData(info);
+        console.log(info);
+      } catch (error) {
+        throw error;
+      }
+    }
+  };
 
   const fetchOrderProducts = async () => {
     const response = await fetch(`/api/order_products`);
@@ -100,6 +100,50 @@ const App = () => {
     localStorage.setItem("orderIsPurchased", info.isPurchased);
   }
 
+  async function createAfterPurchaseOrder() {
+    if (!userId) {
+      userId === null;
+    }
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+      }),
+    });
+    const info = await response.json();
+    setOrderInfo(info);
+    localStorage.setItem("orderId", info.id);
+    localStorage.setItem(
+      "orderUserId",
+
+      info.userId
+    );
+    localStorage.setItem("orderIsPurchased", info.isPurchased);
+  }
+
+  async function checkUser() {
+    const lsOrderId = localStorage.getItem("orderId");
+    console.log(userData.user.id);
+    try {
+      const response = await fetch(
+        `${API_UserId}/${lsOrderId}/${userData.user.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+          }),
+        }
+      );
+      const info = await response.json();
+      localStorage.setItem("orderUserId", userData.user.id);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async function fetchAllUsers() {
     const response = await fetch("/api/users/admin");
     const info = await response.json();
@@ -108,7 +152,7 @@ const App = () => {
   }
 
   async function fetchProducts() {
-    const response = await fetch("/api/products", {});
+    const response = await fetch("/api/products");
     const info = await response.json();
     setProducts(info.products);
   }
@@ -121,11 +165,12 @@ const App = () => {
 
   useEffect(() => {
     fetchProducts();
-    // fetchUser();
+    checkUser();
     fetchOrders();
     fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
+    fetchUser();
   }, [token]);
   // console.log(products);
   return (
@@ -212,6 +257,7 @@ const App = () => {
                   count={count}
                   setCount={setCount}
                   setError={setError}
+                  error={error}
                 />
               }
             />
@@ -241,6 +287,16 @@ const App = () => {
                 <Sneakers products={products} setProducts={setProducts} />
               }
             />
+            <Route
+              exact
+              path="/purchased"
+              element={
+                <PurchasedCart
+                  createAfterPurchaseOrder={createAfterPurchaseOrder}
+                />
+              }
+            />
+
             <Route
               exact
               path="/admin"

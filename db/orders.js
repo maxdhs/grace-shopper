@@ -161,7 +161,19 @@ async function updateOrder({ id, count }) {
   }
 }
 
+async function updateOrderPurchased(id) {
+  try {
+    await client.query(
+      `UPDATE orders SET "isPurchased" = true WHERE id = $2 RETURNING *;`,
+      [id]
+    );
+    const order = await getOrderById(id);
 
+    return order;
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function destroyOrder(id) {
   try {
@@ -200,15 +212,14 @@ async function getCartByUserId(userId) {
   }
 }
 
-async function updateUserIdOrdersTable(userId) {
+async function updateUserIdOrdersTable({ userId, orderId }) {
   try {
-    if (count) {
-      await client.query(
-        `UPDATE orders SET userId WHERE id = $2 RETURNING *;`,
-        [userId, id]
-      );
-    }
-    const order = getOrderById(id);
+    await client.query(
+      `UPDATE orders SET "userId" = ${userId} WHERE id = $2 RETURNING *;`,
+      [userId, orderId]
+    );
+
+    const order = getOrderById(orderId);
     return order;
   } catch (error) {
     throw error;
@@ -224,5 +235,6 @@ module.exports = {
   getAllOrders,
   getUserIdByOrderId,
   getCartByUserId,
-  updateUserIdOrdersTable
+  updateUserIdOrdersTable,
+  updateOrderPurchased,
 };

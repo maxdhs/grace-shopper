@@ -13,3 +13,4 @@ export { default as Login } from "./Login";
 export { default as UpdateShoe } from "./UpdateShoe";
 export { default as AddShoe } from "./AddShoe";
 export { default as DeleteShoe } from "./DeleteShoe";
+export { default as PurchasedCart } from "./PurchasedCart";
