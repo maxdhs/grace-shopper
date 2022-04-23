@@ -3,7 +3,7 @@ import { Link, Routes, Route } from "react-router-dom";
 import SingleShoe from "./SingleShoe";
 
 const Boots = ({ products, setProducts }) => {
-  let category = "Boots";
+  let category = "boots";
   const filteredProducts = products.filter(
     (product) => product.category == category
   );
