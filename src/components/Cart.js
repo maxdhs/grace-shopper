@@ -11,16 +11,15 @@ const Cart = ({
   count,
   setCount,
   setError,
-  error,
 }) => {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  console.log(count);
+
   const [orderProductId, setOrderProductId] = useState("");
   const lsOrderId = localStorage.getItem("orderId");
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
-  console.log(orderProduct);
+
   const lsToken = localStorage.getItem("token");
   const productArr = [];
   const productQuantity = [];
@@ -29,8 +28,6 @@ const Cart = ({
     productArr.push(productId);
     productQuantity.push(orderProduct[i].count);
   }
-
-  console.log(productQuantity);
 
   let finalProducts = [];
   let finalProductQuantity = [];
@@ -45,13 +42,10 @@ const Cart = ({
         finalProductQuantity.push(productQuantity[j]);
       }
     }
-    console.log(finalProducts);
-    console.log(finalProductQuantity);
   }
 
   let finalProductsAdd = [];
   for (let i = 0; i < finalProducts.length; i++) {
-    console.log(finalProducts[i]);
     for (let j = 0; j < finalProductQuantity.length; j++) {
       finalProductsAdd.push({
         ...finalProducts[i],
@@ -98,6 +92,27 @@ const Cart = ({
       }),
     });
     const info = await response.json();
+    if (info.error) {
+      return setError(info.error);
+    }
+    setError("");
+  };
+
+  const handleSubmitOrder = async (id) => {
+    const orderProductId = orderProduct[0].orderId;
+
+    const response = await fetch(`${API_ORDERS}/${orderProductId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderProductId,
+      }),
+    });
+    const info = await response.json();
+    console.log(info);
+
     if (info.error) {
       return setError(info.error);
     }
@@ -171,13 +186,13 @@ const Cart = ({
               })
             : null}
         </div>
-<div>
-  <button id="cart-button">
-        {finalProducts.length ? (
-          <Link  to="/purchased">Submit Order</Link>
-        ) : null}
-  </button>
-</div>
+        <div>
+          <button id="cart-button" onClick={handleSubmitOrder}>
+            {finalProducts.length ? (
+              <Link to="/purchased">Submit Order</Link>
+            ) : null}
+          </button>
+        </div>
       </div>
     </>
   );
