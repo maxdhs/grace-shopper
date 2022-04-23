@@ -36,6 +36,7 @@ const SingleProduct = () => {
           <button
             onClick={(e) => {
               const response = addToCart(product.price, product.id, count);
+              console.log(response);
               if (response) {
                 NotificationManager.success(
                   'Added ' + count + ' item(s) to cart!',

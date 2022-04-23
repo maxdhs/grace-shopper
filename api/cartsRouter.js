@@ -29,31 +29,38 @@ const cartsRouter = express.Router();
 cartsRouter.post('/', requireUser, async (req, res, next) => {
   const { id } = req.user;
   const { count, price, productId } = req.body;
-
+  let found = false;
   try {
     const cart = await getCartProductsByUserId(id);
     for (const product of cart.products) {
       console.log(product);
       if (product.productId === productId) {
-        console.log('shouldnt see this');
+        found = true;
         const newcount = Number(product.count) + Number(count);
         const response = await editCount(
           newcount,
           product.cartId,
           product.productId
         );
-        return;
+        break;
       }
     }
-    const cartProducts = await addProductToCart(
-      count,
-      price,
-      cart.id,
-      productId
-    );
-    res.send({
-      cartProducts,
-    });
+    if (found) {
+      res.send({
+        name: 'Found Product',
+        message: 'Found product and updated count',
+      });
+    } else {
+      const cartProducts = await addProductToCart(
+        count,
+        price,
+        cart.id,
+        productId
+      );
+      res.send({
+        cartProducts,
+      });
+    }
   } catch (error) {
     res.send({
       name: error.name,
