@@ -13,23 +13,35 @@ const SingleShoe = ({
   orderInfo,
   fetchOrderProducts,
 }) => {
-  const id = useParams();
-  const [count, setCount] = useState("");
-  const shoe = products.filter((product) => id.shoeId == product.id);
-  // console.log(shoe);
-  const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [orderProductId, setOrderProductId] = useState("");
-  console.log(orderInfo);
-
-  const [product, setProduct] = useState("any");
-  const [productId, setProductId] = useState("");
-  const [cartMessage, setCartMessage] = useState("");
-
   useEffect(() => {
     fetchProducts();
-    setProduct(shoe[0]);
-    setProductId(shoe[0].id);
+    if (shoe[0]) {
+      setShoeTitle(shoe[0].title);
+      setShoeDesigner(shoe[0].designer);
+      setShoeDescription(shoe[0].description);
+      setShoeCount(shoe[0].count);
+      setShoePrice(shoe[0].price);
+      setShoeImage(shoe[0].image);
+      setProductId(shoe[0].id);
+    }
   }, []);
+
+  const id = useParams();
+
+  const [count, setCount] = useState("");
+
+  const shoe = products.filter((product) => id.shoeId == product.id);
+
+  const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const [productId, setProductId] = useState("");
+  const [cartMessage, setCartMessage] = useState("");
+  const [shoeTitle, setShoeTitle] = useState("");
+  const [shoeDesigner, setShoeDesigner] = useState("");
+  const [shoeDescription, setShoeDescription] = useState("");
+  const [shoeCount, setShoeCount] = useState("");
+  const [shoePrice, setShoePrice] = useState("");
+  const [shoeImage, setShoeImage] = useState("");
 
   if (!userId) {
     userId === null;
@@ -37,8 +49,6 @@ const SingleShoe = ({
 
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log(productId);
-    console.log(count, product);
 
     const response = await fetch(`${API_ORDERS}/${orderInfo.id}/products`, {
       method: "POST",
@@ -51,67 +61,23 @@ const SingleShoe = ({
       }),
     });
     const info = await response.json();
-    console.log(info);
+
     fetchOrderProducts();
+    fetchProducts();
     setCartMessage("Item added to cart!");
     if (info.error) {
       return setError(info.error);
     }
-    fetchProducts();
   };
 
-  //   const handleClick = async () => {
-  //     try {
-  //       const lsOrder = localStorage.getItem("order");
-  //       console.log(cartInfo.id);
-  //       if (lsOrder) {
-  //         const response = await fetch(`/api/orders/${cartInfo.id}/products`, {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({
-  //             orderId: cartInfo.id,
-  //             productId: id.shoeId,
-  //             isPurchased: false,
-  //           }),
-  //         });
-  //         const info = await response.json();
-  //         console.log(info);
-  //         setCartInfo([...cartInfo, info]);
-  //         localStorage.setItem("order", cartInfo);
-  //       } else {
-  //         const response = await fetch(`${API_URL}`, {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({
-  //             userId,
-  //             productId: id.shoeId,
-  //             isPurchased: false,
-  //           }),
-  //         });
-  //         const info = await response.json();
-  //         console.log(info);
-  //         setCartInfo(info);
-  //         localStorage.setItem("order", info);
-  //       }
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   };
-
-  console.log(cartInfo);
-
   return (
-    <div key={shoe[0].id} className="singleView">
-      <h1 className="single-text">{shoe[0].title}</h1>
-      <img className="single-text" id="image" src={shoe[0].image} />
-      <h2 className="single-text">{shoe[0].designer}</h2>
-      <h3 className="single-text">{shoe[0].description}</h3>
-      <h2 className="single-text">${shoe[0].price}</h2>
-      <h3 className="single-text">Inventory: {shoe[0].count}</h3>
+    <div key={productId} className="singleView">
+      <h1 className="single-text">{shoeTitle}</h1>
+      <img className="single-text" id="image" src={shoeImage} />
+      <h2 className="single-text">{shoeDesigner}</h2>
+      <h3 className="single-text">{shoeDescription}</h3>
+      <h2 className="single-text">${shoePrice}</h2>
+      <h3 className="single-text">Inventory: {shoeCount}</h3>
       <select
         value={count}
         onChange={(event) => {

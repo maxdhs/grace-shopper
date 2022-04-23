@@ -1,20 +1,17 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 
 const API_ORDERPRODUCTS = "/api/order_products";
 const API_ORDERS = "/api/orders";
 const Cart = ({
-  cartInfo,
-  setCartInfo,
-  orders,
-  orderInfo,
   fetchOrderProducts,
   orderProducts,
   products,
   count,
   setCount,
   setError,
+  error,
 }) => {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   console.log(count);
@@ -107,21 +104,23 @@ const Cart = ({
     setError("");
   };
 
-  const handleSubmitOrder = async (e) => {
-    e.preventDefault();
-    const response = await fetch(`${API_ORDERS}/${orderId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const info = await response.json();
-  };
+  //   const handleSubmitOrder = async (e) => {
+  //     console.log(orderProduct[0].orderId);
+  //     e.preventDefault();
+  //     const response = await fetch(`${API_ORDERS}/${orderProduct[0].orderId}`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     const info = await response.json();
+  //     setError("Thank you for your purchase!");
+  //   };
 
-  useEffect(() => {
-    fetchOrderProducts();
-    setOrderProductId(orderProduct.id);
-  }, []);
+  //   useEffect(() => {
+  //     fetchOrderProducts();
+  //     setOrderProductId(orderProduct.id);
+  //   }, []);
 
   return (
     <>
@@ -169,12 +168,12 @@ const Cart = ({
                           const orderProductId = e.target.value;
                           handleSubmit(orderProductId);
                         }}
-                        className="products"
+                        className="productsbutton"
                       >
                         Update Quantity
                       </button>
                       <button
-                        className="products"
+                        className="productsbutton"
                         value={product.id}
                         onClick={(e) => {
                           const orderProductId = e.target.value;
@@ -190,9 +189,11 @@ const Cart = ({
               })
             : null}
         </div>
+
         {finalProducts.length ? (
-          <button onClick={handleSubmitOrder}>Submit Order</button>
+          <Link to="/purchased">Submit Order</Link>
         ) : null}
+        <p>{error}</p>
       </div>
     </>
   );

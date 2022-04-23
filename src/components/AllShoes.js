@@ -27,9 +27,7 @@ const AllShoes = ({ products, fetchProducts }) => {
   return (
     <>
       <div className="page-title">
-        <h1>All Shoes</h1>
-      </div>
-      <div id="products">
+        <h1>All Shoes</h1> 
         <div id="search">
           <input
             type="text"
@@ -41,6 +39,9 @@ const AllShoes = ({ products, fetchProducts }) => {
             placeholder="Search Shoes"
           ></input>
         </div>
+      </div>
+      <div id="products">
+       
         {productsToDisplay.map((product) => {
           return (
             <div key={product.id} className="productView">
