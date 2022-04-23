@@ -216,7 +216,7 @@ async function getCartByUserId(userId) {
 async function updateUserIdOrdersTable({ newUserId, orderId }) {
   try {
     await client.query(
-      `UPDATE orders SET "userId" = ${newUserId} WHERE id = $2 RETURNING *;`,
+      `UPDATE orders SET "userId" = $1 WHERE id = $2 RETURNING *;`,
       [newUserId, orderId]
     );
 
