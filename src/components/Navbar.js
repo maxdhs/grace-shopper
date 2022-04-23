@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
-  console.log(userData);
   if (!userData) {
     return (
       <>
@@ -97,15 +96,9 @@ const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
               Logout
             </Link>
 
-            {/* {userData.isAdmin ? ( */}
-            <Link
-              className="link"
-              to="/admin"
-              //hidden={userData.isAdmin ? false : true}
-            >
+            <Link className="link" to="/admin">
               Admin
             </Link>
-            {/* ) : null} */}
           </div>
         </div>
       </>

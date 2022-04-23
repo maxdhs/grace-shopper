@@ -7,8 +7,6 @@ const API_ORDERS = "/api/orders";
 const SingleShoe = ({
   products,
   fetchProducts,
-  cartInfo,
-  setCartInfo,
   userId,
   orderInfo,
   fetchOrderProducts,
@@ -17,7 +15,6 @@ const SingleShoe = ({
 
   const shoe = products.filter((product) => id.shoeId == product.id);
   console.log(shoe);
-  const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [productId, setProductId] = useState("");
   const [cartMessage, setCartMessage] = useState("");

@@ -72,13 +72,8 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
-  console.log(+tempOrderId, +productId, +count);
-  try {
-    // if (tempOrderId === orderId) {
-    //   console.log("order dupe");
-    //   throw false;
-    // }
 
+  try {
     const {
       rows: [checkOrderProducts],
     } = await client.query(
@@ -93,7 +88,6 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     if (checkOrderProducts) {
       const orders = await updateOrderProducts(toUpdate);
       res.send(orders);
-      // throw "order product already exists";
     } else {
       const {
         rows: [order_products],
@@ -120,11 +114,9 @@ ordersRouter.patch("/:userId/:orderId", async (req, res, next) => {
   let newUserId;
   if (typeof userId === "string") {
     newUserId = Number(userId);
-    console.log("hi", newUserId);
   }
   try {
     const orders = await updateUserIdOrdersTable({ newUserId, orderId });
-    console.log(orders);
     res.send(orders);
   } catch (error) {
     next(error);
@@ -134,11 +126,10 @@ ordersRouter.patch("/:userId/:orderId", async (req, res, next) => {
 ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId: id } = req.params;
   const toUpdate = { id };
-  console.log(id);
 
   try {
     const orders = await updateOrderPurchased(toUpdate);
-    console.log(orders);
+
     res.send(orders);
   } catch (error) {
     next(error);

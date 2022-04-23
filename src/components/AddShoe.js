@@ -31,7 +31,7 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
       }),
     });
     const info = await resp.json();
-    console.log(info);
+
     fetchProducts();
 
     setTitle("");

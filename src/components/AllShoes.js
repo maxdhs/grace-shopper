@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const AllShoes = ({ products, fetchProducts }) => {
+const AllShoes = ({ products }) => {
   const [search, setSearch] = useState("");
 
   const filter = (product, text) => {
@@ -17,8 +17,6 @@ const AllShoes = ({ products, fetchProducts }) => {
       return false;
     }
   };
-
-  console.log(products);
 
   const filteredProducts = products.filter((filterProduct) =>
     filter(filterProduct, search)

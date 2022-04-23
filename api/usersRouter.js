@@ -108,7 +108,6 @@ usersRouter.get("/:userId/orders", async (req, res, next) => {
 usersRouter.get("/admin", async (req, res, next) => {
   try {
     const allUsers = await getAllUsers();
-    // console.log(allUsers);
     res.send(allUsers);
   } catch (error) {
     res.send(error);

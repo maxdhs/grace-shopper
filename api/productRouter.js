@@ -37,10 +37,6 @@ productRouter.post("/", async (req, res, next) => {
     req.body;
 
   try {
-    // if (!req.user) {
-    //   throw "Must be logged in to post";
-    // } else {
-    // userId = req.user.id;
     const response = await createProduct({
       title,
       designer,
@@ -50,9 +46,8 @@ productRouter.post("/", async (req, res, next) => {
       image,
       count,
     });
-    console.log(response);
+
     res.send(response);
-    // }
   } catch (err) {
     res.send({ error: err.message });
   }
@@ -78,9 +73,7 @@ productRouter.patch("/:productId", async (req, res, next) => {
   try {
     const updatedProduct = await updateProduct(updateFields);
     res.send(updatedProduct);
-    console.log(updatedProduct);
   } catch (err) {
-    console.log(err);
     throw error;
   }
 });

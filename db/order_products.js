@@ -28,7 +28,6 @@ const addProductToOrder = async ({ orderId, productId, count }) => {
       `INSERT INTO order_products("orderId", "productId", count) VALUES ($1, $2, $3) RETURNING *;`,
       [orderId, productId, count]
     );
-    console.log(order_products);
     return order_products;
   } catch (error) {
     throw error;

@@ -6,7 +6,6 @@ const API_LOGIN = "/api/users/login";
 
 const Login = ({
   setToken,
-  action,
   error,
   setError,
   setUserData,
@@ -32,7 +31,7 @@ const Login = ({
         }),
       });
       const info = await response.json();
-      console.log(info);
+
       setUserData(info.user);
       setUserId(info.user.id);
       if (info.error) {

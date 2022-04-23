@@ -13,8 +13,6 @@ const Cart = ({
   setError,
 }) => {
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  const [orderProductId, setOrderProductId] = useState("");
   const lsOrderId = localStorage.getItem("orderId");
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
@@ -111,7 +109,6 @@ const Cart = ({
       }),
     });
     const info = await response.json();
-    console.log(info);
 
     if (info.error) {
       return setError(info.error);
@@ -139,7 +136,34 @@ const Cart = ({
                       />
                       <h4 className="product-designer">{product.designer}</h4>
                       <h5 className="product-price">${product.price}</h5>
-
+                      {/* <button
+                        value={product.id}
+                        onClick={() => {
+                          return (
+                            <select
+                              value={count}
+                              onChange={(event) => {
+                                setCount(event.target.value);
+                              }}
+                            >
+                              <option value="original quantity">
+                                {finalProductQuantity[index]}
+                              </option>
+                              {quantity.map((num) => {
+                                return (
+                                  <>
+                                    <option key={num} value={num}>
+                                      {num}
+                                    </option>
+                                  </>
+                                );
+                              })}
+                            </select>
+                          );
+                        }}
+                      >
+                        Update Quantity
+                      </button> */}
                       <select
                         value={count}
                         onChange={(event) => {
@@ -167,7 +191,7 @@ const Cart = ({
                         }}
                         className="productsbutton"
                       >
-                        Update Quantity
+                        Submit
                       </button>
                       <button
                         className="productsbutton"
@@ -188,7 +212,6 @@ const Cart = ({
         </div>
         <div>
           <button id="cart-button" onClick={handleSubmitOrder}>
-
             {finalProducts.length ? (
               <Link to="/purchased">Submit Order</Link>
             ) : null}
