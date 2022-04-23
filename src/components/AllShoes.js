@@ -18,6 +18,8 @@ const AllShoes = ({ products, fetchProducts }) => {
     }
   };
 
+  console.log(products);
+
   const filteredProducts = products.filter((filterProduct) =>
     filter(filterProduct, search)
   );
@@ -27,7 +29,7 @@ const AllShoes = ({ products, fetchProducts }) => {
   return (
     <>
       <div className="page-title">
-        <h1>All Shoes</h1> 
+        <h1>All Shoes</h1>
         <div id="search">
           <input
             type="text"
@@ -41,7 +43,6 @@ const AllShoes = ({ products, fetchProducts }) => {
         </div>
       </div>
       <div id="products">
-       
         {productsToDisplay.map((product) => {
           return (
             <div key={product.id} className="productView">

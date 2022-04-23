@@ -27,11 +27,12 @@ const SingleShoe = ({
   }, []);
 
   const id = useParams();
-
-  const [count, setCount] = useState("");
+  console.log(id);
+  console.log(products);
+  //   const [count, setCount] = useState("");
 
   const shoe = products.filter((product) => id.shoeId == product.id);
-
+  console.log(shoe);
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [productId, setProductId] = useState("");
@@ -49,7 +50,7 @@ const SingleShoe = ({
 
   const handleClick = async (e) => {
     e.preventDefault();
-
+    const count = 1;
     const response = await fetch(`${API_ORDERS}/${orderInfo.id}/products`, {
       method: "POST",
       headers: {
@@ -78,7 +79,7 @@ const SingleShoe = ({
       <h3 className="single-text">{shoeDescription}</h3>
       <h2 className="single-text">${shoePrice}</h2>
       <h3 className="single-text">Inventory: {shoeCount}</h3>
-      <select
+      {/* <select
         value={count}
         onChange={(event) => {
           setCount(event.target.value);
@@ -96,7 +97,7 @@ const SingleShoe = ({
             </>
           );
         })}
-      </select>
+      </select> */}
       <button id="add-button" onClick={handleClick} className="single-text">
         Add To Cart
       </button>
