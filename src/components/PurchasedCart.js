@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 
-const PurchasedCart = ({ createAfterPurchaseOrder }) => {
+const PurchasedCart = ({ createAfterPurchaseOrder, checkUser }) => {
   useEffect(() => {
     createAfterPurchaseOrder();
+    checkUser();
   }, []);
 
   return (
