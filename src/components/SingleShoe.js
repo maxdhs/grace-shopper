@@ -13,23 +13,7 @@ const SingleShoe = ({
   orderInfo,
   fetchOrderProducts,
 }) => {
-  useEffect(() => {
-    fetchProducts();
-    if (shoe[0]) {
-      setShoeTitle(shoe[0].title);
-      setShoeDesigner(shoe[0].designer);
-      setShoeDescription(shoe[0].description);
-      setShoeCount(shoe[0].count);
-      setShoePrice(shoe[0].price);
-      setShoeImage(shoe[0].image);
-      setProductId(shoe[0].id);
-    }
-  }, []);
-
   const id = useParams();
-  console.log(id);
-  console.log(products);
-  //   const [count, setCount] = useState("");
 
   const shoe = products.filter((product) => id.shoeId == product.id);
   console.log(shoe);
@@ -47,6 +31,18 @@ const SingleShoe = ({
   if (!userId) {
     userId === null;
   }
+
+  useEffect(() => {
+    if (shoe[0]) {
+      setShoeTitle(shoe[0].title);
+      setShoeDesigner(shoe[0].designer);
+      setShoeDescription(shoe[0].description);
+      setShoeCount(shoe[0].count);
+      setShoePrice(shoe[0].price);
+      setShoeImage(shoe[0].image);
+      setProductId(shoe[0].id);
+    }
+  }, [shoe[0]]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -79,25 +75,6 @@ const SingleShoe = ({
       <h3 className="single-text">{shoeDescription}</h3>
       <h2 className="single-text">${shoePrice}</h2>
       <h3 className="single-text">Inventory: {shoeCount}</h3>
-      {/* <select
-        value={count}
-        onChange={(event) => {
-          setCount(event.target.value);
-        }}
-      >
-        <option className="quantity" value="any">
-          Quantity
-        </option>
-        {quantity.map((num, index) => {
-          return (
-            <>
-              <option key={num.index} value={num}>
-                {num}
-              </option>
-            </>
-          );
-        })}
-      </select> */}
       <button id="add-button" onClick={handleClick} className="single-text">
         Add To Cart
       </button>
