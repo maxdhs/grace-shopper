@@ -171,10 +171,13 @@ const Cart = ({
               })
             : null}
         </div>
-
+<div>
+  <button id="cart-button">
         {finalProducts.length ? (
-          <Link to="/purchased">Submit Order</Link>
+          <Link  to="/purchased">Submit Order</Link>
         ) : null}
+  </button>
+</div>
       </div>
     </>
   );

@@ -28,44 +28,52 @@ const Admin = ({ products, setProducts, allUsers, fetchProducts }) => {
 
   return (
     <>
-      <h1>Admin</h1>
-      <h2>Want to update a shoe?</h2>
-      <form>
-        <select
+      <h1 className="Admin">Admin</h1> 
+      <div className="Admin-actions"> 
+      <div className="Admin-item">
+      <h2 className="Admin-question">Want to update a shoe?</h2>
+     {/* update  */}
+    
+      <form className="Admin-forms">
+        <select 
           defaultValue="default"
           onChange={(e) => {
             setShoeId(e.target.value);
           }}
         >
-          <option key="default" value="default" disabled>
+          <option className="Admin-option" key="default" value="default" disabled>
             Select a Product
           </option>
           {products.map((product) => {
             return (
-              <option key={product.id} value={product.id}>
+              <option  key={product.id} value={product.id}>
                 {product.title}
               </option>
             );
           })}
         </select>
-        <button>
+        <button className="Admin-button">
           <Link to={`/updateshoe/${shoeId}`}>Submit</Link>
         </button>
       </form>
-
+      </div>
+{/* add  */}
+<div className="Admin-item">
       <Link to="/add-shoe">
-        <button>Add New Product</button>
+        <button id="Admin-newProduct">Add New Product</button>
       </Link>
-
-      <h2>Want to delete a shoe?</h2>
-      <form>
-        <select
+</div>
+{/* delete  */}
+<div className="Admin-item">
+      <h2 className="Admin-question" >Want to delete a shoe?</h2>
+      <form className="Admin-forms">
+        <select 
           defaultValue="default"
           onChange={(e) => {
             setShoeId(e.target.value);
           }}
         >
-          <option key="default" value="default" disabled>
+          <option className="Admin-option" key="default" value="default" disabled>
             Select a Product
           </option>
           {products.map((product) => {
@@ -76,7 +84,7 @@ const Admin = ({ products, setProducts, allUsers, fetchProducts }) => {
             );
           })}
         </select>
-        <button>
+        <button className="Admin-button">
           <Link to={`/deleteShoe/${shoeId}`}>Submit</Link>
         </button>
       </form>
@@ -91,6 +99,8 @@ const Admin = ({ products, setProducts, allUsers, fetchProducts }) => {
           );
         })}
       </div> */}
+      </div>
+      </div>
     </>
   );
 };
