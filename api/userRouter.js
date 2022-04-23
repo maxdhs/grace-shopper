@@ -1,11 +1,12 @@
 const express = require('express');
 const client = require('../db');
 const jwt = require('jsonwebtoken');
-const { 
-  createUser, 
-  getUserByUsername, 
-  getUser, 
-  getAllUsers 
+const {
+  createUser,
+  getUserByUsername,
+  getUserByEmail,
+  getUser,
+  getAllUsers,
 } = require('../db/users.js');
 const { requireAdmin } = require('./utils');
 
@@ -16,16 +17,11 @@ userRouter.get('/', async (req, res) => {
   res.send('User Page');
 });
 
-userRouter.get('/me', async(req, res) => {
+userRouter.get('/me', async (req, res) => {
   try {
-    if (!req.user) {
-      res.status(400).send("No user has been found");
-    }
-    res.send(req.user);
+    req.user ? res.send(req.user) : res.send('Error: No user logged in.');
   } catch (error) {
-    res.send({
-      message: error.message,
-    });
+    throw error;
   }
 });
 

@@ -12,7 +12,7 @@ const SingleProduct = () => {
     useEffect(() => {
         fetchProductById(id)
             .then(product => {
-                setProduct(product);
+                setProduct(product[0]);
             });
         fetchReviews(id)
             .then(review => {
@@ -26,20 +26,20 @@ const SingleProduct = () => {
     return (
         <div className="single-product_main">
             <div className="single-product_container">
-                {product.map(item => {
-                    return(
+                {/* {product.map(item => { */}
+                    {/* return( */}
                         <>
                         <div 
-                            key={item.id}
+                            key={product.id}
                             className="single-product_content"
                         >
-                            <h1>{item.title}</h1>
-                            <img src={item.imgURL}/>
-                            <p>{item.price}</p>
+                            <h1>{product.title}</h1>
+                            <img src={product.imgURL}/>
+                            <p>{product.price}</p>
                         </div>
                         <div className="single-product_details">
                             <h2>Description: </h2>
-                            <p>{item.description}</p>
+                            <p>{product.description}</p>
                             <h2>Reviews: </h2>
                             {mainReviews.map(review => {
                                 return (
@@ -51,8 +51,8 @@ const SingleProduct = () => {
                             <button>Add to cart</button>
                         </div>
                         </>
-                    )
-                })}
+                    {/* ) */}
+                {/* })} */}
             </div>
         </div>
     )
