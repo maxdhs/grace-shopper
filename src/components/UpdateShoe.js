@@ -54,8 +54,10 @@ const UpdateShoe = ({ products, setProducts }) => {
 
   return (
     <>
-      <h1>Update Shoe</h1>
-      <form onSubmit={updateShoe}>
+    <div className="Admin-update">
+      <div className="Admin-item"><h1>Update Shoe</h1></div>
+      <div>
+      <form className="Update-forms" onSubmit={updateShoe}>
         <input
           type="text"
           placeholder={filteredShoe[0].title}
@@ -97,8 +99,8 @@ const UpdateShoe = ({ products, setProducts }) => {
           <option>Sneakers</option>
           <option>Heels</option>)
         </select> */}
-        <button>Submit</button>
-        <button
+        <button className="Admin-button">Submit</button>
+        <button className="Admin-button"
           type="reset"
           onClick={() => {
             setTitle("");
@@ -110,7 +112,8 @@ const UpdateShoe = ({ products, setProducts }) => {
         >
           <Link to="/admin">Cancel</Link>
         </button>
-      </form>
+      </form></div>
+      </div>
     </>
   );
 };
