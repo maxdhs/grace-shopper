@@ -127,7 +127,7 @@ const App = () => {
     const lsUserId = localStorage.getItem("userId");
 
     try {
-      const response = await fetch(`${API_UserId}/${lsOrderId}/${lsUserId}`, {
+      const response = await fetch(`${API_UserId}/${lsUserId}/${lsOrderId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +171,8 @@ const App = () => {
     fetchUser();
     checkUser();
   }, [token]);
-  // console.log(products);
+  console.log(products);
+  console.log(orders);
   return (
     <>
       <div id="main-section">
