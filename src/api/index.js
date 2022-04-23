@@ -114,9 +114,30 @@ export const createCart = async () => {
     throw error;
   }
 };
-export const addToCart = async (price, productId, count) => {
+export const addToCart = async (
+  price,
+  productId,
+  count,
+  imgURL,
+  title,
+  description
+) => {
   try {
-    const response = await fetch(`${BASE_URL}/cart/`, {
+    if (!lstoken) {
+      const productArr = localStorage.getItem('products');
+      if (!productArr) {
+        localStorage.setItem(
+          'products',
+          JSON.stringify([
+            { price, productId, count, imgURL, title, description },
+          ])
+        );
+      }
+      productArr.push({ price, productId, count, imgURL, title, description });
+      localStorage.setItem('products', JSON.stringify(productArr));
+      return;
+    }
+    const response = await fetch(`${BASE_URL}/cart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

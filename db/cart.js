@@ -51,7 +51,9 @@ const createCart = async (userId) => {
 
 const addProductToCart = async (count, price, cartId, productId) => {
   try {
-    const { rows: cartProduct } = await client.query(
+    const {
+      rows: [cartProduct],
+    } = await client.query(
       `
             INSERT INTO carts_products(count, price, "cartId", "productId")
             VALUES ($1,$2,$3, $4)
@@ -59,7 +61,27 @@ const addProductToCart = async (count, price, cartId, productId) => {
             `,
       [count, price, cartId, productId]
     );
-    return cartProduct;
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
+    SELECT * FROM carts
+    WHERE id = $1;
+    `,
+      [cartProduct.cartId]
+    );
+    const { rows: products } = await client.query(
+      `
+                  SELECT carts_products.*
+                  FROM carts
+                  JOIN carts_products
+                  ON carts.id = carts_products."cartId"
+                  WHERE carts.id = $1;
+                  `,
+      [cartProduct.cartId]
+    );
+    cart.products = products;
+    return cart;
   } catch (error) {
     throw error;
   }
