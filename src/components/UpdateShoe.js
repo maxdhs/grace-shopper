@@ -15,7 +15,7 @@ const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
-  console.log("===>", filteredShoe);
+  // console.log("===>", filteredShoe);
 
   const navigate = useNavigate();
 
@@ -93,15 +93,19 @@ const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
                 setPrice(e.target.value);
               }}
             />
-            {/* <select defaultValue="default" required>
-          <option key="default" value="default" disabled>
-            -- Select a Category --
-          </option>
-          <option>Boots</option>
-          <option>Sandals</option>
-          <option>Sneakers</option>
-          <option>Heels</option>)
-        </select> */}
+            <select
+              value={category}
+              // required
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option key="default" value="default" disabled>
+                -- Select a Category --
+              </option>
+              <option value="Boots">Boots</option>
+              <option value="Sandals">Sandals</option>
+              <option value="Sneakers">Sneakers</option>
+              <option value="Heels">Heels</option>)
+            </select>
             <button className="Admin-button">Submit</button>
             <button
               className="Admin-button"
@@ -111,7 +115,7 @@ const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
                 setDesigner("");
                 setDescription("");
                 setPrice("");
-                // setCategory("");
+                setCategory("");
               }}
             >
               <Link to="/admin">Cancel</Link>
