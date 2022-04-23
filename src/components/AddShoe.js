@@ -43,9 +43,10 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
   };
 
   return (
-    <div>
-      <h1>Add a Product</h1>
-      <form onSubmit={handleShoes}>
+    <div className="Admin-add">
+      <h1 className="Admin-item">Add a Product</h1>
+      <form  onSubmit={handleShoes}>
+        <div classname="Admin-addForm">
         <input
           required
           placeholder="Enter product title..."
@@ -82,20 +83,22 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />
-        <label
+        </div>
+        <div>
+        <label className="category"
           required
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
           Select category
-        </label>
+        </label></div>
         <select>
           <option value="Boots">Boots</option>
           <option value="Heels">Heels</option>
           <option value="Sandals">Sandals</option>
           <option value="Sneakers">Sneakers</option>
         </select>
-        <button type="submit">Submit</button>
+        <button classname="Admin-addForm" type="submit">Submit</button>
       </form>
       <p>{error}</p>
     </div>

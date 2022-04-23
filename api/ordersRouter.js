@@ -117,9 +117,13 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
 
 ordersRouter.patch("/:orderId/:userId", async (req, res, next) => {
   const { userId, orderId } = req.params;
-
+  let newUserId;
+  if (typeof userId === "string") {
+    newUserId = Number(userId);
+    console.log(newUserId);
+  }
   try {
-    const orders = await updateUserIdOrdersTable({ userId, orderId });
+    const orders = await updateUserIdOrdersTable({ newUserId, orderId });
     console.log(orders);
     res.send(orders);
   } catch (error) {
