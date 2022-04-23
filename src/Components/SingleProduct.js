@@ -22,37 +22,43 @@ const SingleProduct = () => {
     const mainReviews = reviews.map(review => {
         return review.reviews[0];
     });
-    console.log(mainReviews,"here are the main reviews");
     return (
         <div className="single-product_main">
             <div className="single-product_container">
-                {/* {product.map(item => { */}
-                    {/* return( */}
-                        <>
-                        <div 
-                            key={product.id}
-                            className="single-product_content"
-                        >
-                            <h1>{product.title}</h1>
-                            <img src={product.imgURL}/>
-                            <p>{product.price}</p>
-                        </div>
-                        <div className="single-product_details">
-                            <h2>Description: </h2>
-                            <p>{product.description}</p>
-                            <h2>Reviews: </h2>
-                            {mainReviews.map(review => {
-                                return (
-                                    <div>
-                                        {review && <p>{review.message}</p>}
-                                    </div>
-                                )
-                            })}
-                            <button>Add to cart</button>
-                        </div>
-                        </>
-                    {/* ) */}
-                {/* })} */}
+                <div 
+                    key={product.id}
+                    className="single-product_content"
+                >
+                    <h1>{product.title}</h1>
+                    <img src={product.imgURL}/>
+                    <p>{product.price}</p>
+                </div>
+                <div className="single-product_details">
+                    <h2>Description: </h2>
+                    <p>{product.description}</p>
+                    <h2>Reviews: </h2>
+                    {mainReviews.map(review => {
+                        return (
+                            <div key={review.id}>
+                                {review && <p>{review.message}</p>}
+                            </div>
+                        )
+                    })}
+                    <button
+                        onClick={() => {
+                        const response = addToCart(product.price, product.id, 1);
+                        if (response) {
+                            NotificationManager.success(
+                            'Added 1 item(s) to cart!',
+                            'Success!',
+                            1500
+                            );
+                        }
+                        }}
+                    >
+                        Add to cart
+                </button>
+                </div>
             </div>
         </div>
     )

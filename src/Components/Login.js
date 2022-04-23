@@ -1,29 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { login, userInfo } from '../api';
+import { fetchUserMe, login } from '../api';
 
-const Login = ({ setToken, setUserdata }) => {
+const Login = ({setUserInfo}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const history = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
+  // useEffect(() => {
+  //   fetchUserMe().then(user => {
+  //     setUserInfo(user);
+  //   });
+  // },[]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const info = await login(username, password);
       if (info.error) {
         return setError(info.error);
-      }
-
-      setToken(info.token);
+      };
       localStorage.setItem('token', info.token);
-      const infoU = await userInfo(info.token);
-      setUserdata(infoU.data);
-      history('/');
+      if(info) {
+        history('/');
+      }
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   };
 

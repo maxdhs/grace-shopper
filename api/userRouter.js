@@ -13,8 +13,16 @@ const { requireAdmin } = require('./utils');
 const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
-  console.log('here is the current user', req.user);
-  res.send('User Page');
+  try {
+    if(req.user) {
+      res.send(req.user);
+      return
+    }
+  } catch (error) {
+    res.send({
+      message: error.message
+    })
+  }
 });
 
 userRouter.get('/me', async (req, res) => {
