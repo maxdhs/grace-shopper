@@ -284,9 +284,9 @@ select{
   border-radius: 50px;
 }
 .productsbutton {
-  min-width: 100px;
-  min-height: 50px;
-  font-size: large;
+  min-width: 75px;
+  min-height: 35px;
+  font-size: medium;
   border-radius: 50px;
   background-color: rgb(173, 145, 199);
   font-weight: bold;
@@ -358,4 +358,8 @@ align-items: center;
 }
 .category{
   font-size: xx-large;
+  display: flex;
+justify-content: center;
+flex-direction: column;
+align-items: center;
 }
