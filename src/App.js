@@ -39,27 +39,27 @@ const App = () => {
   const [orderProducts, setOrderProducts] = useState([]);
   const [count, setCount] = useState("");
 
-  // const fetchUser = async () => {
-  //   const lsToken = localStorage.getItem("token");
-  //   const lsUserId = localStorage.getItem("userId")
-  //   console.log(lsToken);
-  //   if (lsToken) {
-  //     setToken(lsToken);
-  //     try {
-  //       const response = await fetch(`${API_USER}`, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${lsToken}`,
-  //         },
-  //       });
-  //       const info = await response.json();
-  //       setUserData(info.user);
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-  //   checkUser();
-  // };
+  const fetchUser = async () => {
+    const lsToken = localStorage.getItem("token");
+    const lsUserId = localStorage.getItem("userId");
+    console.log(lsToken);
+    if (lsToken) {
+      setToken(lsToken);
+      try {
+        const response = await fetch(`${API_USER}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${lsToken}`,
+          },
+        });
+        const info = await response.json();
+        setUserData(info.user);
+      } catch (error) {
+        throw error;
+      }
+    }
+    checkUser();
+  };
 
   const fetchOrderProducts = async () => {
     const response = await fetch(`/api/order_products`);
@@ -168,7 +168,7 @@ const App = () => {
     fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
-    // fetchUser();
+    fetchUser();
     checkUser();
   }, [token]);
   // console.log(products);
@@ -293,6 +293,7 @@ const App = () => {
               element={
                 <PurchasedCart
                   createAfterPurchaseOrder={createAfterPurchaseOrder}
+                  checkUser={checkUser}
                 />
               }
             />

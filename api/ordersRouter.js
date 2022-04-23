@@ -120,7 +120,7 @@ ordersRouter.patch("/:orderId/:userId", async (req, res, next) => {
   let newUserId;
   if (typeof userId === "string") {
     newUserId = Number(userId);
-    console.log(newUserId);
+    console.log("hi", newUserId);
   }
   try {
     const orders = await updateUserIdOrdersTable({ newUserId, orderId });
