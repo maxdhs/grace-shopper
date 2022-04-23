@@ -307,6 +307,7 @@ const App = () => {
                   setProducts={setProducts}
                   allUsers={allUsers}
                   fetchProducts={fetchProducts}
+                  userData={userData}
                 />
               }
             />
@@ -314,7 +315,11 @@ const App = () => {
               exact
               path="/updateShoe/:shoeId"
               element={
-                <UpdateShoe products={products} setProducts={setProducts} />
+                <UpdateShoe
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
               }
             />
             <Route

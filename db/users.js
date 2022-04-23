@@ -42,9 +42,9 @@ const getUser = async ({ email, password }) => {
     } else {
       const {
         rows: [user],
-      } = await client.query(`SELECT id, email FROM users WHERE email=$1;`, [
-        email,
-      ]);
+      } = await client.query(`SELECT * FROM users WHERE email=$1;`, [email]);
+
+      delete user.password;
       return user;
     }
   } catch (error) {

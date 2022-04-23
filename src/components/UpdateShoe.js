@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const UpdateShoe = ({ products, setProducts }) => {
+const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
   const [title, setTitle] = useState("");
   const [designer, setDesigner] = useState("");
   const [description, setDescription] = useState("");
@@ -15,7 +15,7 @@ const UpdateShoe = ({ products, setProducts }) => {
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
-  console.log("===>", filteredShoe);
+  // console.log("===>", filteredShoe);
 
   const navigate = useNavigate();
 
@@ -49,70 +49,79 @@ const UpdateShoe = ({ products, setProducts }) => {
 
     console.log(info);
     navigate("/admin");
+    await fetchProducts();
     return info;
   };
 
   return (
     <>
-    <div className="Admin-update">
-      <div className="Admin-item"><h1>Update Shoe</h1></div>
-      <div>
-      <form className="Update-forms" onSubmit={updateShoe}>
-        <input
-          type="text"
-          placeholder={filteredShoe[0].title}
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder={filteredShoe[0].designer}
-          value={designer}
-          onChange={(e) => {
-            setDesigner(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder={filteredShoe[0].description}
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder={filteredShoe[0].price}
-          value={price}
-          onChange={(e) => {
-            setPrice(e.target.value);
-          }}
-        />
-        {/* <select defaultValue="default" required>
-          <option key="default" value="default" disabled>
-            -- Select a Category --
-          </option>
-          <option>Boots</option>
-          <option>Sandals</option>
-          <option>Sneakers</option>
-          <option>Heels</option>)
-        </select> */}
-        <button className="Admin-button">Submit</button>
-        <button className="Admin-button"
-          type="reset"
-          onClick={() => {
-            setTitle("");
-            setDesigner("");
-            setDescription("");
-            setPrice("");
-            // setCategory("");
-          }}
-        >
-          <Link to="/admin">Cancel</Link>
-        </button>
-      </form></div>
+      <div className="Admin-update">
+        <div className="Admin-item">
+          <h1>Update Shoe</h1>
+        </div>
+        <div>
+          <form className="Update-forms" onSubmit={updateShoe}>
+            <input
+              type="text"
+              placeholder={filteredShoe[0].title}
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              placeholder={filteredShoe[0].designer}
+              value={designer}
+              onChange={(e) => {
+                setDesigner(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              placeholder={filteredShoe[0].description}
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              placeholder={filteredShoe[0].price}
+              value={price}
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
+            />
+            <select
+              value={category}
+              // required
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option key="default" value="default" disabled>
+                -- Select a Category --
+              </option>
+              <option value="Boots">Boots</option>
+              <option value="Sandals">Sandals</option>
+              <option value="Sneakers">Sneakers</option>
+              <option value="Heels">Heels</option>)
+            </select>
+            <button className="Admin-button">Submit</button>
+            <button
+              className="Admin-button"
+              type="reset"
+              onClick={() => {
+                setTitle("");
+                setDesigner("");
+                setDescription("");
+                setPrice("");
+                setCategory("");
+              }}
+            >
+              <Link to="/admin">Cancel</Link>
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );
