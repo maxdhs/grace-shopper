@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchUserMe, login } from '../api';
+import { fetchUser, login } from '../api';
 
 const Login = ({setUserInfo}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const history = useNavigate();
-
-  // useEffect(() => {
-  //   fetchUserMe().then(user => {
-  //     setUserInfo(user);
-  //   });
-  // },[]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,15 +15,17 @@ const Login = ({setUserInfo}) => {
       if (info.error) {
         return setError(info.error);
       };
-      localStorage.setItem('token', info.token);
       if(info) {
         history('/');
+        fetchUser()
+          .then(user => {
+            setUserInfo(user);
+          });
       }
     } catch (error) {
       throw error;
     }
   };
-
   return (
     <>
       <h2>Login</h2>

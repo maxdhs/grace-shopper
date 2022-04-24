@@ -8,6 +8,14 @@ import MainCategories from './MainCategories';
 const Products = ({ products }) => {
   const navigate = useNavigate();
 
+  // const addToCartHandler = async(e) => {
+  //   e.preventDefault();
+  //   try {
+      
+  //   } catch (error) {
+      
+  //   }
+  // }
   return (
     <div className="products_main">
       <MainCategories />
@@ -28,6 +36,7 @@ const Products = ({ products }) => {
               <button
                 onClick={(e) => {
                   const response = addToCart(product.price, product.id, 1);
+                  console.log(response);
                   if (response) {
                     NotificationManager.success(
                       'Added 1 item(s) to cart!',

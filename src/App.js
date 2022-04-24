@@ -22,15 +22,7 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
 
-  // const lstoken = localStorage.getItem("token");
-
   useEffect(() => {
-    // if(lstoken) {
-    //   fetchUserMe()
-    //     .then(user => {
-    //       setUserInfo(user)
-    //     })
-    // }
     fetchUser().then(user => {
       console.log(user, "user")
       if(user) {

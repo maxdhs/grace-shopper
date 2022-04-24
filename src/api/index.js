@@ -60,7 +60,7 @@ export const login = async (username, password) => {
       }),
     });
     const info = await response.json();
-    console.log('login_response', info);
+    localStorage.setItem('token', info.token);
     return info;
   } catch (error) {
     throw error;
