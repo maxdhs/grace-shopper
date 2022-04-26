@@ -10,12 +10,40 @@ const SingleShoe = ({
   userId,
   orderInfo,
   fetchOrderProducts,
+  orderProducts,
 }) => {
   const id = useParams();
 
   const shoe = products.filter((product) => id.shoeId == product.id);
-  console.log(shoe);
+  const lsOrderId = localStorage.getItem("orderId");
+  const orderProduct = orderProducts.filter(
+    (product) => lsOrderId == product.orderId
+  );
+  let productArr = [];
+  for (let i = 0; i < orderProduct.length; i++) {
+    const productId = orderProduct[i].productId;
+    productArr.push(productId);
+  }
 
+  let finalProducts = [];
+
+  for (let j = 0; j < productArr.length; j++) {
+    let product = productArr[j];
+
+    for (let l = 0; l < products.length; l++) {
+      let product1 = products[l];
+
+      if (product === product1.id) {
+        finalProducts.push(product1);
+      }
+    }
+  }
+  console.log(products);
+  console.log(finalProducts);
+
+  const thisShoe = finalProducts.filter((product) => shoe[0].id === product.id);
+
+  console.log(shoe);
   const [productId, setProductId] = useState("");
   const [cartMessage, setCartMessage] = useState("");
   const [shoeTitle, setShoeTitle] = useState("");
@@ -64,6 +92,8 @@ const SingleShoe = ({
     }
   };
 
+  console.log(thisShoe);
+
   return (
     <div key={productId} className="singleView">
       <h1 className="single-text">{shoeTitle}</h1>
@@ -72,10 +102,14 @@ const SingleShoe = ({
       <h3 className="single-text">{shoeDescription}</h3>
       <h2 className="single-text">${shoePrice}</h2>
       <h3 className="single-text">Inventory: {shoeCount}</h3>
-      <button id="add-button" onClick={handleClick} className="single-text">
-        Add To Cart
-      </button>
-      <p>{cartMessage}</p>
+      {!thisShoe.length ? (
+        <>
+          <button id="add-button" onClick={handleClick} className="single-text">
+            Add To Cart
+          </button>
+          <p>{cartMessage}</p>
+        </>
+      ) : null}
     </div>
   );
 };

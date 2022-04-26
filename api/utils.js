@@ -10,4 +10,14 @@ function requireUser(req, res, next) {
   next();
 }
 
-module.exports = requireUser;
+function requireAdmin(req, res, next) {
+  if (!req.user.isAdmin) {
+    res.status(401);
+    next({
+      name: "AdminUserError",
+      message: "You must be an admin to perform this action",
+    });
+  }
+}
+
+module.exports = { requireUser, requireAdmin };

@@ -86,7 +86,7 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     );
 
     if (checkOrderProducts) {
-      const orders = await updateOrderProducts(toUpdate);
+      const orders = await updateOrderProducts({ tempOrderId, count });
       res.send(orders);
     } else {
       const {

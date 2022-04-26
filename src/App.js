@@ -41,7 +41,7 @@ const App = () => {
 
   const fetchUser = async () => {
     const lsToken = localStorage.getItem("token");
-    const lsUserId = localStorage.getItem("userId");
+
     console.log(lsToken);
     if (lsToken) {
       setToken(lsToken);
@@ -143,12 +143,12 @@ const App = () => {
     }
   }
 
-  async function fetchAllUsers() {
-    const response = await fetch("/api/users/admin");
-    const info = await response.json();
+  // async function fetchAllUsers() {
+  //   const response = await fetch("/api/users/admin");
+  //   const info = await response.json();
 
-    setAllUsers(info.rows);
-  }
+  //   setAllUsers(info.rows);
+  // }
 
   async function fetchProducts() {
     const response = await fetch("/api/products");
@@ -165,7 +165,7 @@ const App = () => {
   useEffect(() => {
     fetchProducts();
     fetchOrders();
-    fetchAllUsers();
+    // fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
     fetchUser();
@@ -238,6 +238,7 @@ const App = () => {
                   setCartInfo={setCartInfo}
                   fetchOrderProducts={fetchOrderProducts}
                   count={count}
+                  orderProducts={orderProducts}
                 />
               }
             />

@@ -9,8 +9,6 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
   const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
 
-  console.log("category", category);
-
   const handleShoes = async (e) => {
     setError("");
     e.preventDefault();

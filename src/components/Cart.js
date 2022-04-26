@@ -164,7 +164,39 @@ const Cart = ({
                       >
                         Update Quantity
                       </button> */}
-                      <select
+
+                      <p>Quantity: {finalProductQuantity[index]}</p>
+                      {/* <button
+                        value={product.id}
+                        onClick={() => {
+                          return (
+                            <>
+                              <select
+                                value={count}
+                                onChange={(event) => {
+                                  setCount(event.target.value);
+                                }}
+                              >
+                                <option value="original quantity">
+                                  {finalProductQuantity[index]}
+                                </option>
+                                {quantity.map((num) => {
+                                  return (
+                                    <>
+                                      <option key={num} value={num}>
+                                        {num}
+                                      </option>
+                                    </>
+                                  );
+                                })}
+                              </select>
+                            </>
+                          );
+                        }}
+                      >
+                        Update Quantity
+                      </button> */}
+                      {/* <select
                         value={count}
                         onChange={(event) => {
                           setCount(event.target.value);
@@ -182,7 +214,7 @@ const Cart = ({
                             </>
                           );
                         })}
-                      </select>
+                      </select> */}
                       <button
                         value={product.id}
                         onClick={(e) => {

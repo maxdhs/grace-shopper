@@ -31,7 +31,7 @@ const Login = ({
         }),
       });
       const info = await response.json();
-
+      console.log(info);
       setUserData(info.user);
       setUserId(info.user.id);
       if (info.error) {
