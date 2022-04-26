@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const API_ORDERPRODUCTS = "/api/order_products";
 const API_ORDERS = "/api/orders";
@@ -15,7 +16,7 @@ const Cart = ({
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
-
+  let clicked = false;
   const lsToken = localStorage.getItem("token");
   const productArr = [];
   const productQuantity = [];
@@ -24,6 +25,7 @@ const Cart = ({
     productArr.push(productId);
     productQuantity.push(orderProduct[i].count);
   }
+  const [message, setMessage] = useState("");
 
   let finalProducts = [];
   let finalProductQuantity = [];
@@ -88,6 +90,7 @@ const Cart = ({
       }),
     });
     const info = await response.json();
+    setMessage("Quantity Updated!");
     if (info.error) {
       return setError(info.error);
     }
@@ -107,7 +110,7 @@ const Cart = ({
       }),
     });
     const info = await response.json();
-
+    setMessage("");
     if (info.error) {
       return setError(info.error);
     }
@@ -137,34 +140,36 @@ const Cart = ({
                       {/* <button
                         value={product.id}
                         onClick={() => {
-                          return (
-                            <select
-                              value={count}
-                              onChange={(event) => {
-                                setCount(event.target.value);
-                              }}
-                            >
-                              <option value="original quantity">
-                                {finalProductQuantity[index]}
-                              </option>
-                              {quantity.map((num) => {
-                                return (
-                                  <>
-                                    <option key={num} value={num}>
-                                      {num}
-                                    </option>
-                                  </>
-                                );
-                              })}
-                            </select>
-                          );
+                          clicked = true;
                         }}
                       >
                         Update Quantity
-                      </button> */}
+                      </button>
+                      {clicked ? (
+                        <select
+                          value={count}
+                          onChange={(event) => {
+                            setCount(event.target.value);
+                          }}
+                        >
+                          <option value="original quantity">
+                            {finalProductQuantity[index]}
+                          </option>
+                          {quantity.map((num) => {
+                            return (
+                              <>
+                                <option key={num} value={num}>
+                                  {num}
+                                </option>
+                              </>
+                            );
+                          })}
+                        </select>
+                      ) : null} */}
                       <select
-                        value={count}
+                        // value={finalProductQuantity[index]}
                         onChange={(event) => {
+                          finalProductQuantity[index] = event.target.value;
                           setCount(event.target.value);
                         }}
                       >
@@ -208,6 +213,7 @@ const Cart = ({
               })
             : null}
         </div>
+        <p class="message">{message}</p>
         <div>
           <button id="cart-button" onClick={handleSubmitOrder}>
             {finalProducts.length ? (

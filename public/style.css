@@ -258,10 +258,15 @@ body > div {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   max-width: 50%;
-  margin-left: 100px;
-  margin-top: 50px;
+  /* margin-left: 100px;
+  margin-top: 50px; */
   font-size: larger;
-  margin-top: 70px;
+  /* margin-top: 70px; */
+  margin: 50px auto;
+}
+
+.message {
+  text-align: center;
 }
 .product-designer {
   font-size: 32px;
