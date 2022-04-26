@@ -129,18 +129,6 @@ async function destroyOrder(id) {
   }
 }
 
-async function getCartByUserId(userId) {
-  try {
-    const cart = await client.query(
-      `SELECT * FROM orders WHERE "userId" = $1 AND "isPurchased" = false`,
-      [userId]
-    );
-    return cart;
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function updateUserIdOrdersTable({ newUserId, orderId }) {
   try {
     await client.query(
@@ -163,7 +151,6 @@ module.exports = {
   destroyOrder,
   getAllOrders,
   getUserIdByOrderId,
-  getCartByUserId,
   updateUserIdOrdersTable,
   updateOrderPurchased,
 };
