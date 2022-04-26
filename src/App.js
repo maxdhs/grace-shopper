@@ -318,6 +318,7 @@ const App = () => {
                   products={products}
                   setProducts={setProducts}
                   fetchProducts={fetchProducts}
+                  userData={userData}
                 />
               }
             />

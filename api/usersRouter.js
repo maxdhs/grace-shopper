@@ -61,14 +61,14 @@ usersRouter.post("/login", async (req, res, next) => {
 
     if (user) {
       const token = jwt.sign({ id: user.id, email }, JWT_SECRET);
-
+      req.user = user;
       res.send({
         message: "You're logged in!",
         token,
         user,
-        admin: "admin",
+        admin: req.user.isAdmin,
       });
-      req.user = user;
+
       console.log(req.user);
       return;
     } else {
@@ -113,9 +113,11 @@ usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
 });
 
 usersRouter.get("/admin", requireAdmin, async (req, res, next) => {
+  console.log(req.user);
   try {
     const allUsers = await getAllUsers();
-    res.send(allUsers);
+    // res.send(allUsers);
+    res.send(req.user);
   } catch (error) {
     res.send(error);
   }

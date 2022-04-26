@@ -36,25 +36,20 @@ productRouter.get("/:productId", async (req, res) => {
 productRouter.post("/", requireAdmin, async (req, res, next) => {
   const { title, designer, description, price, category, image, count } =
     req.body;
+  try {
+    const response = await createProduct({
+      title,
+      designer,
+      description,
+      price,
+      category,
+      image,
+      count,
+    });
 
-  if (!req.admin) {
-    res.send({ error: "Must be admin" });
-  } else {
-    try {
-      const response = await createProduct({
-        title,
-        designer,
-        description,
-        price,
-        category,
-        image,
-        count,
-      });
-
-      res.send(response);
-    } catch (err) {
-      res.send({ error: err.message });
-    }
+    res.send(response);
+  } catch (err) {
+    res.send({ error: err.message });
   }
 });
 
@@ -64,7 +59,7 @@ productRouter.patch("/:productId", requireAdmin, async (req, res, next) => {
   const { productId: id } = req.params;
 
   const { title, designer, description, price, category, count } = req.body;
-
+  console.log(req.user);
   const updateFields = {
     id,
     title,
@@ -74,16 +69,12 @@ productRouter.patch("/:productId", requireAdmin, async (req, res, next) => {
     category,
     count,
   };
-
-  if (!req.admin) {
-    res.send({ error: "Must be admin" });
-  } else {
-    try {
-      const updatedProduct = await updateProduct(updateFields);
-      res.send(updatedProduct);
-    } catch (err) {
-      throw error;
-    }
+  try {
+    const updatedProduct = await updateProduct(updateFields);
+    res.send(req.user);
+    // res.send(updatedProduct);
+  } catch (err) {
+    throw error;
   }
 });
 
@@ -92,17 +83,13 @@ productRouter.patch("/:productId", requireAdmin, async (req, res, next) => {
 productRouter.delete("/:productId", requireAdmin, async (req, res, next) => {
   const { productId: id } = req.params;
 
-  if (!req.admin) {
-    res.send({ error: "Must be admin" });
-  } else {
-    try {
-      console.log(req.admin);
-      const deletedProduct = await destroyProduct(id);
-      res.send({ message: "Product deleted" });
-      return;
-    } catch (err) {
-      next(err);
-    }
+  try {
+    console.log(req.admin);
+    const deletedProduct = await destroyProduct(id);
+    res.send({ message: "Product deleted" });
+    return;
+  } catch (err) {
+    next(err);
   }
 });
 
