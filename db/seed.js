@@ -544,8 +544,8 @@ async function testDB() {
 async function rebuildDB() {
   try {
     client.connect();
-    await dropTables();
     await createTables();
+    await dropTables();
     await createInitialUsers();
     await createInitialProducts();
     await createInitialReviews();
