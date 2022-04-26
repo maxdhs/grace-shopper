@@ -12,7 +12,7 @@ const {
 const requireUser = require("./utils").default;
 const client = require("../db/index");
 const { updateOrderProducts } = require("../db/order_products");
-const { getCartByUserId } = require("../db/orders");
+
 const ordersRouter = express.Router();
 
 ordersRouter.get("/", async (req, res, next) => {
