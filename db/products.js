@@ -43,16 +43,20 @@ const createProduct = async ({
   image,
   count,
 }) => {
-  const response = await client.query(
-    `
-        INSERT INTO products(title, designer, description, price, category, image, count)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING *;
-        `,
-    [title, designer, description, price, category, image, count]
-  );
+  try {
+    const response = await client.query(
+      `
+          INSERT INTO products(title, designer, description, price, category, image, count)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
+          RETURNING *;
+          `,
+      [title, designer, description, price, category, image, count]
+    );
 
-  return response.rows[0];
+    return response.rows[0];
+  } catch (error) {
+    throw error;
+  }
 };
 
 async function destroyProduct(id) {

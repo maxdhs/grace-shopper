@@ -12,6 +12,7 @@ const {
 const requireUser = require("./utils").default;
 const client = require("../db/index");
 const { updateOrderProducts } = require("../db/order_products");
+const { getCartByUserId } = require("../db/orders");
 const ordersRouter = express.Router();
 
 ordersRouter.get("/", async (req, res, next) => {
@@ -30,6 +31,7 @@ ordersRouter.get("/:ordersId", async (req, res, next) => {
 // Create a new order (with the first product added)
 // Tested with postman and is working
 ordersRouter.post("/", async (req, res, next) => {
+  console.log(req);
   const { userId } = req.body;
   try {
     const newOrder = await createOrder({ userId });
@@ -72,13 +74,8 @@ ordersRouter.patch("/:ordersId", async (req, res, next) => {
 ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   const { orderId, productId, count } = req.body;
   const { tempOrderId } = req.params;
-  console.log(+tempOrderId, +productId, +count);
-  try {
-    // if (tempOrderId === orderId) {
-    //   console.log("order dupe");
-    //   throw false;
-    // }
 
+  try {
     const {
       rows: [checkOrderProducts],
     } = await client.query(
@@ -91,9 +88,8 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     );
 
     if (checkOrderProducts) {
-      const orders = await updateOrderProducts(toUpdate);
+      const orders = await updateOrderProducts({ tempOrderId, count });
       res.send(orders);
-      // throw "order product already exists";
     } else {
       const {
         rows: [order_products],
@@ -115,30 +111,37 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
   }
 });
 
-ordersRouter.patch("/:orderId/:userId", async (req, res, next) => {
+ordersRouter.patch("/:userId/:orderId", async (req, res, next) => {
   const { userId, orderId } = req.params;
   let newUserId;
   if (typeof userId === "string") {
     newUserId = Number(userId);
-    // console.log("hi", newUserId);
   }
   try {
     const orders = await updateUserIdOrdersTable({ newUserId, orderId });
-    console.log(orders);
     res.send(orders);
   } catch (error) {
     next(error);
   }
 });
 
+// ordersRouter.get("/:userId", async (req, res, next) => {
+//   const { userId } = req.params;
+//   try {
+//     const order = await getCartByUserId(userId);
+//     res.send(order);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId: id } = req.params;
   const toUpdate = { id };
-  console.log(id);
 
   try {
     const orders = await updateOrderPurchased(toUpdate);
-    console.log(orders);
+
     res.send(orders);
   } catch (error) {
     next(error);

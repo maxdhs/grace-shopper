@@ -31,7 +31,7 @@ async function getAllOrders() {
 async function getOrdersByUser(id) {
   try {
     const output = await getAllOrders();
-    console.log(output);
+
     const orders = output.filter((order) => order.userId === id);
 
     return orders;

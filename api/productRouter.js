@@ -10,6 +10,7 @@ const {
 const client = require("../db/index");
 const productRouter = express.Router();
 productRouter.use(express.json());
+const { requireUser } = require("./utils");
 
 //get all
 // Tested with postman and is working
@@ -35,12 +36,7 @@ productRouter.get("/:productId", async (req, res) => {
 productRouter.post("/", async (req, res, next) => {
   const { title, designer, description, price, category, image, count } =
     req.body;
-
   try {
-    // if (!req.user) {
-    //   throw "Must be logged in to post";
-    // } else {
-    // userId = req.user.id;
     const response = await createProduct({
       title,
       designer,
@@ -50,21 +46,19 @@ productRouter.post("/", async (req, res, next) => {
       image,
       count,
     });
-    console.log(response);
     res.send(response);
-    // }
   } catch (err) {
     res.send({ error: err.message });
   }
 });
 
-// update a product - admin only
+// update a product - admin only  HAD REQUIREADMIN FUNC
 // Tested with postman and is working
 productRouter.patch("/:productId", async (req, res, next) => {
   const { productId: id } = req.params;
 
   const { title, designer, description, price, category, count } = req.body;
-
+  // console.log(req.user);
   const updateFields = {
     id,
     title,
@@ -74,22 +68,22 @@ productRouter.patch("/:productId", async (req, res, next) => {
     category,
     count,
   };
-
   try {
     const updatedProduct = await updateProduct(updateFields);
-    res.send(updatedProduct);
-    console.log(updatedProduct);
+    res.send(req.user);
+    // res.send(updatedProduct);
   } catch (err) {
-    console.log(err);
     throw error;
   }
 });
 
-// delete a product - admin only
+// delete a product - admin only  HAD REQUIREADMIN FUNC
 // Tested with postman and is working
 productRouter.delete("/:productId", async (req, res, next) => {
   const { productId: id } = req.params;
+
   try {
+    // console.log(req.admin);
     const deletedProduct = await destroyProduct(id);
     res.send({ message: "Product deleted" });
     return;

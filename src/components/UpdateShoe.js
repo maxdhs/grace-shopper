@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const UpdateShoe = ({ products, fetchProducts }) => {
+const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
   const [title, setTitle] = useState("");
   const [designer, setDesigner] = useState("");
   const [description, setDescription] = useState("");
@@ -16,9 +16,11 @@ const UpdateShoe = ({ products, fetchProducts }) => {
   );
 
   const navigate = useNavigate();
+  console.log(userData);
 
   const updateShoe = async (e) => {
     e.preventDefault();
+
     const response = await fetch(`/api/products/${params.shoeId}`, {
       method: "PATCH",
       headers: {
@@ -34,7 +36,7 @@ const UpdateShoe = ({ products, fetchProducts }) => {
     });
 
     const info = await response.json();
-
+    console.log(info);
     if (info.error) {
       setError(info.message);
     }

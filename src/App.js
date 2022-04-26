@@ -29,9 +29,9 @@ const App = () => {
   const [allUsers, setAllUsers] = useState({});
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
-  // const [order, setOrder] = useState("");
+
   const [products, setProducts] = useState([]);
-  const [email, setEmail] = useState("");
+
   const [userId, setUserId] = useState("");
   const [cartInfo, setCartInfo] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -41,7 +41,7 @@ const App = () => {
 
   const fetchUser = async () => {
     const lsToken = localStorage.getItem("token");
-    const lsUserId = localStorage.getItem("userId");
+
     console.log(lsToken);
     if (lsToken) {
       setToken(lsToken);
@@ -64,7 +64,7 @@ const App = () => {
   const fetchOrderProducts = async () => {
     const response = await fetch(`/api/order_products`);
     const info = await response.json();
-    // console.log(info);
+
     setOrderProducts(info.order_products);
   };
 
@@ -127,7 +127,7 @@ const App = () => {
     const lsUserId = localStorage.getItem("userId");
 
     try {
-      const response = await fetch(`${API_UserId}/${lsOrderId}/${lsUserId}`, {
+      const response = await fetch(`${API_UserId}/${lsUserId}/${lsOrderId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -143,12 +143,12 @@ const App = () => {
     }
   }
 
-  async function fetchAllUsers() {
-    const response = await fetch("/api/users/admin");
-    const info = await response.json();
-    // console.log(info);
-    setAllUsers(info.rows);
-  }
+  // async function fetchAllUsers() {
+  //   const response = await fetch("/api/users/admin");
+  //   const info = await response.json();
+
+  //   setAllUsers(info.rows);
+  // }
 
   async function fetchProducts() {
     const response = await fetch("/api/products");
@@ -165,13 +165,13 @@ const App = () => {
   useEffect(() => {
     fetchProducts();
     fetchOrders();
-    fetchAllUsers();
+    // fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
     fetchUser();
     checkUser();
   }, [token]);
-  // console.log(products);
+
   return (
     <>
       <div id="main-section">
@@ -233,12 +233,12 @@ const App = () => {
                   orderInfo={orderInfo}
                   products={products}
                   fetchProducts={fetchProducts}
-                  // fetchUser={fetchUser}
                   userId={userId}
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
                   fetchOrderProducts={fetchOrderProducts}
                   count={count}
+                  orderProducts={orderProducts}
                 />
               }
             />
@@ -261,8 +261,7 @@ const App = () => {
                 />
               }
             />
-            {/* <Route exact path="/" element={<Home />} /> */}
-            {/* <Route exact path="/allshoes" element={<AllShoes />} /> */}
+
             <Route
               exact
               path="/boots/*"
@@ -319,6 +318,7 @@ const App = () => {
                   products={products}
                   setProducts={setProducts}
                   fetchProducts={fetchProducts}
+                  userData={userData}
                 />
               }
             />

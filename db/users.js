@@ -12,6 +12,7 @@ const createUser = async ({ email, password, isAdmin }) => {
         [email, hashedPassword, isAdmin]
       );
       delete user.password;
+      req.admin = user;
       return user;
     } else {
       const {
@@ -21,6 +22,35 @@ const createUser = async ({ email, password, isAdmin }) => {
         [email, hashedPassword]
       );
       delete user.password;
+      req.user = user;
+      return user;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAdminUsers = async ({ email, password }) => {
+  const {
+    rows: [user],
+  } = await client.query(`SELECT * FROM users WHERE email = $1;`, [email]);
+  const hashedPassword = user.password;
+
+  const passwordCompared = await bcrypt.compare(password, hashedPassword);
+
+  try {
+    if (!passwordCompared) {
+      return false;
+    } else {
+      const {
+        rows: [user],
+      } = await client.query(
+        `SELECT * FROM users WHERE email=$1 AND "isAdmin" = true;`,
+        [email]
+      );
+
+      delete user.password;
+      req.admin = user;
       return user;
     }
   } catch (error) {
@@ -90,4 +120,5 @@ module.exports = {
   getUserById,
   getUserByEmail,
   getAllUsers,
+  getAdminUsers,
 };
