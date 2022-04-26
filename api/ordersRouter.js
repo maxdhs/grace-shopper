@@ -12,6 +12,7 @@ const {
 const requireUser = require("./utils").default;
 const client = require("../db/index");
 const { updateOrderProducts } = require("../db/order_products");
+const { getCartByUserId } = require("../db/orders");
 const ordersRouter = express.Router();
 
 ordersRouter.get("/", async (req, res, next) => {
@@ -86,7 +87,7 @@ ordersRouter.post("/:tempOrderId/products", async (req, res, next) => {
     );
 
     if (checkOrderProducts) {
-      const orders = await updateOrderProducts(toUpdate);
+      const orders = await updateOrderProducts({ tempOrderId, count });
       res.send(orders);
     } else {
       const {
@@ -122,6 +123,16 @@ ordersRouter.patch("/:userId/:orderId", async (req, res, next) => {
     next(error);
   }
 });
+
+// ordersRouter.get("/:userId", async (req, res, next) => {
+//   const { userId } = req.params;
+//   try {
+//     const order = await getCartByUserId(userId);
+//     res.send(order);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId: id } = req.params;
