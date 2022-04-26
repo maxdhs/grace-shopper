@@ -124,16 +124,6 @@ ordersRouter.patch("/:userId/:orderId", async (req, res, next) => {
   }
 });
 
-// ordersRouter.get("/:userId", async (req, res, next) => {
-//   const { userId } = req.params;
-//   try {
-//     const order = await getCartByUserId(userId);
-//     res.send(order);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
 ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId: id } = req.params;
   const toUpdate = { id };
