@@ -35,7 +35,6 @@ const Register = ({ setToken, action, error, setError, setAllUsers }) => {
         });
         const info = await response.json();
         setAllUsers(info.user);
-        console.log(info);
         if (info.error) {
           return setError(info.error);
         }

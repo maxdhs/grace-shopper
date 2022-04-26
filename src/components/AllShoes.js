@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const AllShoes = ({ products, fetchProducts }) => {
+const AllShoes = ({ products }) => {
   const [search, setSearch] = useState("");
 
   const filter = (product, text) => {
@@ -27,7 +27,7 @@ const AllShoes = ({ products, fetchProducts }) => {
   return (
     <>
       <div className="page-title">
-        <h1>All Shoes</h1> 
+        <h1>All Shoes</h1>
         <div id="search">
           <input
             type="text"
@@ -41,7 +41,6 @@ const AllShoes = ({ products, fetchProducts }) => {
         </div>
       </div>
       <div id="products">
-       
         {productsToDisplay.map((product) => {
           return (
             <div key={product.id} className="productView">

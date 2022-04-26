@@ -188,7 +188,6 @@ const Cart = ({
         </div>
         <div>
           <button id="cart-button" onClick={handleSubmitOrder}>
-
             {finalProducts.length ? (
               <Link to="/purchased">Submit Order</Link>
             ) : null}

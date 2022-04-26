@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
+const UpdateShoe = ({ products, fetchProducts }) => {
   const [title, setTitle] = useState("");
   const [designer, setDesigner] = useState("");
   const [description, setDescription] = useState("");
@@ -10,12 +10,10 @@ const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
   const [error, setError] = useState("");
 
   const params = useParams();
-  //   console.log(params.shoeId);
 
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
-  // console.log("===>", filteredShoe);
 
   const navigate = useNavigate();
 
@@ -47,7 +45,6 @@ const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
     setPrice("");
     setCategory("");
 
-    console.log(info);
     navigate("/admin");
     await fetchProducts();
     return info;
@@ -95,7 +92,6 @@ const UpdateShoe = ({ products, setProducts, fetchProducts }) => {
             />
             <select
               value={category}
-              // required
               onChange={(e) => setCategory(e.target.value)}
             >
               <option key="default" value="default" disabled>

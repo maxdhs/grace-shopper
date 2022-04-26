@@ -1,5 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const deleteShoe = ({ products, fetchProducts }) => {
   const params = useParams();
@@ -8,8 +7,6 @@ const deleteShoe = ({ products, fetchProducts }) => {
     (product) => params.shoeId == product.id
   );
 
-  //let navigate = useNavigate();
-
   const handleDelete = async (e) => {
     const resp = await fetch(`/api/products/${params.shoeId}`, {
       method: "DELETE",
@@ -17,10 +14,8 @@ const deleteShoe = ({ products, fetchProducts }) => {
         "Content-type": "application/json",
       },
     });
-    console.log(resp);
     const info = await resp.json();
     await fetchProducts();
-    //navigate("/admin");
   };
 
   return (

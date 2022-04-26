@@ -13,8 +13,6 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const requireUser = require("./utils");
 
-// User register
-// Tested with Postman and is working
 usersRouter.post("/register", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -43,8 +41,6 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-// User login
-// Tested with postman and is currently working
 usersRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -88,8 +84,6 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
   }
 });
 
-// Get all orders for a user
-// Tested with postman and is working
 usersRouter.get("/:userId/orders", async (req, res, next) => {
   const { userId: id } = req.params;
 
@@ -108,7 +102,6 @@ usersRouter.get("/:userId/orders", async (req, res, next) => {
 usersRouter.get("/admin", async (req, res, next) => {
   try {
     const allUsers = await getAllUsers();
-    // console.log(allUsers);
     res.send(allUsers);
   } catch (error) {
     res.send(error);
