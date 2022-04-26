@@ -261,24 +261,131 @@ async function createInitialProducts() {
       imgURL: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
     });
     await createProduct({
-      title: "MBJ Women's Solid Short Sleeve Boat Neck V ",
-      price: 10,
+      title: 'Girls Floral Ruffle Dress',
+      price: 16,
       description:
-        '95% RAYON 5% SPANDEX, Made in USA or Imported, Do Not Bleach, Lightweight fabric with great stretch for comfort, Ribbed on sleeves and neckline / Double stitching on bottom hem',
-      category: 'women',
-      inventory: 61,
-      imgURL: 'https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg',
+        'Made of 100% rayon challis. Pullover style with elasticized waist. Allover floral print. Racerback. Ruffle hem. Designed in an above-the-knee length. Imported',
+      category: 'kids',
+      inventory: 50,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3031974/3031974_1128-1.jpg',
     });
     await createProduct({
-      id: 19,
-      title: "Opna Women's Short Sleeve Shirt",
+      title: 'Girls Floral Ruffle Dress - Rose Mist',
+      price: 19,
+      description:
+        'Made of 100% polyester georgette. Lining made of 100% polyester interlock. Pullover style with elasticized waist. Allover floral print. Ruffle neck with cold shoulder cutouts. Ruffle hem. Designed in an above-the-knee length. Imported',
+      category: 'kids',
+      inventory: 70,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3031844/3031844_3247-1.jpg',
+    });
+    await createProduct({
+      title: 'Girls Floral Smocked Cold Shoulder Dress - Azureus',
+      price: 25,
+      description:
+        'Made of 100% rayon challis. Pullover style with elasticized waist. Allover floral print. Cold shoulder neck. Smocked bodice. Designed in an above-the-knee length. Imported',
+      category: 'kids',
+      inventory: 50,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3031845/3031845_1790-1.jpg',
+    });
+    await createProduct({
+      title: 'Girls Dot Tiered Ruffle Dress - Cool Cobalt',
+      price: 16,
+      description:
+        'Made of 80% polyester/20% rayon jacquard. Pullover style. Allover dots. Ruffle trim. Designed in an above-the-knee length. Imported',
+      category: 'kids',
+      inventory: 60,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3031848/3031848_32DC-3.jpg',
+    });
+    await createProduct({
+      title: 'Boys Uniform Oxford Button Down Shirt - Ltbluoxfrd',
+      price: 12,
+      description:
+        'Made of 100% cotton oxford. Button-down collar with button front. Chest pocket. Curved shirttail hem. Pre-washed for added softness and to reduce shrinkage',
+      category: 'kids',
+      inventory: 60,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/2044765/2044765_1028.jpg',
+    });
+    await createProduct({
+      title: 'Boys Uniform Oxford Button Down Shirt - Storm',
+      price: 14,
+      description:
+        'Made of 100% cotton oxford. Button-down collar with button front. Chest pocket. Curved shirttail hem. Pre-washed for added softness and to reduce shrinkage',
+      category: 'kids',
+      inventory: 60,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/1125063/1125063_AF.jpg',
+    });
+    await createProduct({
+      title: 'Boys Uniform Pique Polo - Astilbe',
       price: 9,
       description:
-        '100% Polyester, Machine wash, 100% cationic polyester interlock, Machine Wash & Pre Shrunk for a Great Fit, Lightweight, roomy and highly breathable with moisture wicking fabric which helps to keep moisture away, Soft Lightweight Fabric with comfortable V-neck collar and a slimmer fit, delivers a sleek, more feminine silhouette and Added Comfort',
-      category: 'women',
-      inventory: 79,
-      imgURL: 'https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg',
+        'Made of 100% cotton pique. Button-front placket. Flat-knit collar. Side vents at hem. Tagless label.',
+      category: 'kids',
+      inventory: 60,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3029851/3029851_1613.jpg',
     });
+    await createProduct({
+      title: 'Boys Belted Chino Shorts - Sky',
+      price: 16,
+      description:
+        'Made of 100% cotton twill. Button closure with zip fly. Front side slant pockets; back welt pockets. Belt loops. Removable striped belt. Inner adjustable waist tabs for a custom fit. Pre-washed for added softness and to reduce shrinkage',
+      category: 'kids',
+      inventory: 60,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3028390/3028390_1310.jpg',
+    });
+    await createProduct({
+      title: 'Boys Striped Chino Shorts - Tidal',
+      price: 8,
+      description:
+        'Made of 100% cotton twill. Button closure with zip fly. Front side slant pockets; back welt pockets. Belt loops. Removable striped belt. Inner adjustable waist tabs for a custom fit. Pre-washed for added softness and to reduce shrinkage',
+      category: 'kids',
+      inventory: 60,
+      imgURL: 'https://assets.theplace.com/image/upload/t_plp_img_d,f_auto,q_auto,dpr_1.5/v1/ecom/assets/products/tcp/3029902/3029902_IV.jpg',
+    });
+    await createProduct({
+      title: 'DANVOUY Womens T Shirt Casual Cotton Short"',
+      price: 13,
+      description:
+        '95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.',
+      category: 'women',
+      inventory: 60,
+      imgURL: 'https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg',
+    });
+    await createProduct({
+      title: 'Rain Jacket Women Windbreaker Striped Climbing Raincoats',
+      price: 40,
+      description:
+        'ightweight perfet for trip or casual wear---Long sleeve with hooded, adjustable drawstring waist design. Button and zipper front closure raincoat, fully stripes Lined and The Raincoat has 2 side pockets are a good size to hold all kinds of things, it covers the hips, and the hood is generous but doesnt overdo it. Attached Cotton Lined Hood with Adjustable Drawstrings give it a real styled look.',
+      category: 'women',
+      inventory: 60,
+      imgURL: 'https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg',
+    });
+    await createProduct({
+      title: 'Cotton Jersey Long Sleeve T-Shirt',
+      price: 50,
+      description:
+        'A classic long-sleeve T-shirt made from soft cotton jersey with dropped shoulders and a relaxed fit for a clean, modern style thats easy to move in.',
+      category: 'men',
+      inventory: 60,
+      imgURL: 'https://n.nordstrommedia.com/id/sr3/06e45e0f-7394-46c3-9bf2-006e9f81c8c6.jpeg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2',
+    });
+    await createProduct({
+      title: 'Mens Shop Smartcare Trim Fit Solid Dress Shirt',
+      price: 60,
+      description:
+        'A crisp Smartcare™ finish means wrinkle-free wear in a point-collar dress shirt cut trim for a modern look.',
+      category: 'men',
+      inventory: 60,
+      imgURL: 'https://n.nordstrommedia.com/id/sr3/c1b0ffa7-c4cd-4e7f-8219-99c3512aa7a6.jpeg?crop=pad&pad_color=FFF&format=jpeg&w=780&h=1196&dpr=2',
+    });
+    // await createProduct({
+    //   title: '',
+    //   price: 16,
+    //   description:
+    //     '',
+    //   category: 'kids',
+    //   inventory: 60,
+    //   imgURL: '',
+    // });
   } catch (error) {
     console.error('Error creating products!');
     throw error;
@@ -376,26 +483,26 @@ async function testDB() {
   try {
     console.log('Starting to test database...');
 
-    const allUsers = await getAllUsers();
-    console.log('getAllUsers', allUsers);
+    // const allUsers = await getAllUsers();
+    // console.log('getAllUsers', allUsers);
 
-    const userByUsername = await getUserByUsername('albert');
-    console.log('getUserByUsername', userByUsername);
+    // const userByUsername = await getUserByUsername('albert');
+    // console.log('getUserByUsername', userByUsername);
 
-    const user = await getUser({ username: 'albert', password: 'bertie99' });
-    console.log('here are users', user);
+    // const user = await getUser({ username: 'albert', password: 'bertie99' });
+    // console.log('here are users', user);
 
     // const deletedProduct = await destroyProduct(4);
     // console.log('destroyProduct', deletedProduct);
 
-    const products = await getProducts();
-    console.log('getProducts', products);
+    // const products = await getProducts();
+    // console.log('getProducts', products);
 
-    const productReviews = await getProductReviews();
-    console.log('product reviews', productReviews);
+    // const productReviews = await getProductReviews();
+    // console.log('product reviews', productReviews);
 
-    const productReviewsByProductId = await getProductReviewsByProductId(1);
-    console.log('productReviewsByProductId', productReviewsByProductId);
+    // const productReviewsByProductId = await getProductReviewsByProductId(1);
+    // console.log('productReviewsByProductId', productReviewsByProductId);
 
     // const editedReview = await editReview({
     //   id: 1,
@@ -403,29 +510,29 @@ async function testDB() {
     // });
     // console.log('edited review: 1', editedReview);
 
-    const reviews = await getAllReviews();
-    console.log('here are the reviews', reviews);
+    // const reviews = await getAllReviews();
+    // console.log('here are the reviews', reviews);
 
-    const newCart = await createCart(1);
-    console.log('createCart', newCart);
+    // const newCart = await createCart(1);
+    // console.log('createCart', newCart);
 
-    const cartByUserID = await getCartByUserId(1);
-    console.log('cartByUserId', cartByUserID);
+    // const cartByUserID = await getCartByUserId(1);
+    // console.log('cartByUserId', cartByUserID);
 
-    const cartProduct = await addProductToCart(1, 40, 1, 1);
-    console.log('addProductToCart', cartProduct);
+    // const cartProduct = await addProductToCart(1, 40, 1, 1);
+    // console.log('addProductToCart', cartProduct);
 
-    const cartProducts = await getCartProducts();
-    console.log('getCartProducts', cartProducts);
+    // const cartProducts = await getCartProducts();
+    // console.log('getCartProducts', cartProducts);
 
-    const cartById = await getCartById(1);
-    console.log('getCartById', cartById);
+    // const cartById = await getCartById(1);
+    // console.log('getCartById', cartById);
 
-    console.log('Finished testing database!');
+    // console.log('Finished testing database!');
 
-    await purchaseCart(1);
-    await deleteProductFromCart(1, 1);
-    await editCount(5, 1, 2);
+    // await purchaseCart(1);
+    // await deleteProductFromCart(1, 1);
+    // await editCount(5, 1, 2);
 
     console.log('Finished testing database!');
   } catch (error) {

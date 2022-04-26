@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchUser, login } from '../api';
 
+import "./css/Login.css";
+
 const Login = ({setUserInfo}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,12 +29,11 @@ const Login = ({setUserInfo}) => {
     }
   };
   return (
-    <>
-      <h2>Login</h2>
-
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="login-form-grp">
-          <label>Name</label>
+    <div className="login_container">
+      <div className="login_main">
+        <form onSubmit={handleSubmit}>
+          <h2>Welcome Back!</h2>
+          <label>Username:</label>
           <input
             required
             type="text"
@@ -41,11 +42,9 @@ const Login = ({setUserInfo}) => {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
-          ></input>
-        </div>
+          />
 
-        <div className="login-form-grp">
-          <label>Password</label>
+          <label>Password:</label>
           <input
             required
             text="password"
@@ -54,20 +53,17 @@ const Login = ({setUserInfo}) => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-          ></input>
-        </div>
-
-        <button type="submit"> Log In</button>
-      </form>
-
-      <div className="goto-register ">
-        <Link to="/register">
-          Don't have an account? Click here to register
-        </Link>
+          />
+          <button type="submit"> Log In</button>
+          <p>Don't have an account?  
+            <Link to="/register">
+              Register
+            </Link>
+          </p>
+        </form>
+        {error && <p> {error}!</p>}
       </div>
-
-      {error && <div> {error}!</div>}
-    </>
+    </div>
   );
 };
 export default Login;

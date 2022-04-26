@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway&family=Square+Peg&display=swap");
 .navbar_main {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  border-bottom: lightgray solid 2px;
+  box-shadow: 5px 5px 5px lightgray;
 }
 .navbar_main a,
 .navbar_main button {
@@ -16,6 +19,34 @@
 }
 .navbar_main a:hover,
 .navbar_main button:hover {
-  background-color: #63b7b7;
-  box-shadow: 5px 5px 5px lightgray;
+  color: #63b7b7;
+  text-decoration: underline;
+}
+#cart-link {
+  padding: 0;
+  margin: 0 1rem 0 0;
+}
+svg {
+  height: 2.5rem;
+  width: 2.5rem;
+  /* border: #63b7b7 solid 2px;
+  border-radius: 50%;
+  padding: 1rem; */
+}
+.navbar_logo {
+  display: flex;
+  align-items: center;
+}
+.navbar_logo img {
+  height: 9rem;
+  width: 10rem;
+}
+.navbar_logo h1 {
+  font-family: "Square Peg";
+  font-size: 3rem;
+  color: #63b7b7;
+  margin: 0;
+}
+.navbar_logo p {
+  margin: 0;
 }

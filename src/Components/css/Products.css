@@ -15,9 +15,11 @@
   color: black;
 }
 .products_links a:hover {
-  background-color: #b76363;
+  /* background-color: #b76363;
   color: white;
-  box-shadow: 5px 5px 5px lightgray;
+  box-shadow: 5px 5px 5px lightgray; */
+  color: #b76363;
+  text-decoration-line: underline;
 }
 .products_container {
   display: grid;
