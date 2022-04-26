@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminProducts from "./AdminProducts";
 import Cart from "./Cart";
@@ -11,6 +10,7 @@ import Product from "./Product";
 import Products from "./Products";
 import Register from "./Register";
 import Users from "./Users";
+import { v4 as uuidv4 } from "uuid";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -24,8 +24,18 @@ const App = () => {
 
   const fetchUser = async () => {
     const token = localStorage.getItem("token");
+    let localUser = localStorage.getItem("localUser");
+    if (!localUser) {
+      localStorage.setItem(
+        "localUser",
+        JSON.stringify({
+          orders: [],
+          cart: { products: [] },
+        })
+      );
+    }
     if (!token) {
-      setUser(null);
+      setUser(JSON.parse(localUser));
       return;
     }
     const response = await fetch("/api/users/me", {
@@ -45,15 +55,23 @@ const App = () => {
       <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products products={products} />} />
+        <Route
+          path="/products/categories/:category"
+          element={<Products products={products} />}
+        />
         <Route
           path="/cart"
-          element={<Cart user={user} fetchUser={fetchUser} />}
+          element={<Cart user={user} fetchUser={fetchUser} setUser={setUser} />}
         />
         <Route
           path="/products/:productId"
           element={
-            <Product products={products} user={user} fetchUser={fetchUser} />
+            <Product
+              setUser={setUser}
+              products={products}
+              user={user}
+              fetchUser={fetchUser}
+            />
           }
         />
         <Route path="/register" element={<Register setUser={setUser} />} />

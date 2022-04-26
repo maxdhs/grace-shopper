@@ -23,3 +23,12 @@ img {
 .products-container h3:hover {
     cursor: pointer;
 }
+
+#category-links {
+    width: 100vw;
+    background-color: black;
+}
+
+#category-links a{
+    color: white;
+}

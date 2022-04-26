@@ -8,7 +8,8 @@ const Navbar = ({ user, setUser }) => {
   return (
     <>
       <Link to="/">Productly</Link>
-      <Link to="/products">Products</Link>
+      <Link to="/products/categories/all">Products</Link>
+      <Link to="/cart">Cart</Link>
       {!user && (
         <>
           <Link to="/register">Register</Link>
@@ -18,7 +19,6 @@ const Navbar = ({ user, setUser }) => {
       {user && (
         <>
           <span>Welcome {user.email}!</span>
-          <Link to="/cart">Cart</Link>
           {user.is_admin && (
             <>
               <Link to="/admin/products">Admin-Products</Link>

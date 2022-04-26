@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-const Product = ({ products, user, fetchUser }) => {
+const Product = ({ products, user, fetchUser, setUser }) => {
   let navigate = useNavigate();
 
   const { productId } = useParams();
@@ -12,6 +12,27 @@ const Product = ({ products, user, fetchUser }) => {
   }
 
   const handleAddToCart = async () => {
+    if (!user.token) {
+      setUser({
+        ...user,
+        cart: {
+          ...user.cart,
+          products: [...user.cart.products, { ...product, quantity: 1 }],
+        },
+      });
+      localStorage.setItem(
+        "localUser",
+        JSON.stringify({
+          ...user,
+          cart: {
+            ...user.cart,
+            products: [...user.cart.products, { ...product, quantity: 1 }],
+          },
+        })
+      );
+      navigate("/cart");
+      return;
+    }
     const response = await fetch("/api/cart/add-product", {
       method: "POST",
       headers: {
@@ -30,7 +51,6 @@ const Product = ({ products, user, fetchUser }) => {
       return;
     }
     await fetchUser();
-    navigate("/cart");
   };
 
   let cartIds = [];
