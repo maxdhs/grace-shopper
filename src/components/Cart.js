@@ -1,5 +1,4 @@
-import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const API_ORDERPRODUCTS = "/api/order_products";
@@ -26,6 +25,7 @@ const Cart = ({
     productArr.push(productId);
     productQuantity.push(orderProduct[i].count);
   }
+  const [message, setMessage] = useState("");
 
   let finalProducts = [];
   let finalProductQuantity = [];
@@ -67,6 +67,7 @@ const Cart = ({
       },
     });
     const info = await response.json();
+    setMessage("");
     if (info.error) {
       return setError(info.error);
     }
@@ -90,6 +91,7 @@ const Cart = ({
       }),
     });
     const info = await response.json();
+    setMessage("Quantity Updated!");
     if (info.error) {
       return setError(info.error);
     }
@@ -109,7 +111,7 @@ const Cart = ({
       }),
     });
     const info = await response.json();
-
+    setMessage("");
     if (info.error) {
       return setError(info.error);
     }
@@ -137,8 +139,8 @@ const Cart = ({
                       <h4 className="product-designer">{product.designer}</h4>
                       <h5 className="product-price">${product.price}</h5>
                       <select
-                        // value={finalProductQuantity[index]} I THINK THIS IS HOW WE FIXED IT
                         onChange={(event) => {
+                          finalProductQuantity[index] = event.target.value;
                           setCount(event.target.value);
                         }}
                       >
@@ -182,6 +184,7 @@ const Cart = ({
               })
             : null}
         </div>
+        <p class="message">{message}</p>
         <div>
           <button id="cart-button" onClick={handleSubmitOrder}>
             {finalProducts.length ? (

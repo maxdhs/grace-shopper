@@ -33,6 +33,7 @@ const Login = ({
       const info = await response.json();
       setUserData(info.user);
       setUserId(info.user.id);
+
       if (info.error) {
         return setError(info.error);
       }
@@ -42,7 +43,6 @@ const Login = ({
       setEmail("");
       setPassword("");
       checkUser();
-
       setError("You are now logged in!");
     } catch (error) {
       throw error;

@@ -54,6 +54,7 @@ const App = () => {
         });
         const info = await response.json();
         setUserData(info.user);
+        localStorage.setItem("admin", info.user.isAdmin);
       } catch (error) {
         throw error;
       }

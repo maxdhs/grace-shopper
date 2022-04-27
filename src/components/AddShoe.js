@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddShoe = ({ token, fetchProducts, error, setError }) => {
+const AddShoe = ({ fetchProducts, error, setError }) => {
   const [title, setTitle] = useState("");
   const [designer, setDesigner] = useState("");
   const [description, setDescription] = useState("");
@@ -8,8 +8,9 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
   const [count, setCount] = useState("");
   const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
-
   const lsToken = localStorage.getItem("token");
+
+  // const lsToken = localStorage.getItem("token");
 
   const handleShoes = async (e) => {
     setError("");
@@ -31,6 +32,10 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
       }),
     });
     const info = await resp.json();
+    if (info.error) {
+      setError(info.message);
+      throw info.message;
+    }
 
     fetchProducts();
 
