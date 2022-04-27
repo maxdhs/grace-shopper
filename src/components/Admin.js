@@ -1,15 +1,8 @@
-// import { user } from "pg/lib/defaults";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Admin = ({
-  products,
-
-  userData,
-}) => {
+const Admin = ({ products }) => {
   const [shoeId, setShoeId] = useState("");
-
-  console.log(userData);
 
   if (localStorage.getItem("admin") === "true") {
     return (
