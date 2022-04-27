@@ -46,7 +46,6 @@ productRouter.post("/", requireAdmin, async (req, res, next) => {
       image,
       count,
     });
-
     res.send(response);
   } catch (err) {
     res.send({ error: err.message });

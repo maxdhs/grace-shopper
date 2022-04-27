@@ -51,7 +51,7 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
     <div className="Admin-add">
       <h1 className="Admin-item">Add a Product</h1>
       <form onSubmit={handleShoes}>
-        <div classname="Admin-addForm">
+        <div className="Admin-addForm">
           <input
             required
             placeholder="Enter product title..."
@@ -105,9 +105,7 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
           <option value="Sandals">Sandals</option>
           <option value="Sneakers">Sneakers</option>
         </select>
-        <button classname="Admin-addForm" type="submit">
-          Submit
-        </button>
+        <button className="Admin-addForm" type="submit">Submit</button>
       </form>
       <p>{error}</p>
     </div>
