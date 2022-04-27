@@ -1,10 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 
-import { useState } from "react";
-
 const deleteShoe = ({ products, fetchProducts }) => {
   const params = useParams();
-  const [error, setError] = useState("");
+
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
@@ -21,12 +19,6 @@ const deleteShoe = ({ products, fetchProducts }) => {
     });
     const info = await resp.json();
     await fetchProducts();
-
-    console.log(info);
-    if (!info) {
-      setError(resp.statusText);
-      throw info.message;
-    }
   };
 
   return (
@@ -62,7 +54,6 @@ const deleteShoe = ({ products, fetchProducts }) => {
           </form>
         </>
       ) : null}
-      <p>{error}</p>
     </>
   );
 };
