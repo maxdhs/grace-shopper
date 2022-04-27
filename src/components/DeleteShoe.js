@@ -1,5 +1,5 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+
 import { useState } from "react";
 
 const deleteShoe = ({ products, fetchProducts }) => {
@@ -10,7 +10,6 @@ const deleteShoe = ({ products, fetchProducts }) => {
   );
 
   const lsToken = localStorage.getItem("token");
-  //let navigate = useNavigate();
 
   const handleDelete = async (e) => {
     const resp = await fetch(`/api/products/${params.shoeId}`, {
@@ -23,7 +22,7 @@ const deleteShoe = ({ products, fetchProducts }) => {
     console.log(resp);
     const info = await resp.json();
     await fetchProducts();
-    //navigate("/admin");
+
     console.log(info);
     if (!info) {
       setError(resp.statusText);

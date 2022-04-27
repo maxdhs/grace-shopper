@@ -8,7 +8,7 @@ const PurchasedCart = ({ createAfterPurchaseOrder, checkUser }) => {
 
   return (
     <>
-      <h1>Thank you for your purchase!</h1>
+      <h1 className="header">Thank you for your purchase!</h1>
     </>
   );
 };

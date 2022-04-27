@@ -12,9 +12,6 @@ const Register = ({ setToken, action, error, setError, setAllUsers }) => {
 
   const isLogin = action === "login";
   const title = isLogin ? "Login" : "Register";
-  const oppositeTitle = isLogin ? "Register" : "Login";
-  const oppositeAction = isLogin ? "register" : "login";
-  const actionURL = isLogin ? API_LOGIN : API_REGISTER;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

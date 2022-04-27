@@ -42,7 +42,7 @@ const App = () => {
   const fetchUser = async () => {
     const lsToken = localStorage.getItem("token");
     const lsUserId = localStorage.getItem("userId");
-    console.log(lsToken);
+
     if (lsToken) {
       setToken(lsToken);
       try {
@@ -54,6 +54,7 @@ const App = () => {
         });
         const info = await response.json();
         setUserData(info.user);
+        localStorage.setItem("admin", info.user.isAdmin);
       } catch (error) {
         throw error;
       }
@@ -238,6 +239,7 @@ const App = () => {
                   setCartInfo={setCartInfo}
                   fetchOrderProducts={fetchOrderProducts}
                   count={count}
+                  orderProducts={orderProducts}
                 />
               }
             />
