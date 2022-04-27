@@ -16,9 +16,9 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
     (product) => params.shoeId == product.id
   );
   // console.log("===>", filteredShoe);
+  const lsToken = localStorage.getItem("token");
 
   const navigate = useNavigate();
-  console.log(userData);
 
   const updateShoe = async (e) => {
     e.preventDefault();
@@ -27,6 +27,7 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${lsToken}`,
       },
       body: JSON.stringify({
         title,
@@ -125,6 +126,7 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
           </form>
         </div>
       </div>
+      <p>{error}</p>
     </>
   );
 };

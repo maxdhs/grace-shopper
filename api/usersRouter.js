@@ -58,7 +58,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
   try {
     const user = await getUser({ email, password });
-
+    console.log(user);
     if (user) {
       const token = jwt.sign({ id: user.id, email }, JWT_SECRET);
       req.user = user;

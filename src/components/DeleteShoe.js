@@ -1,13 +1,15 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useState } from "react";
 
 const deleteShoe = ({ products, fetchProducts }) => {
   const params = useParams();
-
+  const [error, setError] = useState("");
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
 
+  const lsToken = localStorage.getItem("token");
   //let navigate = useNavigate();
 
   const handleDelete = async (e) => {
@@ -15,12 +17,18 @@ const deleteShoe = ({ products, fetchProducts }) => {
       method: "DELETE",
       headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${lsToken}`,
       },
     });
     console.log(resp);
     const info = await resp.json();
     await fetchProducts();
     //navigate("/admin");
+    console.log(info);
+    if (!info) {
+      setError(resp.statusText);
+      throw info.message;
+    }
   };
 
   return (
@@ -56,6 +64,7 @@ const deleteShoe = ({ products, fetchProducts }) => {
           </form>
         </>
       ) : null}
+      <p>{error}</p>
     </>
   );
 };

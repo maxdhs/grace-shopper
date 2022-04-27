@@ -38,12 +38,9 @@ const SingleShoe = ({
       }
     }
   }
-  console.log(products);
-  console.log(finalProducts);
 
   const thisShoe = finalProducts.filter((product) => shoe[0].id === product.id);
 
-  console.log(shoe);
   const [productId, setProductId] = useState("");
   const [cartMessage, setCartMessage] = useState("");
   const [shoeTitle, setShoeTitle] = useState("");
@@ -91,8 +88,6 @@ const SingleShoe = ({
       return setError(info.error);
     }
   };
-
-  console.log(thisShoe);
 
   return (
     <div key={productId} className="singleView">

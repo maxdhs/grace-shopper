@@ -8,6 +8,7 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
   const [count, setCount] = useState("");
   const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
+  const lsToken = localStorage.getItem("token");
 
   const handleShoes = async (e) => {
     setError("");
@@ -16,7 +17,7 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${lsToken}`,
       },
       body: JSON.stringify({
         title,
@@ -29,6 +30,10 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
       }),
     });
     const info = await resp.json();
+    if (info.error) {
+      setError(info.message);
+      throw info.message;
+    }
 
     fetchProducts();
 

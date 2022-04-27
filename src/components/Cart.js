@@ -11,12 +11,13 @@ const Cart = ({
   setCount,
   setError,
 }) => {
+  setError("");
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const lsOrderId = localStorage.getItem("orderId");
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
-  let clicked = false;
+
   const lsToken = localStorage.getItem("token");
   const productArr = [];
   const productQuantity = [];
@@ -67,6 +68,7 @@ const Cart = ({
       },
     });
     const info = await response.json();
+    setMessage("");
     if (info.error) {
       return setError(info.error);
     }
@@ -137,37 +139,7 @@ const Cart = ({
                       />
                       <h4 className="product-designer">{product.designer}</h4>
                       <h5 className="product-price">${product.price}</h5>
-                      {/* <button
-                        value={product.id}
-                        onClick={() => {
-                          clicked = true;
-                        }}
-                      >
-                        Update Quantity
-                      </button>
-                      {clicked ? (
-                        <select
-                          value={count}
-                          onChange={(event) => {
-                            setCount(event.target.value);
-                          }}
-                        >
-                          <option value="original quantity">
-                            {finalProductQuantity[index]}
-                          </option>
-                          {quantity.map((num) => {
-                            return (
-                              <>
-                                <option key={num} value={num}>
-                                  {num}
-                                </option>
-                              </>
-                            );
-                          })}
-                        </select>
-                      ) : null} */}
                       <select
-                        // value={finalProductQuantity[index]}
                         onChange={(event) => {
                           finalProductQuantity[index] = event.target.value;
                           setCount(event.target.value);
