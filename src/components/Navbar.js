@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Navbar = ({ setToken, userData, setUserData, cartInfo }) => {
+const Navbar = ({ setToken, userData, setUserData }) => {
   if (!userData) {
     return (
       <>

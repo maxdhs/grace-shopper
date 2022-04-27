@@ -7,7 +7,7 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "react": "react-scripts start",
     "build": "react-scripts build",
     "seed": "node db/seed",
