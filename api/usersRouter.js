@@ -11,7 +11,7 @@ const {
 
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const requireUser = require("./utils");
+const { requireUser, requireAdmin } = require("./utils");
 
 // User register
 // Tested with Postman and is working
@@ -58,11 +58,18 @@ usersRouter.post("/login", async (req, res, next) => {
 
   try {
     const user = await getUser({ email, password });
-
+    console.log(user);
     if (user) {
       const token = jwt.sign({ id: user.id, email }, JWT_SECRET);
+      req.user = user;
+      res.send({
+        message: "You're logged in!",
+        token,
+        user,
+        admin: req.user.isAdmin,
+      });
 
-      res.send({ message: "You're logged in!", token, user });
+      console.log(req.user);
       return;
     } else {
       next({
@@ -90,7 +97,7 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
 
 // Get all orders for a user
 // Tested with postman and is working
-usersRouter.get("/:userId/orders", async (req, res, next) => {
+usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
   const { userId: id } = req.params;
 
   try {
@@ -105,11 +112,12 @@ usersRouter.get("/:userId/orders", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/admin", async (req, res, next) => {
+usersRouter.get("/admin", requireAdmin, async (req, res, next) => {
+  console.log(req.user);
   try {
     const allUsers = await getAllUsers();
-    // console.log(allUsers);
-    res.send(allUsers);
+    // res.send(allUsers);
+    res.send(req.user);
   } catch (error) {
     res.send(error);
   }

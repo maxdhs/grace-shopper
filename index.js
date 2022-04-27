@@ -27,7 +27,6 @@ app.use(async (req, res, next) => {
   }
   const user = await getUserById(_user.id);
   req.user = user;
-  req.user.cart = await getCartByUserId(user.id);
   next();
 });
 

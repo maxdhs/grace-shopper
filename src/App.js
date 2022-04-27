@@ -29,9 +29,9 @@ const App = () => {
   const [allUsers, setAllUsers] = useState({});
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
-  // const [order, setOrder] = useState("");
+
   const [products, setProducts] = useState([]);
-  const [email, setEmail] = useState("");
+
   const [userId, setUserId] = useState("");
   const [cartInfo, setCartInfo] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -39,32 +39,32 @@ const App = () => {
   const [orderProducts, setOrderProducts] = useState([]);
   const [count, setCount] = useState("");
 
-  // const fetchUser = async () => {
-  //   const lsToken = localStorage.getItem("token");
-  //   const lsUserId = localStorage.getItem("userId")
-  //   console.log(lsToken);
-  //   if (lsToken) {
-  //     setToken(lsToken);
-  //     try {
-  //       const response = await fetch(`${API_USER}`, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${lsToken}`,
-  //         },
-  //       });
-  //       const info = await response.json();
-  //       setUserData(info.user);
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-  //   checkUser();
-  // };
+  const fetchUser = async () => {
+    const lsToken = localStorage.getItem("token");
+    const lsUserId = localStorage.getItem("userId");
+    console.log(lsToken);
+    if (lsToken) {
+      setToken(lsToken);
+      try {
+        const response = await fetch(`${API_USER}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${lsToken}`,
+          },
+        });
+        const info = await response.json();
+        setUserData(info.user);
+      } catch (error) {
+        throw error;
+      }
+    }
+    checkUser();
+  };
 
   const fetchOrderProducts = async () => {
     const response = await fetch(`/api/order_products`);
     const info = await response.json();
-    // console.log(info);
+
     setOrderProducts(info.order_products);
   };
 
@@ -127,7 +127,7 @@ const App = () => {
     const lsUserId = localStorage.getItem("userId");
 
     try {
-      const response = await fetch(`${API_UserId}/${lsOrderId}/${lsUserId}`, {
+      const response = await fetch(`${API_UserId}/${lsUserId}/${lsOrderId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -146,7 +146,7 @@ const App = () => {
   async function fetchAllUsers() {
     const response = await fetch("/api/users/admin");
     const info = await response.json();
-    // console.log(info);
+
     setAllUsers(info.rows);
   }
 
@@ -168,10 +168,10 @@ const App = () => {
     fetchAllUsers();
     createNewOrder();
     fetchOrderProducts();
-    // fetchUser();
+    fetchUser();
     checkUser();
   }, [token]);
-  // console.log(products);
+
   return (
     <>
       <div id="main-section">
@@ -233,7 +233,6 @@ const App = () => {
                   orderInfo={orderInfo}
                   products={products}
                   fetchProducts={fetchProducts}
-                  // fetchUser={fetchUser}
                   userId={userId}
                   cartInfo={cartInfo}
                   setCartInfo={setCartInfo}
@@ -261,8 +260,7 @@ const App = () => {
                 />
               }
             />
-            {/* <Route exact path="/" element={<Home />} /> */}
-            {/* <Route exact path="/allshoes" element={<AllShoes />} /> */}
+
             <Route
               exact
               path="/boots/*"
@@ -293,6 +291,7 @@ const App = () => {
               element={
                 <PurchasedCart
                   createAfterPurchaseOrder={createAfterPurchaseOrder}
+                  checkUser={checkUser}
                 />
               }
             />
@@ -306,6 +305,8 @@ const App = () => {
                   setProducts={setProducts}
                   allUsers={allUsers}
                   fetchProducts={fetchProducts}
+                  userData={userData}
+                  fetchUser={fetchUser}
                 />
               }
             />
@@ -313,7 +314,11 @@ const App = () => {
               exact
               path="/updateShoe/:shoeId"
               element={
-                <UpdateShoe products={products} setProducts={setProducts} />
+                <UpdateShoe
+                  products={products}
+                  setProducts={setProducts}
+                  fetchProducts={fetchProducts}
+                />
               }
             />
             <Route
@@ -346,6 +351,7 @@ const App = () => {
                   products={products}
                   setProducts={setProducts}
                   fetchProducts={fetchProducts}
+                  userData={userData}
                 />
               }
             />

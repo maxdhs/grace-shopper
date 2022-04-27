@@ -6,7 +6,6 @@ const API_LOGIN = "/api/users/login";
 
 const Login = ({
   setToken,
-  action,
   error,
   setError,
   setUserData,
@@ -32,9 +31,9 @@ const Login = ({
         }),
       });
       const info = await response.json();
-      console.log(info);
       setUserData(info.user);
       setUserId(info.user.id);
+      console.log(info);
       if (info.error) {
         return setError(info.error);
       }
@@ -44,7 +43,6 @@ const Login = ({
       setEmail("");
       setPassword("");
       checkUser();
-
       setError("You are now logged in!");
     } catch (error) {
       throw error;
