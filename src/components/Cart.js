@@ -136,36 +136,8 @@ const Cart = ({
                       />
                       <h4 className="product-designer">{product.designer}</h4>
                       <h5 className="product-price">${product.price}</h5>
-                      {/* <button
-                        value={product.id}
-                        onClick={() => {
-                          return (
-                            <select
-                              value={count}
-                              onChange={(event) => {
-                                setCount(event.target.value);
-                              }}
-                            >
-                              <option value="original quantity">
-                                {finalProductQuantity[index]}
-                              </option>
-                              {quantity.map((num) => {
-                                return (
-                                  <>
-                                    <option key={num} value={num}>
-                                      {num}
-                                    </option>
-                                  </>
-                                );
-                              })}
-                            </select>
-                          );
-                        }}
-                      >
-                        Update Quantity
-                      </button> */}
                       <select
-                        value={count}
+                        // value={finalProductQuantity[index]} I THINK THIS IS HOW WE FIXED IT
                         onChange={(event) => {
                           setCount(event.target.value);
                         }}

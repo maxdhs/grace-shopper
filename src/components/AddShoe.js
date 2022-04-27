@@ -9,6 +9,8 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
   const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
 
+  const lsToken = localStorage.getItem("token");
+
   const handleShoes = async (e) => {
     setError("");
     e.preventDefault();
@@ -16,7 +18,7 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${lsToken}`,
       },
       body: JSON.stringify({
         title,
@@ -84,17 +86,15 @@ const AddShoe = ({ token, fetchProducts, error, setError }) => {
             onChange={(e) => setImage(e.target.value)}
           />
         </div>
-        <div>
+        {/* <div>
           <label className="category" required value="default">
             Select category
           </label>
-        </div>
-        <select
-          value={category}
-          onChange={(e) => {
-            setCategory(e.target.value);
-          }}
-        >
+        </div> */}
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option key="default" value="default">
+            -- Select a Category --
+          </option>
           <option value="Boots">Boots</option>
           <option value="Heels">Heels</option>
           <option value="Sandals">Sandals</option>

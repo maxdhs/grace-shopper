@@ -7,11 +7,14 @@ const deleteShoe = ({ products, fetchProducts }) => {
     (product) => params.shoeId == product.id
   );
 
+  const lsToken = localStorage.getItem("token");
+
   const handleDelete = async (e) => {
     const resp = await fetch(`/api/products/${params.shoeId}`, {
       method: "DELETE",
       headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${lsToken}`,
       },
     });
     const info = await resp.json();

@@ -11,8 +11,10 @@ const {
 
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { requireUser } = require("./utils");
+const { requireUser, requireAdmin } = require("./utils");
 
+// User register
+// Tested with Postman and is working
 usersRouter.post("/register", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -41,6 +43,8 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
+// User login
+// Tested with postman and is currently working
 usersRouter.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -65,7 +69,6 @@ usersRouter.post("/login", async (req, res, next) => {
         admin: req.user.isAdmin,
       });
 
-      console.log(req.user);
       return;
     } else {
       next({
@@ -108,16 +111,15 @@ usersRouter.get("/:userId/orders", requireUser, async (req, res, next) => {
   }
 });
 
-//had requireAdmin func
-usersRouter.get("/admin", async (req, res, next) => {
-  console.log(req.user);
-  try {
-    const allUsers = await getAllUsers();
-    // res.send(allUsers);
-    res.send(req.user);
-  } catch (error) {
-    res.send(error);
-  }
-});
+// usersRouter.get("/admin", requireAdmin, async (req, res, next) => {
+//
+//   try {
+//     const allUsers = await getAllUsers();
+// res.send(allUsers);
+//     res.send(req.user);
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
 
 module.exports = usersRouter;
