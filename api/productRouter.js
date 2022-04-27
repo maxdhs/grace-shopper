@@ -33,6 +33,7 @@ productRouter.get("/:productId", async (req, res) => {
 //create a product - admin only
 // Tested with postman and is working
 productRouter.post("/", async (req, res, next) => {
+  
   const { title, designer, description, price, category, image, count } =
     req.body;
 
@@ -50,7 +51,8 @@ productRouter.post("/", async (req, res, next) => {
       image,
       count,
     });
-    console.log(response);
+    
+    // console.log(response, "admin works");
     res.send(response);
     // }
   } catch (err) {
