@@ -19,6 +19,7 @@ const SingleShoe = ({
   const orderProduct = orderProducts.filter(
     (product) => lsOrderId == product.orderId
   );
+
   let productArr = [];
   for (let i = 0; i < orderProduct.length; i++) {
     const productId = orderProduct[i].productId;

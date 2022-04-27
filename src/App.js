@@ -42,7 +42,7 @@ const App = () => {
   const fetchUser = async () => {
     const lsToken = localStorage.getItem("token");
     const lsUserId = localStorage.getItem("userId");
-    console.log(lsToken);
+
     if (lsToken) {
       setToken(lsToken);
       try {
@@ -238,6 +238,7 @@ const App = () => {
                   setCartInfo={setCartInfo}
                   fetchOrderProducts={fetchOrderProducts}
                   count={count}
+                  orderProducts={orderProducts}
                 />
               }
             />

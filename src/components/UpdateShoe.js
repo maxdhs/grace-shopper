@@ -10,12 +10,11 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
   const [error, setError] = useState("");
 
   const params = useParams();
-  //   console.log(params.shoeId);
 
   const filteredShoe = products.filter(
     (product) => params.shoeId == product.id
   );
-  // console.log("===>", filteredShoe);
+
   const lsToken = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -39,7 +38,7 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
     });
 
     const info = await response.json();
-    console.log(info);
+
     if (info.error) {
       setError(info.message);
     }
@@ -50,7 +49,6 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
     setPrice("");
     setCategory("");
 
-    console.log(info);
     navigate("/admin");
     await fetchProducts();
     return info;
@@ -98,7 +96,6 @@ const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
             />
             <select
               value={category}
-              // required
               onChange={(e) => setCategory(e.target.value)}
             >
               <option key="default" value="default" disabled>

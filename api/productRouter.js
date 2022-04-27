@@ -59,7 +59,7 @@ productRouter.patch("/:productId", requireAdmin, async (req, res, next) => {
   const { productId: id } = req.params;
 
   const { title, designer, description, price, category, count } = req.body;
-  console.log(req.user);
+
   const updateFields = {
     id,
     title,
@@ -72,7 +72,6 @@ productRouter.patch("/:productId", requireAdmin, async (req, res, next) => {
   try {
     const updatedProduct = await updateProduct(updateFields);
     res.send(req.user);
-    // res.send(updatedProduct);
   } catch (err) {
     throw error;
   }
@@ -84,7 +83,6 @@ productRouter.delete("/:productId", requireAdmin, async (req, res, next) => {
   const { productId: id } = req.params;
 
   try {
-    console.log(req.admin);
     const deletedProduct = await destroyProduct(id);
     res.send({ message: "Product deleted" });
     return;
