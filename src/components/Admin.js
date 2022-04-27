@@ -1,22 +1,17 @@
 // import { user } from "pg/lib/defaults";
-import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Admin = ({
   products,
-  setProducts,
-  allUsers,
-  fetchProducts,
+
   userData,
-  fetchUser,
 }) => {
   const [shoeId, setShoeId] = useState("");
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  console.log(userData);
 
-  if (userData.isAdmin) {
+  if (localStorage.getItem("admin") === "true") {
     return (
       <>
         <h1 className="Admin">Admin</h1>
@@ -49,11 +44,7 @@ const Admin = ({
                 })}
               </select>
               <Link to={`/updateshoe/${shoeId}`}>
-                <button className="Admin-button">
-                  {/* <Link to={`/updateshoe/${shoeId}`}> */}
-                  Submit
-                  {/* </Link> */}
-                </button>
+                <button className="Admin-button">Submit</button>
               </Link>
             </form>
           </div>
@@ -93,23 +84,12 @@ const Admin = ({
                 <Link to={`/deleteShoe/${shoeId}`}>Submit</Link>
               </button>
             </form>
-            {/* <div>
-        <h2>Registered Users: </h2>
-        {allUsers.map((user) => {
-          return (
-            <div key={user.id}>
-              <h2>ID: {user.id}</h2>
-              <h3>Email: {user.email}</h3>
-            </div>
-          );
-        })}
-      </div> */}
           </div>
         </div>
       </>
     );
   } else {
-    return <h1>Unauthorized User</h1>;
+    return <h1 className="header">Unauthorized User</h1>;
   }
 };
 

@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { Link, Routes, Route } from "react-router-dom";
-import SingleShoe from "./SingleShoe";
+import { Link } from "react-router-dom";
 
-const Sandals = ({ products, setProducts }) => {
+const Sandals = ({ products }) => {
   let category = "Sandals";
   const filteredProducts = products.filter(
     (product) => product.category === category

@@ -11,7 +11,6 @@ const Cart = ({
   setCount,
   setError,
 }) => {
-  setError("");
   const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const lsOrderId = localStorage.getItem("orderId");
   const orderProduct = orderProducts.filter(

@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { Link, Routes, Route } from "react-router-dom";
-import SingleShoe from "./SingleShoe";
+import { Link } from "react-router-dom";
 
-const Boots = ({ products, setProducts }) => {
+const Boots = ({ products }) => {
   let category = "Boots";
   const filteredProducts = products.filter(
     (product) => product.category == category
@@ -21,9 +19,8 @@ const Boots = ({ products, setProducts }) => {
             </h2>
             <img className="product-text" id="image" src={product.image} />
             <h3 className="product-text">{product.designer}</h3>
-            {/* <h4 className="product-text">{product.description}</h4> */}
+
             <h3 className="product-text">${product.price}</h3>
-            {/* <h4 className="product-text">Inventory: {product.count}</h4> */}
           </div>
         ))}
       </div>

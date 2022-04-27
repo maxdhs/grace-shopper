@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const UpdateShoe = ({ products, setProducts, fetchProducts, userData }) => {
+const UpdateShoe = ({ products, fetchProducts }) => {
   const [title, setTitle] = useState("");
   const [designer, setDesigner] = useState("");
   const [description, setDescription] = useState("");
