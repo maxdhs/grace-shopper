@@ -174,11 +174,11 @@ export const getProductsFromCart = async () => {
 
 export const fetchReviews = async (id) => {
   try {
-      const resp = await fetch(`${BASE_URL}/reviews/${id}`);
-      const info = await resp.json();
-      return info.productReviews;
+    const resp = await fetch(`${BASE_URL}/reviews/${id}`);
+    const info = await resp.json();
+    return info.productReviews;
   } catch (error) {
-      throw error;
+    throw error;
   }
 };
 

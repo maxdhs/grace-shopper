@@ -18,22 +18,22 @@ const jwt = require('jsonwebtoken');
 
 const { getUserByUsername } = require('./db/users');
 
-app.use(async (req, res, next) => {
-  if (!req.headers.authorization) {
-    return next();
-  }
-  const auth = req.headers.authorization.split(' ')[1];
-  const _user = jwt.decode(auth, process.env.SECRET_KEY);
+// app.use(async (req, res, next) => {
+//   if (!req.headers.authorization) {
+//     return next();
+//   }
+//   const auth = req.headers.authorization.split(' ')[1];
+//   const _user = jwt.decode(auth, process.env.SECRET_KEY);
 
-  if (!_user) {
-    return next();
-  }
+//   if (!_user) {
+//     return next();
+//   }
 
-  const user = await getUserByUsername(_user.username);
-  req.user = user;
+//   const user = await getUserByUsername(_user.username);
+//   req.user = user;
 
-  next();
-});
+//   next();
+// });
 
 const apiRouter = require('./api');
 app.use('/api', apiRouter);

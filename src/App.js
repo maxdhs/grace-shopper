@@ -34,7 +34,6 @@ const App = () => {
       setProducts(product);
     });
   }, []);
-  console.log(userInfo);
   return (
     <>
       <Navbar 
